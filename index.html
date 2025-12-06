@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 資安工程師能力鑑定模擬系統</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ iPAS 資安工程師模擬測驗</h1>
+            <p>整合歷屆試題與 114 年新版教材 | 隨機 50 題挑戰</p>
+        </header>
+
+        <!-- 1. 選單畫面 -->
+        <div id="menu-screen" class="screen active">
+            <div class="card">
+                <h2>請選擇練習科目</h2>
+                <div class="stats-info">
+                    <p>目前題庫收錄：</p>
+                    <p>🛡️ 防護實務：<span id="count-prot">讀取中...</span> 題</p>
+                    <p>📋 規劃實務：<span id="count-plan">讀取中...</span> 題</p>
+                </div>
+                <div class="button-group">
+                    <button onclick="startQuiz('protection')" class="btn primary">開始「資訊安全防護實務」測驗</button>
+                    <button onclick="startQuiz('planning')" class="btn secondary">開始「資訊安全規劃實務」測驗</button>
+                </div>
+                <div class="info-text">
+                    <p><strong>測驗說明：</strong></p>
+                    <ul>
+                        <li>系統將從題庫中<strong>隨機抽取 50 題</strong>。</li>
+                        <li>支援單選與複選題（複選題需全對才給分）。</li>
+                        <li>包含 112-114 年歷屆試題與最新教材分析題。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 測驗畫面 -->
+        <div id="quiz-screen" class="screen hidden">
+            <div class="quiz-header">
+                <div class="header-left">
+                    <span id="subject-title" class="badge">科目</span>
+                    <span id="progress">第 1 / 50 題</span>
+                </div>
+                <span id="timer">00:00</span>
+            </div>
+            
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+
+            <div id="question-container">
+                <!-- 題目將由 JS 動態插入 -->
+            </div>
+            
+            <div class="navigation-buttons">
+                <button id="submit-btn" onclick="submitQuiz()" class="btn danger">提交試卷</button>
+            </div>
+        </div>
+
+        <!-- 3. 結果畫面 -->
+        <div id="result-screen" class="screen hidden">
+            <div class="score-card">
+                <h2>測驗結果</h2>
+                <div class="score-circle">
+                    <span id="final-score">0</span>
+                    <span class="total">/ 100</span>
+                </div>
+                <p id="feedback-text"></p>
+                <div class="result-actions">
+                    <button onclick="location.reload()" class="btn primary">重新測驗</button>
+                    <button onclick="document.getElementById('review-container').scrollIntoView({behavior: 'smooth'})" class="btn secondary">查看錯題解析</button>
+                </div>
+            </div>
+            <div id="review-container">
+                <!-- 錯題檢討將由 JS 插入 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 載入題庫與邏輯 -->
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
