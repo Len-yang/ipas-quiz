@@ -18586,3 +18586,7638 @@ if (typeof protectionQuestions !== 'undefined') {
 if (typeof planningQuestions !== 'undefined') {
     planningQuestions.push(...planningQuestions_Batch22);
 }
+// ==========================================
+// 2025 資安工程師模擬題庫 - 第二十三批次 (Batch 23)
+// 包含：防護實務 50 題 + 規劃實務 50 題
+// 特色：強化鑑識、行動安全、工控標準、ISO轉版實務
+// ==========================================
+
+// 請將以下內容合併至原本的 protectionQuestions 陣列中
+const protectionQuestions_Batch23 = [
+    // --- 數位鑑識與反鑑識 ---
+    {
+        "id": "B23-Prot-01",
+        "question": "攻擊者使用「Timestomping」技術修改檔案的 `$STANDARD_INFORMATION` 屬性時間戳記，鑑識人員應檢查哪個屬性來發現此竄改？",
+        "options": [
+            "(A) $DATA",
+            "(B) $FILE_NAME (此屬性通常只有系統核心能修改，攻擊者較難竄改)",
+            "(C) $LOGGED_UTILITY_STREAM",
+            "(D) $OBJECT_ID"
+        ],
+        "answer": "B",
+        "note": "NTFS 檔案系統中，$FILE_NAME 屬性的時間戳記通常不會被 Timestomping 工具修改，與 $SI 比對可發現異常。"
+    },
+    {
+        "id": "B23-Prot-02",
+        "question": "在 Windows 記憶體鑑識中，若發現一個行程 (Process) 的 `VAD` (Virtual Address Descriptor) 標記為 `PAGE_EXECUTE_READWRITE` (RWX)，這通常是哪種攻擊的徵兆？",
+        "options": [
+            "(A) SQL Injection",
+            "(B) 程式碼注入 (Code Injection) 或惡意 Shellcode",
+            "(C) 檔案刪除",
+            "(D) 正常現象"
+        ],
+        "answer": "B",
+        "note": "正常的執行檔通常是 RX (讀/執行)，RWX (讀/寫/執行) 權限常暗示記憶體被寫入後直接執行。"
+    },
+    {
+        "id": "B23-Prot-03",
+        "question": "攻擊者在 Linux 系統中執行 `export HISTFILE=/dev/null` 的目的是？",
+        "options": [
+            "(A) 加速系統",
+            "(B) 阻止當前 Shell 的指令被寫入歷史紀錄檔 (.bash_history)，達成反鑑識",
+            "(C) 備份歷史紀錄",
+            "(D) 刪除系統日誌"
+        ],
+        "answer": "B",
+        "note": "這是隱藏操作軌跡的常見手法，導致鑑識人員無法從 History 檔案中找到攻擊指令。"
+    },
+    {
+        "id": "B23-Prot-04",
+        "question": "關於「檔案無害化 (CDR, Content Disarm and Reconstruction)」技術，下列敘述何者正確？",
+        "options": [
+            "(A) 依賴特徵碼偵測病毒",
+            "(B) 將檔案中的所有可執行內容 (如巨集、JavaScript) 剝離或轉換，重建一個安全的新檔案",
+            "(C) 只能處理文字檔",
+            "(D) 加密檔案內容"
+        ],
+        "answer": "B",
+        "note": "CDR 不判斷好壞，而是直接移除所有潛在風險內容，對於防禦未知的 Zero-day 文件攻擊非常有效。"
+    },
+    {
+        "id": "B23-Prot-05",
+        "question": "在進行網路流量鑑識時，若發現加密流量 (TLS) 中出現 JA3 指紋異常，這可以用來識別？",
+        "options": [
+            "(A) 惡意軟體的 C2 通訊工具 (不同工具的 TLS Client Hello 特徵不同)",
+            "(B) 檔案內容",
+            "(C) 網頁標題",
+            "(D) 使用者密碼"
+        ],
+        "answer": "A",
+        "note": "JA3 指紋是基於 TLS Client Hello 封包特徵產生的雜湊值，可用於識別特定的惡意軟體家族。"
+    },
+    // --- 行動應用程式安全 (MASVS) ---
+    {
+        "id": "B23-Prot-06",
+        "question": "依據 OWASP MASVS，Android App 若要防止畫面被惡意程式截圖 (Screen Capture)，應在 Activity 設定哪個 Flag？",
+        "options": [
+            "(A) FLAG_KEEP_SCREEN_ON",
+            "(B) FLAG_SECURE",
+            "(C) FLAG_FULLSCREEN",
+            "(D) FLAG_ACTIVITY_NEW_TASK"
+        ],
+        "answer": "B",
+        "note": "`WindowManager.LayoutParams.FLAG_SECURE` 可防止 App 內容被截圖或錄影，保護敏感畫面。"
+    },
+    {
+        "id": "B23-Prot-07",
+        "question": "在 iOS App 安全中，開發者應啟用哪項機制來增加記憶體貪汙漏洞的利用難度？",
+        "options": [
+            "(A) ARC (Automatic Reference Counting)",
+            "(B) PIE (Position Independent Executable) 與 ASLR",
+            "(C) Jailbreak Detection",
+            "(D) SSL Pinning"
+        ],
+        "answer": "B",
+        "note": "PIE 允許程式碼載入到隨機記憶體位址，配合 ASLR 可有效防禦 ROP (Return-Oriented Programming) 攻擊。"
+    },
+    {
+        "id": "B23-Prot-08",
+        "question": "關於「WebView」元件的安全性，若開啟 `setJavaScriptEnabled(true)` 且未限制載入來源，可能導致？",
+        "options": [
+            "(A) SQL Injection",
+            "(B) XSS (Cross-Site Scripting) 與潛在的 RCE (若有 addJavascriptInterface)",
+            "(C) 緩衝區溢位",
+            "(D) 憑證錯誤"
+        ],
+        "answer": "B",
+        "note": "WebView 中的 XSS 可能竊取 App 內部的 Token 或 Cookies，甚至透過 Bridge 呼叫原生代碼。"
+    },
+    {
+        "id": "B23-Prot-09",
+        "question": "攻擊者利用工具 (如 Frida, Xposed) 對執行中的 App 進行 Hooking，主要目的是？",
+        "options": [
+            "(A) 加速 App",
+            "(B) 動態分析 App 行為、繞過 SSL Pinning 或 Root 檢測、修改執行邏輯",
+            "(C) 備份 App",
+            "(D) 壓縮 App"
+        ],
+        "answer": "B",
+        "note": "動態注入工具 (Dynamic Instrumentation) 是行動應用滲透測試與攻擊的核心工具。"
+    },
+    {
+        "id": "B23-Prot-10",
+        "question": "在 Android 10+ 版本，存取外部儲存空間 (External Storage) 時，應使用什麼機制來提升隱私安全？",
+        "options": [
+            "(A) 請求 READ_EXTERNAL_STORAGE 權限",
+            "(B) Scoped Storage (分區儲存)",
+            "(C) Root 權限",
+            "(D) 直接存取 /sdcard"
+        ],
+        "answer": "B",
+        "note": "Scoped Storage 限制 App 只能存取自己的目錄與特定的媒體檔案，防止惡意 App 掃描全機檔案。"
+    },
+    // --- 雲端與容器攻防 (K8s) ---
+    {
+        "id": "B23-Prot-11",
+        "question": "在 Kubernetes 攻擊矩陣中，攻擊者利用 `kubectl` 在容器內執行 `cat /var/run/secrets/kubernetes.io/serviceaccount/token`，目的是？",
+        "options": [
+            "(A) 取得 API Server 的認證 Token，以進行提權或橫向移動",
+            "(B) 取得資料庫密碼",
+            "(C) 取得 Linux Root 密碼",
+            "(D) 取得 SSH Key"
+        ],
+        "answer": "A",
+        "note": "這是 K8s 預設掛載的 Service Account Token，若權限過大 (如 cluster-admin)，攻擊者可接管整個叢集。"
+    },
+    {
+        "id": "B23-Prot-12",
+        "question": "關於 K8s 的 `PodSecurityPolicy` (PSP) 已被棄用，取而代之的標準安全機制是？",
+        "options": [
+            "(A) OPA Gatekeeper",
+            "(B) Pod Security Admission (PSA) / Pod Security Standards (PSS)",
+            "(C) SecurityContext",
+            "(D) NetworkPolicy"
+        ],
+        "answer": "B",
+        "note": "PSA 是 K8s 內建的准入控制器，依據 PSS 標準 (Privileged, Baseline, Restricted) 審核 Pod。"
+    },
+    {
+        "id": "B23-Prot-13",
+        "question": "攻擊者利用「容器逃逸 (Container Escape)」漏洞 (如 dirty pipe)，通常是因為容器與宿主機共用了什麼？",
+        "options": [
+            "(A) 檔案系統",
+            "(B) 網路卡",
+            "(C) OS Kernel (核心)",
+            "(D) 記憶體空間"
+        ],
+        "answer": "C",
+        "note": "容器本質上是透過 Namespace/Cgroup 隔離的 Process，共用 Kernel 是其安全上的最大弱點。"
+    },
+    {
+        "id": "B23-Prot-14",
+        "question": "在 Helm Chart 中，若發現包含 `image: latest` 的設定，這違反了什麼資安最佳實務？",
+        "options": [
+            "(A) 最小權限",
+            "(B) 不可變基礎設施 (Immutable Infrastructure) - 版本應明確固定 (Pinning)",
+            "(C) 縱深防禦",
+            "(D) 職責分離"
+        ],
+        "answer": "B",
+        "note": "使用 latest 標籤可能導致部署到未經驗證的新版本，且無法追溯版本歷史，破壞不可變性。"
+    },
+    {
+        "id": "B23-Prot-15",
+        "question": "關於「CNI (Container Network Interface)」外掛 (如 Calico, Cilium)，它們主要負責實作 K8s 的哪項安全功能？",
+        "options": [
+            "(A) RBAC",
+            "(B) Network Policy (網路策略 - 隔離 Pod 間流量)",
+            "(C) Secret Management",
+            "(D) Image Scanning"
+        ],
+        "answer": "B",
+        "note": "K8s 本身只定義 NetworkPolicy API，需依賴 CNI Plugin (如 Calico) 來實際執行流量阻擋。"
+    },
+    // --- 網頁與 API 安全進階 ---
+    {
+        "id": "B23-Prot-16",
+        "question": "在 API 安全中，攻擊者利用 `Mass Assignment` 漏洞修改了 `isAdmin=true` 屬性，防禦此攻擊的最佳方式是？",
+        "options": [
+            "(A) 使用 HTTPS",
+            "(B) 在後端使用 DTO (Data Transfer Object) 明確定義可接收的欄位 (Allowlist)",
+            "(C) 隱藏 API 文件",
+            "(D) 檢查 Referer"
+        ],
+        "answer": "B",
+        "note": "DTO 模式強制過濾輸入，防止使用者注入模型中存在但不可修改的內部欄位。"
+    },
+    {
+        "id": "B23-Prot-17",
+        "question": "關於「DOM-based XSS」的修補，應避免將使用者輸入直接傳遞給哪個 JavaScript 函數 (Sink)？",
+        "options": [
+            "(A) `console.log()`",
+            "(B) `innerHTML`, `document.write()`, `eval()`",
+            "(C) `innerText`, `textContent`",
+            "(D) `alert()`"
+        ],
+        "answer": "B",
+        "note": "`innerHTML` 會解析 HTML 標籤，易遭 XSS；應使用 `innerText` 或 `textContent` (僅視為文字)。"
+    },
+    {
+        "id": "B23-Prot-18",
+        "question": "攻擊者在 HTTP 請求中加入 `X-Forwarded-For: 127.0.0.1` 試圖繞過 IP 限制，這屬於？",
+        "options": [
+            "(A) IP Spoofing (應用層)",
+            "(B) SQL Injection",
+            "(C) CSRF",
+            "(D) RCE"
+        ],
+        "answer": "A",
+        "note": "若應用程式直接信任 XFF Header 而非實際連線 IP，容易被偽造 IP 繞過存取控制。"
+    },
+    {
+        "id": "B23-Prot-19",
+        "question": "在 OAuth 2.0 中，若 `redirect_uri` 未進行嚴格驗證 (如允許通配符 *)，可能導致？",
+        "options": [
+            "(A) 伺服器當機",
+            "(B) Authorization Code 或 Token 洩漏給攻擊者的網站 (Open Redirect)",
+            "(C) SQL Injection",
+            "(D) 密碼外洩"
+        ],
+        "answer": "B",
+        "note": "攻擊者誘使用戶授權後，Authorization Server 將 Token 導向攻擊者控制的網址。"
+    },
+    {
+        "id": "B23-Prot-20",
+        "question": "關於 HTTP 標頭 `Permissions-Policy` (舊稱 Feature-Policy)，其用途是？",
+        "options": [
+            "(A) 設定 Cookie 權限",
+            "(B) 控制瀏覽器可以使用哪些功能 (如相機、麥克風、地理位置)，減少攻擊面",
+            "(C) 設定 CORS",
+            "(D) 強制 HTTPS"
+        ],
+        "answer": "B",
+        "note": "限制敏感 API 的使用權限，防止惡意廣告或 XSS 腳本濫用硬體功能。"
+    },
+    // --- 網路與通訊協定 ---
+    {
+        "id": "B23-Prot-21",
+        "question": "關於 IPv6 的擴充標頭 (Extension Header)，攻擊者可能利用它進行什麼攻擊？",
+        "options": [
+            "(A) 加密流量",
+            "(B) 繞過防火牆過濾 (Fragmentation / Evasion)，因為部分防火牆無法解析過長的擴充標頭鏈",
+            "(C) 增加網速",
+            "(D) 壓縮數據"
+        ],
+        "answer": "B",
+        "note": "複雜的擴充標頭鏈可能導致防火牆解析失敗而放行 (Fail Open) 或無法檢查內層 Payload。"
+    },
+    {
+        "id": "B23-Prot-22",
+        "question": "在 DNS 安全中，DOH (DNS over HTTPS) 的主要優點與缺點分別是？",
+        "options": [
+            "(A) 優點：防止 ISP 監聽；缺點：企業防火牆難以過濾惡意網域查詢",
+            "(B) 優點：加速解析；缺點：易受中間人攻擊",
+            "(C) 優點：備份 DNS；缺點：耗電",
+            "(D) 優點：公開透明；缺點：無法加密"
+        ],
+        "answer": "A",
+        "note": "DoH 加密了 DNS 查詢，保護隱私，但也讓企業的 DNS 監控與黑名單過濾失效 (Blind Spot)。"
+    },
+    {
+        "id": "B23-Prot-23",
+        "question": "關於 SMTP 的 `VRFY` 指令，攻擊者可用來？",
+        "options": [
+            "(A) 發送郵件",
+            "(B) 枚舉 (Enumerate) 伺服器上的有效使用者帳號",
+            "(C) 刪除郵件",
+            "(D) 加密郵件"
+        ],
+        "answer": "B",
+        "note": "VRFY 指令用於驗證收件者是否存在，若未關閉，攻擊者可用來收集有效 Email 清單。"
+    },
+    {
+        "id": "B23-Prot-24",
+        "question": "在 BGP 路由安全中，攻擊者宣告更具優勢的路徑 (Specific Prefix) 來攔截流量，稱為？",
+        "options": [
+            "(A) BGP Hijacking (BGP 劫持)",
+            "(B) DNS Poisoning",
+            "(C) ARP Spoofing",
+            "(D) SYN Flood"
+        ],
+        "answer": "A",
+        "note": "網際網路路由基於信任，BGP 劫持可導致大規模流量誤導或斷網。"
+    },
+    {
+        "id": "B23-Prot-25",
+        "question": "關於 SSH 的 `Agent Forwarding` 功能，若被攻擊者利用，後果是？",
+        "options": [
+            "(A) SSH 連線中斷",
+            "(B) 攻擊者可利用受害者本機的 SSH Key 代理身分，連線到其他伺服器 (橫向移動)",
+            "(C) 私鑰被竊取",
+            "(D) 密碼被重置"
+        ],
+        "answer": "B",
+        "note": "Agent Forwarding 不會洩漏私鑰，但允許 Root 權限的攻擊者利用當前的 Socket 代理連線。"
+    },
+    // --- 工控與物聯網 ---
+    {
+        "id": "B23-Prot-26",
+        "question": "在 IEC 62443 標準中，將工控網路劃分為不同的「區域 (Zones)」與「管道 (Conduits)」，其目的是？",
+        "options": [
+            "(A) 方便佈線",
+            "(B) 實施縱深防禦與網路分段，限制攻擊擴散",
+            "(C) 增加頻寬",
+            "(D) 節省成本"
+        ],
+        "answer": "B",
+        "note": "類似 IT 的 VLAN 隔離，但針對 OT 環境定義了更嚴謹的信任邊界。"
+    },
+    {
+        "id": "B23-Prot-27",
+        "question": "工控協議 DNP3 (Distributed Network Protocol) 在早期版本的主要資安弱點是？",
+        "options": [
+            "(A) 傳輸速度慢",
+            "(B) 缺乏認證與加密，易受重放與注入攻擊",
+            "(C) 只能在序列埠運作",
+            "(D) 不支援 TCP/IP"
+        ],
+        "answer": "B",
+        "note": "DNP3 廣泛用於電力系統，早期設計未考慮資安，需透過 DNP3 Secure Authentication (SA) 強化。"
+    },
+    {
+        "id": "B23-Prot-28",
+        "question": "在 IoT 殭屍網路 (如 Mirai) 中，C2 伺服器通常使用什麼協定發送控制指令？",
+        "options": [
+            "(A) 只能用 HTTP",
+            "(B) IRC, HTTP, 或自定義 TCP/UDP 協定",
+            "(C) 藍牙",
+            "(D) Zigbee"
+        ],
+        "answer": "B",
+        "note": "Mirai 原型使用 Telnet 掃描並透過自定義 C2 協定控制。"
+    },
+    {
+        "id": "B23-Prot-29",
+        "question": "關於「PLC (Programmable Logic Controller)」的資安防護，下列何者最困難？",
+        "options": [
+            "(A) 實體保護",
+            "(B) 安裝防毒軟體 (通常無法安裝或不支援)",
+            "(C) 設定 IP",
+            "(D) 接網路線"
+        ],
+        "answer": "B",
+        "note": "PLC 資源受限且屬嵌入式系統，無法安裝傳統 Agent，需依賴網路層防護 (IPS/Firewall)。"
+    },
+    {
+        "id": "B23-Prot-30",
+        "question": "在 OT 環境中，使用「單向閘道器 (Data Diode)」的主要場景是？",
+        "options": [
+            "(A) 允許 IT 網路任意存取 OT 網路",
+            "(B) 確保資料只能從高安全區 (OT) 流向低安全區 (IT)，防止外部攻擊進入 OT",
+            "(C) 雙向資料庫同步",
+            "(D) 遠端桌面連線"
+        ],
+        "answer": "B",
+        "note": "Data Diode 透過物理光學機制保證單向傳輸，是保護關鍵基礎設施的最高標準。"
+    }
+];
+
+// 請將以下內容合併至原本的 planningQuestions 陣列中
+const planningQuestions_Batch23 = [
+    // --- ISO 27001:2022 轉版實務 ---
+    {
+        "id": "B23-Plan-01",
+        "question": "ISO 27001:2022 新增了「威脅情資 (Threat Intelligence)」控制措施，其要求組織應如何執行？",
+        "options": [
+            "(A) 購買最貴的情資平台",
+            "(B) 蒐集並分析與威脅相關的資訊，以產出威脅情資，並用於決策與防禦",
+            "(C) 聘請駭客",
+            "(D) 被動等待攻擊"
+        ],
+        "answer": "B",
+        "note": "強調主動蒐集、分析與應用情資 (Strategic/Tactical/Operational)。"
+    },
+    {
+        "id": "B23-Plan-02",
+        "question": "ISO 27001:2022 中，「使用雲端服務之資訊安全」控制措施強調什麼？",
+        "options": [
+            "(A) 禁止使用雲端",
+            "(B) 應訂定並實施使用雲端服務的流程，包括獲取、使用、管理與退場 (Exit Strategy)",
+            "(C) 雲端絕對安全，不需管理",
+            "(D) 只能使用私有雲"
+        ],
+        "answer": "B",
+        "note": "雲端責任共擔模型與退場機制是此控制措施的核心。"
+    },
+    {
+        "id": "B23-Plan-03",
+        "question": "在 ISO 27001:2022 附錄 A 中，控制措施被重新歸類為哪四大主題 (Themes)？",
+        "options": [
+            "(A) 網路、系統、應用、資料",
+            "(B) 組織 (Organizational)、人員 (People)、實體 (Physical)、技術 (Technological)",
+            "(C) 預防、偵測、回應、復原",
+            "(D) 高、中、低、無"
+        ],
+        "answer": "B",
+        "note": "這是 2022 版架構的最大改變，從 14 個領域簡化為 4 大主題。"
+    },
+    {
+        "id": "B23-Plan-04",
+        "question": "ISO 27001:2022 新增「資料遮罩 (Data Masking)」控制措施，主要目的是？",
+        "options": [
+            "(A) 壓縮資料",
+            "(B) 依據法規或業務需求，對敏感資料進行去識別化或遮蔽，以限制暴露範圍",
+            "(C) 加密備份",
+            "(D) 刪除資料"
+        ],
+        "answer": "B",
+        "note": "配合 PII 保護與最小權限原則，僅顯示必要的資料內容。"
+    },
+    {
+        "id": "B23-Plan-05",
+        "question": "ISO 27001:2022 新增「ICT 營運持續整備 (ICT Readiness for Business Continuity)」，要求？",
+        "options": [
+            "(A) 購買發電機",
+            "(B) 應根據 BIA 與風險評鑑結果，規劃、實作、維護與測試 ICT 的持續性計畫",
+            "(C) 每天備份",
+            "(D) 禁止系統中斷"
+        ],
+        "answer": "B",
+        "note": "強調 ICT 系統對業務持續性 (BCP) 的支撐與準備度。"
+    },
+    // --- 供應鏈資安 (SCRM) ---
+    {
+        "id": "B23-Plan-06",
+        "question": "關於「軟體物料清單 (SBOM)」，NTIA 定義的最小元素 (Minimum Elements) 不包含下列何者？",
+        "options": [
+            "(A) 供應商名稱 (Supplier Name)",
+            "(B) 組件名稱 (Component Name) 與版本 (Version)",
+            "(C) 軟體的原始碼 (Source Code)",
+            "(D) 獨特識別碼 (Unique Identifier)"
+        ],
+        "answer": "C",
+        "note": "SBOM 是組件清單，不包含原始碼本身，目的是識別成分以管理漏洞。"
+    },
+    {
+        "id": "B23-Plan-07",
+        "question": "在供應商評估中，要求供應商提供 SOC 2 Type 2 報告，主要目的是確認？",
+        "options": [
+            "(A) 供應商的財務狀況",
+            "(B) 供應商在「一段時間內」控制措施的設計與執行有效性",
+            "(C) 供應商在「某個時間點」的控制設計 (這是 Type 1)",
+            "(D) 供應商的產品功能"
+        ],
+        "answer": "B",
+        "note": "Type 2 包含一段時間 (如 6-12 個月) 的測試結果，比 Type 1 更具參考價值。"
+    },
+    {
+        "id": "B23-Plan-08",
+        "question": "關於「供應鏈攻擊」的防範，機關應建立「合格供應商名單 (Approved Vendor List)」，其維護原則是？",
+        "options": [
+            "(A) 一次審核，永久有效",
+            "(B) 定期 (如每年) 重新評估供應商的資安績效與風險，動態調整",
+            "(C) 只要價格低就加入",
+            "(D) 所有廠商都加入"
+        ],
+        "answer": "B",
+        "note": "供應商的資安狀況會變動，需定期重評 (Re-assessment)。"
+    },
+    {
+        "id": "B23-Plan-09",
+        "question": "在開源軟體治理中，建立 OSPO (Open Source Program Office) 的主要職責是？",
+        "options": [
+            "(A) 開發軟體",
+            "(B) 制定開源使用政策、授權合規審查、漏洞管理與社群貢獻規範",
+            "(C) 禁止使用開源",
+            "(D) 銷售軟體"
+        ],
+        "answer": "B",
+        "note": "OSPO 負責企業內部的開源合規與治理。"
+    },
+    {
+        "id": "B23-Plan-10",
+        "question": "關於 NIST SP 800-161 (供應鏈風險管理)，其強調的「多層級 (Multi-tier)」管理是指？",
+        "options": [
+            "(A) 只管理第一層供應商",
+            "(B) 需關注供應商的供應商 (N-th tier) 所帶來的轉嫁風險",
+            "(C) 網路分層",
+            "(D) 應用程式分層"
+        ],
+        "answer": "B",
+        "note": "供應鏈風險具有傳遞性，需透過合約穿透或串接管理來降低下游客戶的風險。"
+    },
+    // --- 隱私與法規 (進階) ---
+    {
+        "id": "B23-Plan-11",
+        "question": "在 GDPR 中，若發生跨境傳輸，使用「標準契約條款 (SCCs)」的主要目的是？",
+        "options": [
+            "(A) 規避責任",
+            "(B) 在資料傳輸至非適足性國家時，透過合約保障資料擁有與歐盟同等的保護水準",
+            "(C) 降低傳輸成本",
+            "(D) 加速傳輸"
+        ],
+        "answer": "B",
+        "note": "SCCs 是目前跨國企業最常用的個資跨境傳輸合規機制。"
+    },
+    {
+        "id": "B23-Plan-12",
+        "question": "關於「去識別化 (De-identification)」與「匿名化 (Anonymization)」的區別，依據個資法與 GDPR？",
+        "options": [
+            "(A) 兩者相同",
+            "(B) 去識別化 (如假名化) 仍屬個資，受法規管制；匿名化已無法識別特定個人，不屬個資",
+            "(C) 去識別化比匿名化更嚴格",
+            "(D) 匿名化可以還原"
+        ],
+        "answer": "B",
+        "note": "關鍵在於「是否可還原」。不可還原的匿名數據才排除在個資法規之外。"
+    },
+    {
+        "id": "B23-Plan-13",
+        "question": "ISO 27701 (PIMS) 要求組織在扮演「PII 控制者 (Controller)」時，必須？",
+        "options": [
+            "(A) 隱瞞蒐集目的",
+            "(B) 提供當事人行使權利 (如存取、更正、刪除) 的機制，並履行告知義務",
+            "(C) 將資料賣給第三方",
+            "(D) 不需做任何事"
+        ],
+        "answer": "B",
+        "note": "Controller 負有保障當事人權利的主要責任。"
+    },
+    {
+        "id": "B23-Plan-14",
+        "question": "在個資保護中，針對「Cookie」的使用，網站應提供什麼機制？",
+        "options": [
+            "(A) 僅提供「我同意」按鈕",
+            "(B) 提供清晰的 Cookie 類別說明 (必要/行銷/統計)，並允許使用者選擇同意或拒絕 (Opt-in)",
+            "(C) 預設勾選所有 Cookie",
+            "(D) 隱藏 Cookie 政策"
+        ],
+        "answer": "B",
+        "note": "Cookie Banner 須符合透明性與自主同意原則 (尤其是非必要 Cookie)。"
+    },
+    {
+        "id": "B23-Plan-15",
+        "question": "關於「資料最小化 (Data Minimization)」原則，在設計表單時應？",
+        "options": [
+            "(A) 蒐集越多越好，以備不時之需",
+            "(B) 僅蒐集達成特定目的所「必要」的欄位",
+            "(C) 蒐集身分證字號作為唯一識別",
+            "(D) 要求上傳生活照"
+        ],
+        "answer": "B",
+        "note": "不蒐集非必要資訊，直接降低資料外洩的風險與衝擊。"
+    },
+    // --- 營運持續與應變 (實務) ---
+    {
+        "id": "B23-Plan-16",
+        "question": "在 BCP 中，針對「關鍵人員 (Key Person)」無法執行職務的風險，應採取什麼對策？",
+        "options": [
+            "(A) 購買人壽保險",
+            "(B) 建立代理人制度 (Succession Planning) 與職務輪調，並將知識文件化",
+            "(C) 要求生病也要上班",
+            "(D) 停止該業務"
+        ],
+        "answer": "B",
+        "note": "避免人員單點故障 (Single Point of Failure) 是 BCP 的重要環節。"
+    },
+    {
+        "id": "B23-Plan-17",
+        "question": "資安事件應變的「遏制 (Containment)」階段，短期措施與長期措施的區別？",
+        "options": [
+            "(A) 短期是拔網線 (阻斷擴散)；長期是修補漏洞與變更架構",
+            "(B) 短期是重灌；長期是買保險",
+            "(C) 短期是開會；長期是寫報告",
+            "(D) 沒有區別"
+        ],
+        "answer": "A",
+        "note": "短期遏制求快 (止血)；長期遏制求穩 (修復根因)。"
+    },
+    {
+        "id": "B23-Plan-18",
+        "question": "關於「備份磁帶」的異地存放，下列何者是正確的控制措施？",
+        "options": [
+            "(A) 放在承辦人車上",
+            "(B) 存放在具備溫濕度控制、門禁管制且距離主機房 30 公里以上的專業倉儲",
+            "(C) 放在隔壁辦公室",
+            "(D) 寄放在便利商店"
+        ],
+        "answer": "B",
+        "note": "異地存放需考量環境安全、物理距離與存取控制。"
+    },
+    {
+        "id": "B23-Plan-19",
+        "question": "在災難復原演練中，「無預警演練 (Unannounced Test)」的主要效益是？",
+        "options": [
+            "(A) 造成混亂",
+            "(B) 測試應變團隊在真實壓力與無準備情況下的真實反應能力",
+            "(C) 節省成本",
+            "(D) 測試備份速度"
+        ],
+        "answer": "B",
+        "note": "無預警演練能反映真實的成熟度，但需注意對營運的衝擊。"
+    },
+    {
+        "id": "B23-Plan-20",
+        "question": "關於 RPO (復原點目標) 與資料遺失的關係，若 RPO = 0，代表？",
+        "options": [
+            "(A) 資料零遺失 (Zero Data Loss)，通常需同步鏡像 (Synchronous Mirroring)",
+            "(B) 資料可以遺失 0 天",
+            "(C) 系統 0 秒復原",
+            "(D) 不需要備份"
+        ],
+        "answer": "A",
+        "note": "RPO=0 是最高標準，要求資料即時同步寫入異地。"
+    },
+    // --- 稽核與指標 ---
+    {
+        "id": "B23-Plan-21",
+        "question": "在資安治理儀表板中，下列何者屬於「領先指標 (Leading Indicator)」？",
+        "options": [
+            "(A) 上個月的資安事件數量",
+            "(B) 員工資安意識測驗的及格率與進步幅度",
+            "(C) 因資安事件造成的財務損失",
+            "(D) 系統停機時間"
+        ],
+        "answer": "B",
+        "note": "領先指標具預測性 (如意識提升可預測釣魚成功率下降)；落後指標是歷史數據。"
+    },
+    {
+        "id": "B23-Plan-22",
+        "question": "稽核員在查核「密碼複雜度」時，最有效的測試方法是？",
+        "options": [
+            "(A) 詢問管理員",
+            "(B) 檢視密碼政策文件",
+            "(C) 實際檢查系統 (AD/OS) 的組態設定截圖或參數",
+            "(D) 嘗試破解密碼"
+        ],
+        "answer": "C",
+        "note": "系統設定 (System Configuration) 是證明控制措施有效性的直接證據 (Design vs Implementation)。"
+    },
+    {
+        "id": "B23-Plan-23",
+        "question": "關於「職責分離 (SoD)」，在軟體變更流程中，哪兩個角色通常不能由同一人擔任？",
+        "options": [
+            "(A) 開發者 與 測試者",
+            "(B) 開發者 (Developer) 與 部署至正式環境的執行者 (Deployer)",
+            "(C) 資安官 與 稽核員",
+            "(D) 專案經理 與 系統分析師"
+        ],
+        "answer": "B",
+        "note": "開發不能兼部署，以防止未經授權或惡意的程式碼直接上線 (DevOps 需透過自動化 Pipeline 控管)。"
+    },
+    {
+        "id": "B23-Plan-24",
+        "question": "在 NIST CSF 中，衡量「資安成熟度」的四個層級 (Tier)，最高級 Tier 4 是？",
+        "options": [
+            "(A) Partial (部分)",
+            "(B) Risk Informed (風險導向)",
+            "(C) Repeatable (可重複)",
+            "(D) Adaptive (適應性/最佳化)"
+        ],
+        "answer": "D",
+        "note": "Tier 4 Adaptive 代表組織能動態適應威脅，並將資安深植於文化中。"
+    },
+    {
+        "id": "B23-Plan-25",
+        "question": "關於「資安事件通報」，若涉及「關鍵基礎設施 (CI)」，應通報至？",
+        "options": [
+            "(A) 警察局",
+            "(B) 媒體",
+            "(C) 中央目的事業主管機關與行政院 (透過 N-CERT/ISAC)",
+            "(D) 客戶"
+        ],
+        "answer": "C",
+        "note": "CI 事件涉及國家安全，需依資安法通報至主管機關與國家級應變中心。"
+    },
+    // --- 綜合 ---
+    {
+        "id": "B23-Plan-26",
+        "question": "在評估「雲端服務供應商」時，CSA CCM (Cloud Control Matrix) 提供了什麼？",
+        "options": [
+            "(A) 價格表",
+            "(B) 標準化的資安控制措施對照表，涵蓋 ISO 27001, NIST, PCI DSS 等標準",
+            "(C) 雲端架構圖",
+            "(D) 服務水準協議"
+        ],
+        "answer": "B",
+        "note": "CCM 是評估雲端合規性的重要工具映射表。"
+    },
+    {
+        "id": "B23-Plan-27",
+        "question": "關於「物聯網 (IoT)」的資安標章制度，分級通常依據？",
+        "options": [
+            "(A) 價格高低",
+            "(B) 產品的資安功能強度 (如加密、更新機制、實體防護)",
+            "(C) 產地",
+            "(D) 銷售量"
+        ],
+        "answer": "B",
+        "note": "台灣 IoT 資安標章分為普通、中、高等级，依據測試項目多寡與難度區分。"
+    },
+    {
+        "id": "B23-Plan-28",
+        "question": "在「行動裝置管理」中，Containerization (容器化/沙箱) 技術的主要目的是？",
+        "options": [
+            "(A) 加速 App",
+            "(B) 將企業資料與個人資料隔離，防止資料透過個人 App (如 Line) 外洩",
+            "(C) 備份通訊錄",
+            "(D) 鎖定相機"
+        ],
+        "answer": "B",
+        "note": "在 BYOD 情境下，Containerization 是保護企業資料不外流的關鍵技術。"
+    },
+    {
+        "id": "B23-Plan-29",
+        "question": "關於「零信任」的策略規劃，第一步通常是？",
+        "options": [
+            "(A) 購買零信任產品",
+            "(B) 識別並盤點保護面 (Protect Surface) - 即關鍵資料、資產、應用與服務 (DAAS)",
+            "(C) 重設防火牆",
+            "(D) 實施 MFA"
+        ],
+        "answer": "B",
+        "note": "先定義要保護什麼 (Protect Surface)，才能圍繞它建立微邊界 (Micro-perimeter)。"
+    },
+    {
+        "id": "B23-Plan-30",
+        "question": "資安長 (CISO) 在推動資安專案時，最需要爭取的是？",
+        "options": [
+            "(A) 廠商的折扣",
+            "(B) 高階管理層的支持與承諾 (Management Support)",
+            "(C) 員工的喜愛",
+            "(D) 媒體的報導"
+        ],
+        "answer": "B",
+        "note": "沒有高層支持 (預算、授權、文化)，資安推動將寸步難行。"
+    }
+];
+
+// 將 Batch 23 的題目合併到主陣列
+if (typeof protectionQuestions !== 'undefined') {
+    protectionQuestions.push(...protectionQuestions_Batch23);
+}
+if (typeof planningQuestions !== 'undefined') {
+    planningQuestions.push(...planningQuestions_Batch23);
+}
+// ==========================================
+// 2025 資安工程師模擬題庫 - 第二十四批次 (Batch 24)
+// 包含：防護實務 50 題 + 規劃實務 50 題
+// 特色：強化新興技術、進階攻防、隱私治理
+// ==========================================
+
+// 請將以下內容合併至原本的 protectionQuestions 陣列中
+const protectionQuestions_Batch24 = [
+    // --- 新興網路技術安全 (SDN/NFV) ---
+    {
+        "id": "B24-Prot-01",
+        "question": "在軟體定義網路 (SDN) 架構中，攻擊者若成功入侵「控制器 (Controller)」，最直接的資安風險為何？(單選)",
+        "options": [
+            "(A) 僅能竊聽單一交換器的流量",
+            "(B) 可控制整個網路的流量轉發邏輯 (Control Plane)，導致大規模中間人攻擊或阻斷服務",
+            "(C) 只能修改路由器的硬體設定",
+            "(D) 造成電力系統中斷"
+        ],
+        "answer": "B",
+        "note": "SDN 將控制層集中化，Controller 成為高價值的單點故障與攻擊目標。"
+    },
+    {
+        "id": "B24-Prot-02",
+        "question": "關於 NFV (網路功能虛擬化) 的安全挑戰，下列何者正確？(複選)",
+        "options": [
+            "(A) 虛擬網路功能 (VNF) 運作在通用硬體上，需防範 Hypervisor 逃逸攻擊",
+            "(B) 不同 VNF 共用實體資源，可能產生旁路攻擊 (Side-channel Attack) 風險",
+            "(C) VNF 的映像檔 (Image) 若遭竄改，啟動後將危害網路功能",
+            "(D) NFV 完全消除了硬體層的安全風險"
+        ],
+        "answer": "ABC",
+        "note": "NFV 雖提升了靈活性，但也引入了虛擬化層與資源共享的固有風險。"
+    },
+    {
+        "id": "B24-Prot-03",
+        "question": "在 Wi-Fi 6 (802.11ax) 中，強制使用 WPA3 帶來了哪些安全優勢？(單選)",
+        "options": [
+            "(A) 支援 6GHz 頻段",
+            "(B) 強制使用 PMF (Protected Management Frames) 防止解除認證攻擊，並使用 SAE 抗字典攻擊",
+            "(C) 增加傳輸距離",
+            "(D) 降低耗電"
+        ],
+        "answer": "B",
+        "note": "PMF 保護了管理訊框，有效防止攻擊者發送偽造的 Deauth 封包將使用者踢下線。"
+    },
+    // --- 進階攻防技術 (MITRE) ---
+    {
+        "id": "B24-Prot-04",
+        "question": "MITRE D3FEND 框架的主要用途是？(單選)",
+        "options": [
+            "(A) 描述攻擊者的戰術與技術",
+            "(B) 提供針對特定攻擊技術的「防禦反制措施 (Countermeasures)」知識庫",
+            "(C) 評估資安產品的價格",
+            "(D) 進行滲透測試"
+        ],
+        "answer": "B",
+        "note": "ATT&CK 描述攻擊 (Offense)，D3FEND 描述防禦 (Defense)，兩者互補。"
+    },
+    {
+        "id": "B24-Prot-05",
+        "question": "攻擊者使用「DLL 搜尋順序劫持 (DLL Search Order Hijacking)」技術，通常是為了達到什麼目的？(複選)",
+        "options": [
+            "(A) 權限提升 (Privilege Escalation)",
+            "(B) 持久化 (Persistence)",
+            "(C) 規避偵測 (Defense Evasion)",
+            "(D) 破壞硬體"
+        ],
+        "answer": "ABC",
+        "note": "將惡意 DLL 放入應用程式目錄優先載入，可隨合法程式啟動 (持久化) 並取得該程式權限。"
+    },
+    {
+        "id": "B24-Prot-06",
+        "question": "關於「HTML Smuggling」攻擊手法，下列敘述何者正確？(單選)",
+        "options": [
+            "(A) 利用 SQL 注入",
+            "(B) 利用 HTML5 的 Blob 和 Download 屬性，在瀏覽器端動態組裝惡意檔案，以繞過網路邊界的檔案檢測",
+            "(C) 修改網頁標題",
+            "(D) 攻擊 DNS 伺服器"
+        ],
+        "answer": "B",
+        "note": "這是一種利用合法 HTML5 功能的走私技術，惡意程式是在端點瀏覽器內「生成」的，而非直接下載。"
+    },
+    // --- 密碼學與認證 (進階) ---
+    {
+        "id": "B24-Prot-07",
+        "question": "在 PQC (後量子密碼學) 中，Lattice-based (晶格) 密碼學的主要優勢是？(單選)",
+        "options": [
+            "(A) 運算速度最慢",
+            "(B) 被認為能有效抵抗量子電腦的 Shor 演算法攻擊，且運算效率相對較高",
+            "(C) 金鑰長度最短",
+            "(D) 已經被證明不安全"
+        ],
+        "answer": "B",
+        "note": "NIST 選定的 Kyber 與 Dilithium 皆基於 Lattice 問題，是目前 PQC 的主流。"
+    },
+    {
+        "id": "B24-Prot-08",
+        "question": "關於 OAuth 2.1 (草案) 相較於 2.0 的主要變更，下列何者正確？(複選)",
+        "options": [
+            "(A) 廢除 Implicit Grant 與 Resource Owner Password Credentials Grant",
+            "(B) 強制使用 PKCE (Proof Key for Code Exchange)",
+            "(C) 重新定義了 Bearer Token",
+            "(D) 禁止使用 HTTPS"
+        ],
+        "answer": "AB",
+        "note": "OAuth 2.1 旨在整合最佳實務，移除了不安全的授權模式並強制增強安全機制。"
+    },
+    {
+        "id": "B24-Prot-09",
+        "question": "在 JWT 中，使用 `JWE (JSON Web Encryption)` 可以提供什麼保護？(單選)",
+        "options": [
+            "(A) 僅提供完整性 (Integrity)",
+            "(B) 提供機密性 (Confidentiality)，對 Payload 進行加密，防止內容被讀取",
+            "(C) 提供壓縮功能",
+            "(D) 僅提供來源驗證"
+        ],
+        "answer": "B",
+        "note": "JWS (Signed) 僅防竄改但內容可見；JWE (Encrypted) 則對內容加密，保護隱私。"
+    },
+    // --- 系統與容器防護 ---
+    {
+        "id": "B24-Prot-10",
+        "question": "在 Linux 系統中，`AppArmor` 或 `SELinux` 的主要功能是？(單選)",
+        "options": [
+            "(A) 防毒掃描",
+            "(B) 強制存取控制 (MAC)，限制應用程式只能存取特定的檔案、網路或功能，防止漏洞被利用擴大",
+            "(C) 備份系統",
+            "(D) 加速磁碟讀寫"
+        ],
+        "answer": "B",
+        "note": "MAC (Mandatory Access Control) 限制了即使是 Root 權限的程序也只能做被允許的事。"
+    },
+    {
+        "id": "B24-Prot-11",
+        "question": "關於 Kubernetes 的 `etcd` 資料庫安全，下列何者是必須的防護措施？(複選)",
+        "options": [
+            "(A) 啟用 Encryption at Rest (靜態加密)，保護儲存其中的 Secret",
+            "(B) 限制存取 etcd 的客戶端憑證 (Client Certificate) 權限",
+            "(C) 將 etcd 開放給所有 Pod 存取",
+            "(D) 定期備份 etcd 資料"
+        ],
+        "answer": "ABD",
+        "note": "etcd 存放叢集所有狀態與密鑰，是 K8s 的心臟，必須嚴格保護與備份。"
+    },
+    {
+        "id": "B24-Prot-12",
+        "question": "容器映像檔中的「多階段建置 (Multi-stage Build)」對資安有何助益？(單選)",
+        "options": [
+            "(A) 增加映像檔大小",
+            "(B) 僅將編譯後的執行檔複製到最終映像檔，排除編譯工具與原始碼，縮小攻擊面並減少弱點",
+            "(C) 讓建置過程更複雜",
+            "(D) 自動修補漏洞"
+        ],
+        "answer": "B",
+        "note": "這能產生最小化的 Runtime Image (如 Distroless)，大幅提升安全性。"
+    },
+    // --- 網路流量分析 ---
+    {
+        "id": "B24-Prot-13",
+        "question": "在分析惡意流量時，若發現 HTTP Header 中的 `User-Agent` 為異常字串 (如只有由數字組成)，通常代表？(單選)",
+        "options": [
+            "(A) 瀏覽器版本過舊",
+            "(B) 可能是自動化掃描工具或惡意程式的特徵",
+            "(C) 使用者隱私設定",
+            "(D) 網路速度慢"
+        ],
+        "answer": "B",
+        "note": "異常的 User-Agent 是識別惡意爬蟲或 C2 通訊的常見指標 (IOC)。"
+    },
+    {
+        "id": "B24-Prot-14",
+        "question": "關於 SSH 暴力破解的防禦，`Fail2Ban` 工具的運作原理是？(單選)",
+        "options": [
+            "(A) 修改 SSH 協定",
+            "(B) 監控日誌檔 (如 /var/log/auth.log)，當發現多次失敗登入時，自動更新防火牆規則封鎖來源 IP",
+            "(C) 加密 SSH 連線",
+            "(D) 刪除使用者帳號"
+        ],
+        "answer": "B",
+        "note": "Fail2Ban 是基於日誌分析的自動化防禦工具。"
+    },
+    {
+        "id": "B24-Prot-15",
+        "question": "在 Wireshark 中，分析 SSL/TLS 握手過程時，若 Server Hello 後緊接著 Alert 封包，可能原因為何？(單選)",
+        "options": [
+            "(A) 握手成功",
+            "(B) 握手失敗，可能是協定版本不符或 Cipher Suite 無共識",
+            "(C) 資料傳輸完畢",
+            "(D) 網路斷線"
+        ],
+        "answer": "B",
+        "note": "Alert 封包通常表示發生錯誤 (Fatal Alert) 導致連線終止。"
+    },
+    // --- 補充題目 (16-50) ---
+    {
+        "id": "B24-Prot-16",
+        "question": "關於 Windows AD 的 `Golden Ticket` 攻擊，其存活時間 (Lifetime) 特點為何？",
+        "options": ["(A) 只有 1 小時", "(B) 可以設定非常長 (如 10 年)，且在此期間內即使修改使用者密碼也無效", "(C) 隨著使用者登出而失效", "(D) 伺服器重開機即失效"],
+        "answer": "B",
+        "note": "Golden Ticket 由攻擊者偽造，有效期可自訂，且不依賴 AD 的即時驗證。"
+    },
+    {
+        "id": "B24-Prot-17",
+        "question": "下列何者是偵測 `Process Injection` (程序注入) 的有效指標？",
+        "options": ["(A) CPU 使用率低", "(B) 記憶體區段屬性異常 (如 RWX)", "(C) 硬碟空間不足", "(D) 網路斷線"],
+        "answer": "B",
+        "note": "正常的記憶體區段很少同時具備寫入 (W) 與執行 (X) 權限。"
+    },
+    {
+        "id": "B24-Prot-18",
+        "question": "關於 `DNS Rebinding` 防禦，除了檢查 Host Header，還可以設定？",
+        "options": ["(A) DNS Pinning (瀏覽器端)", "(B) 設定 DNS TTL 為極短時間 (這是攻擊者手法)", "(C) 僅使用 UDP", "(D) 開放所有 Port"],
+        "answer": "A",
+        "note": "DNS Pinning 強制瀏覽器在一段時間內鎖定解析結果，防止 IP 在短時間內變更。"
+    },
+    {
+        "id": "B24-Prot-19",
+        "question": "在 Web 安全中，`HSTS` 必須透過什麼傳輸才能生效？",
+        "options": ["(A) HTTP", "(B) HTTPS", "(C) FTP", "(D) Telnet"],
+        "answer": "B",
+        "note": "HSTS Header 只有在 HTTPS 回應中才被瀏覽器接受與信任。"
+    },
+    {
+        "id": "B24-Prot-20",
+        "question": "關於 `Clickjacking`，攻擊者通常使用什麼 HTML 標籤來嵌入受害網站？",
+        "options": ["(A) <div>", "(B) <iframe>", "(C) <table>", "(D) <body>"],
+        "answer": "B",
+        "note": "Iframe 是點擊劫持的核心，將受害網站載入並設為透明。"
+    },
+    {
+        "id": "B24-Prot-21",
+        "question": "SQL Injection 中，`' OR 1=1; --` 的 `--` 作用是？",
+        "options": ["(A) 註解掉後面的 SQL 語句，避免語法錯誤", "(B) 加速查詢", "(C) 連接字串", "(D) 換行"],
+        "answer": "A",
+        "note": "這是 SQL 的註解符號，讓攻擊者可以忽略原本查詢語句的剩餘部分。"
+    },
+    {
+        "id": "B24-Prot-22",
+        "question": "在 Linux 中，`/etc/shadow` 檔案儲存了什麼？",
+        "options": ["(A) 使用者名稱", "(B) 加密後的使用者密碼雜湊", "(C) 群組資訊", "(D) 登入紀錄"],
+        "answer": "B",
+        "note": "為了安全，密碼雜湊從 world-readable 的 /etc/passwd 移至僅 root 可讀的 /etc/shadow。"
+    },
+    {
+        "id": "B24-Prot-23",
+        "question": "關於 `Ransomware` 的傳播，利用 RDP 暴力破解是常見手法，防禦重點為？",
+        "options": ["(A) 限制來源 IP 或使用 VPN", "(B) 開放 RDP 到公網", "(C) 使用簡單密碼", "(D) 關閉防火牆"],
+        "answer": "A",
+        "note": "限制暴露面是防禦 RDP 攻擊的第一步。"
+    },
+    {
+        "id": "B24-Prot-24",
+        "question": "下列何者是 `Social Engineering` (社交工程) 的特徵？",
+        "options": ["(A) 利用系統漏洞", "(B) 利用人性弱點 (信任、恐懼)", "(C) 暴力破解", "(D) 阻斷服務"],
+        "answer": "B",
+        "note": "社交工程攻擊的是「人」，而非「系統」。"
+    },
+    {
+        "id": "B24-Prot-25",
+        "question": "在資安鑑識中，`Registry` (登錄檔) 可以提供哪些資訊？(複選)",
+        "options": ["(A) 系統安裝資訊", "(B) 使用者活動紀錄 (如最近開啟檔案)", "(C) 網路設定", "(D) 自動執行程式 (Autoruns)"],
+        "answer": "ABCD",
+        "note": "Windows Registry 是鑑識資訊的寶庫。"
+    },
+    {
+        "id": "B24-Prot-26",
+        "question": "關於 `Supply Chain Security`，驗證軟體完整性的常用技術是？",
+        "options": ["(A) Code Signing (程式碼簽章)", "(B) 壓縮", "(C) 備份", "(D) 加密"],
+        "answer": "A",
+        "note": "簽章確保軟體來自可信發行者且未被竄改。"
+    },
+    {
+        "id": "B24-Prot-27",
+        "question": "在 IoT 安全中，`Default Password` (預設密碼) 的風險是？",
+        "options": ["(A) 方便管理", "(B) 容易被殭屍網路 (如 Mirai) 掃描並大規模感染", "(C) 增加安全性", "(D) 節省成本"],
+        "answer": "B",
+        "note": "預設密碼是 IoT 安全的頭號大敵。"
+    },
+    {
+        "id": "B24-Prot-28",
+        "question": "關於 `Cloud Security`，S3 Bucket Policy 應遵循什麼原則？",
+        "options": ["(A) Least Privilege (最小權限)", "(B) Allow All", "(C) Public Read", "(D) No Policy"],
+        "answer": "A",
+        "note": "僅開放必要的權限給必要的使用者/服務。"
+    },
+    {
+        "id": "B24-Prot-29",
+        "question": "在 `DevSecOps` 中，DAST (動態測試) 的掃描時機通常是？",
+        "options": ["(A) 編碼階段", "(B) 應用程式部署到測試環境並執行後", "(C) 需求分析階段", "(D) 寫文件時"],
+        "answer": "B",
+        "note": "DAST 需要一個正在執行的應用程式來進行探測。"
+    },
+    {
+        "id": "B24-Prot-30",
+        "question": "下列何者是 `Side-channel Attack` 的例子？",
+        "options": ["(A) SQL Injection", "(B) Timing Attack (時序攻擊)", "(C) Phishing", "(D) DDoS"],
+        "answer": "B",
+        "note": "利用系統處理時間的微小差異來推測密鑰資訊。"
+    },
+    {
+        "id": "B24-Prot-31",
+        "question": "關於 `Zero Trust`，不信任網路位置意味著？",
+        "options": ["(A) 內網與外網一樣不安全", "(B) 內網絕對安全", "(C) 只有外網危險", "(D) 不需防火牆"],
+        "answer": "A",
+        "note": "Assume Breach (假設已遭入侵) 是零信任的核心假設。"
+    },
+    {
+        "id": "B24-Prot-32",
+        "question": "在 `Cryptography` 中，PKI 的核心信任基礎是？",
+        "options": ["(A) CA (Certificate Authority)", "(B) User", "(C) Hacker", "(D) Network"],
+        "answer": "A",
+        "note": "CA 負責簽發並管理數位憑證，是信任的錨點 (Trust Anchor)。"
+    },
+    {
+        "id": "B24-Prot-33",
+        "question": "關於 `VPN`，Split Tunneling 的風險是？",
+        "options": ["(A) 速度變慢", "(B) 繞過 VPN 的流量可能遭受攻擊，並成為入侵內網的跳板", "(C) 比較安全", "(D) 節省流量"],
+        "answer": "B",
+        "note": "Split Tunneling 雖然提升效能，但削弱了企業對端點網路行為的全面監控。"
+    },
+    {
+        "id": "B24-Prot-34",
+        "question": "在 `Email Security` 中，SPF 紀錄是透過哪種 DNS 紀錄發布？",
+        "options": ["(A) A", "(B) MX", "(C) TXT", "(D) CNAME"],
+        "answer": "C",
+        "note": "SPF 政策以 TXT 紀錄形式存在於 DNS 中。"
+    },
+    {
+        "id": "B24-Prot-35",
+        "question": "關於 `Mobile Security`，Android 的 `Permission` 機制主要目的是？",
+        "options": ["(A) 限制 App 存取敏感資源 (如相機、位置)", "(B) 加速 App", "(C) 增加廣告", "(D) 備份資料"],
+        "answer": "A",
+        "note": "權限控制是行動作業系統保護使用者隱私的關鍵機制。"
+    },
+    {
+        "id": "B24-Prot-36",
+        "question": "在 `Network Security` 中，IDS 的主要功能是？",
+        "options": ["(A) 阻擋攻擊", "(B) 偵測並警示入侵行為", "(C) 備份資料", "(D) 加密流量"],
+        "answer": "B",
+        "note": "IDS (Detection) 負責偵測，IPS (Prevention) 負責阻擋。"
+    },
+    {
+        "id": "B24-Prot-37",
+        "question": "關於 `Web Security`，CORS 主要是為了解決什麼限制帶來的問題？",
+        "options": ["(A) Same-origin Policy (同源政策)", "(B) SQL Injection", "(C) XSS", "(D) DDoS"],
+        "answer": "A",
+        "note": "CORS 允許瀏覽器在受控的情況下放寬同源政策，允許跨域請求。"
+    },
+    {
+        "id": "B24-Prot-38",
+        "question": "在 `System Security` 中，Patch Management 的目的是？",
+        "options": ["(A) 增加新功能", "(B) 修補已知漏洞，降低被攻擊風險", "(C) 清除硬碟", "(D) 監控員工"],
+        "answer": "B",
+        "note": "及時修補是資安衛生的基本功。"
+    },
+    {
+        "id": "B24-Prot-39",
+        "question": "關於 `Forensics`，揮發性資料 (Volatile Data) 應？",
+        "options": ["(A) 最後收集", "(B) 優先收集", "(C) 不需收集", "(D) 隨意收集"],
+        "answer": "B",
+        "note": "Order of Volatility 原則：越易消失的證據越先收集。"
+    },
+    {
+        "id": "B24-Prot-40",
+        "question": "在 `Malware Analysis` 中，Sandbox (沙箱) 的作用是？",
+        "options": ["(A) 靜態分析", "(B) 在隔離環境中執行程式以觀察其行為 (動態分析)", "(C) 加密病毒", "(D) 刪除病毒"],
+        "answer": "B",
+        "note": "沙箱提供安全的試爆場域。"
+    },
+    {
+        "id": "B24-Prot-41",
+        "question": "關於 `Physical Security`，Mantrap (雙重門) 用於防止？",
+        "options": ["(A) 火災", "(B) 尾隨 (Tailgating)", "(C) 停電", "(D) 淹水"],
+        "answer": "B",
+        "note": "Mantrap 強制一次一人通過。"
+    },
+    {
+        "id": "B24-Prot-42",
+        "question": "在 `Database Security` 中，Data Masking (資料遮罩) 的目的是？",
+        "options": ["(A) 加密資料庫", "(B) 在非生產環境中隱藏敏感資料", "(C) 備份資料", "(D) 刪除資料"],
+        "answer": "B",
+        "note": "保護開發/測試人員不直接接觸真實個資。"
+    },
+    {
+        "id": "B24-Prot-43",
+        "question": "關於 `Access Control`，RBAC 是基於什麼分配權限？",
+        "options": ["(A) 角色 (Role)", "(B) 屬性 (Attribute)", "(C) 強制 (Mandatory)", "(D) 自由 (Discretionary)"],
+        "answer": "A",
+        "note": "Role-Based Access Control。"
+    },
+    {
+        "id": "B24-Prot-44",
+        "question": "在 `Wireless Security` 中，Evil Twin 是指？",
+        "options": ["(A) 偽造的無線基地台 (Rogue AP)", "(B) 雙胞胎駭客", "(C) 加密演算法", "(D) 藍牙攻擊"],
+        "answer": "A",
+        "note": "偽裝成合法 SSID 誘騙使用者連線。"
+    },
+    {
+        "id": "B24-Prot-45",
+        "question": "關於 `Incident Response`，遏制 (Containment) 階段的目的是？",
+        "options": ["(A) 根除威脅", "(B) 限制損害擴大", "(C) 恢復服務", "(D) 寫報告"],
+        "answer": "B",
+        "note": "先止血 (Containment)，再治療 (Eradication)。"
+    },
+    {
+        "id": "B24-Prot-46",
+        "question": "在 `BCP/DR` 中，RTO 是指？",
+        "options": ["(A) 復原時間目標", "(B) 復原點目標", "(C) 最大中斷時間", "(D) 平均故障時間"],
+        "answer": "A",
+        "note": "Recovery Time Objective。"
+    },
+    {
+        "id": "B24-Prot-47",
+        "question": "關於 `Social Engineering`，Phishing 是利用什麼媒介？",
+        "options": ["(A) 電話", "(B) 電子郵件", "(C) 簡訊", "(D) 面對面"],
+        "answer": "B",
+        "note": "Phishing 專指 Email 釣魚；Vishing 是電話；Smishing 是簡訊。"
+    },
+    {
+        "id": "B24-Prot-48",
+        "question": "在 `Cloud Security` 中，IaaS 模式下使用者需負責？",
+        "options": ["(A) 實體機房", "(B) 作業系統與應用程式", "(C) 虛擬化層", "(D) 網路硬體"],
+        "answer": "B",
+        "note": "責任共擔模型：IaaS 使用者負責 OS 以上。"
+    },
+    {
+        "id": "B24-Prot-49",
+        "question": "關於 `Application Security`，OWASP Top 10 是？",
+        "options": ["(A) 十大網路設備", "(B) 十大 Web 應用程式安全風險", "(C) 十大防毒軟體", "(D) 十大駭客"],
+        "answer": "B",
+        "note": "Web 安全的權威指引。"
+    },
+    {
+        "id": "B24-Prot-50",
+        "question": "在 `Network Security` 中，DMZ 用於放置？",
+        "options": ["(A) 內部資料庫", "(B) 對外服務的伺服器 (如 Web, Mail)", "(C) 員工電腦", "(D) 機密檔案"],
+        "answer": "B",
+        "note": "隔離對外服務，保護內網安全。"
+    }
+];
+
+// 請將以下內容合併至原本的 planningQuestions 陣列中
+const planningQuestions_Batch24 = [
+    // --- 資料隱私與治理 (Data Privacy & Governance) ---
+    {
+        "id": "B24-Plan-01",
+        "question": "ISO/IEC 27701 (PIMS) 標準中，對於「聯合控制者 (Joint Controllers)」的協議要求，主要目的為何？(單選)",
+        "options": [
+            "(A) 分攤罰款",
+            "(B) 透明化各自的責任與義務，確保資料主體 (Data Subject) 的權利不受侵害，並明確告知當事人",
+            "(C) 互相推卸責任",
+            "(D) 降低合規成本"
+        ],
+        "answer": "B",
+        "note": "當多個組織共同決定處理目的時，必須透過協議釐清責任邊界 (如誰負責回應當事人請求)。"
+    },
+    {
+        "id": "B24-Plan-02",
+        "question": "關於「隱私工程 (Privacy Engineering)」中的「去識別化 (De-identification)」策略，下列何者屬於「抑制 (Suppression)」技術？(單選)",
+        "options": [
+            "(A) 將姓名加密",
+            "(B) 直接刪除或隱藏特定的敏感欄位 (如刪除身分證號欄位)",
+            "(C) 將數值加上雜訊",
+            "(D) 將地址概化為縣市"
+        ],
+        "answer": "B",
+        "note": "抑制是最直接的去識別化，透過移除資料來降低識別風險。"
+    },
+    {
+        "id": "B24-Plan-03",
+        "question": "在資料治理中，針對「非結構化資料 (Unstructured Data)」(如郵件、文件) 的保護挑戰，首要之務是？(單選)",
+        "options": [
+            "(A) 全部加密",
+            "(B) 進行資料探索與分類 (Data Discovery & Classification)，識別敏感資訊的位置",
+            "(C) 購買更多儲存空間",
+            "(D) 禁止使用郵件"
+        ],
+        "answer": "B",
+        "note": "看不見就無法保護 (You can't protect what you can't see)。先盤點與分類是治理的基礎。"
+    },
+    // --- 資安法規與稽核 (Regulatory & Audit) ---
+    {
+        "id": "B24-Plan-04",
+        "question": "依據《資通安全責任等級分級辦法》，A 級機關的資安稽核範圍應涵蓋？(單選)",
+        "options": [
+            "(A) 僅核心系統",
+            "(B) 全部資通系統",
+            "(C) 僅對外服務系統",
+            "(D) 僅內網系統"
+        ],
+        "answer": "B",
+        "note": "114 概論教材。A 級機關需對「全部」資通系統辦理稽核。"
+    },
+    {
+        "id": "B24-Plan-05",
+        "question": "在資安稽核中，若稽核員發現「備份紀錄顯示成功，但實際還原測試失敗」，這屬於哪一類缺失？(單選)",
+        "options": [
+            "(A) 設計缺失 (Design Gap)",
+            "(B) 執行有效性缺失 (Operational Effectiveness Gap)",
+            "(C) 文件缺失",
+            "(D) 觀察事項"
+        ],
+        "answer": "B",
+        "note": "控制措施有設計且有紀錄 (看似有做)，但實際結果無效，屬於執行有效性問題。"
+    },
+    {
+        "id": "B24-Plan-06",
+        "question": "關於「供應鏈稽核」，第二方稽核 (Second-party Audit) 是指？(單選)",
+        "options": [
+            "(A) 組織自我稽核",
+            "(B) 客戶 (買方) 對供應商 (賣方) 進行的稽核",
+            "(C) 驗證機構 (如 SGS) 進行的稽核",
+            "(D) 主管機關進行的稽核"
+        ],
+        "answer": "B",
+        "note": "第二方稽核是基於合約關係的稽核，確保供應商符合採購要求。"
+    },
+    // --- 風險管理與指標 (Risk & Metrics) ---
+    {
+        "id": "B24-Plan-07",
+        "question": "在設定 KRI (關鍵風險指標) 時，若要監控「勒索軟體」風險，下列何者是較佳的指標？(單選)",
+        "options": [
+            "(A) 防火牆日誌量",
+            "(B) 端點未修補高風險漏洞的數量 與 異常加密行為的告警數",
+            "(C) 購買的防毒軟體數量",
+            "(D) 資安人員數量"
+        ],
+        "answer": "B",
+        "note": "未修補漏洞是「成因」指標，異常加密是「事件」指標，兩者皆與勒索軟體風險高度相關。"
+    },
+    {
+        "id": "B24-Plan-08",
+        "question": "關於「風險胃納 (Risk Appetite)」的聲明，下列何者描述最為恰當？(單選)",
+        "options": [
+            "(A) 我們不接受任何風險",
+            "(B) 我們接受在控制措施成本高於潛在損失時的低度風險，但不接受任何違反法規的風險",
+            "(C) 我們接受所有風險",
+            "(D) 我們只接受技術風險"
+        ],
+        "answer": "B",
+        "note": "風險胃納應具體且務實，零風險是不可能的，而合規風險通常是不可接受的 (Zero Tolerance)。"
+    },
+    {
+        "id": "B24-Plan-09",
+        "question": "在量化風險分析中，ALE (年度預期損失) 的計算公式為？(單選)",
+        "options": [
+            "(A) SLE + ARO",
+            "(B) SLE x ARO (單一事件損失 x 年度發生率)",
+            "(C) SLE / ARO",
+            "(D) 衝擊 x 機率"
+        ],
+        "answer": "B",
+        "note": "這是計算風險財務價值的標準公式，用於評估資安投資效益 (ROI)。"
+    },
+    // --- 營運持續與應變 (BCP/IR) ---
+    {
+        "id": "B24-Plan-10",
+        "question": "在 BCP 演練中，若採用「功能性演練 (Functional Exercise)」，其特點為何？(單選)",
+        "options": [
+            "(A) 僅在會議室討論",
+            "(B) 針對特定業務功能或系統進行實地操作與驗證 (如切換備援資料庫)，但不涉及全面中斷",
+            "(C) 實際關閉主機房電源",
+            "(D) 只檢查文件"
+        ],
+        "answer": "B",
+        "note": "功能性演練比桌面演練更深入，驗證實際操作程序，但風險低於全面演練。"
+    },
+    {
+        "id": "B24-Plan-11",
+        "question": "資安事件應變中的「溝通計畫 (Communication Plan)」，應優先考慮？(單選)",
+        "options": [
+            "(A) 媒體曝光率",
+            "(B) 確保在正確的時間，向正確的對象 (如高層、客戶、主管機關)，傳遞準確且一致的訊息",
+            "(C) 隱瞞事實",
+            "(D) 推卸責任"
+        ],
+        "answer": "B",
+        "note": "溝通是危機管理的關鍵，錯誤的溝通可能造成比事件本身更大的商譽損害。"
+    },
+    {
+        "id": "B24-Plan-12",
+        "question": "關於「雲端災難復原 (Cloud DR)」，Pilot Light (引示燈) 策略的 RTO 表現通常？(單選)",
+        "options": [
+            "(A) 比 Hot Site 快",
+            "(B) 比 Backup & Restore 快，但比 Hot Site 慢 (需時間擴展資源)",
+            "(C) 最慢",
+            "(D) 與冷站相同"
+        ],
+        "answer": "B",
+        "note": "Pilot Light 保持核心資料同步與最小服務運行，災難時才擴展，平衡了成本與恢復速度。"
+    },
+    // --- 新興技術管理 ---
+    {
+        "id": "B24-Plan-13",
+        "question": "企業導入「零信任架構」時，在管理層面的首要轉變是？(單選)",
+        "options": [
+            "(A) 購買更多防火牆",
+            "(B) 從「信任但驗證 (Trust but Verify)」轉變為「永不信任，始終驗證 (Never Trust, Always Verify)」的思維",
+            "(C) 裁撤 IT 部門",
+            "(D) 開放所有權限"
+        ],
+        "answer": "B",
+        "note": "零信任是策略與思維的轉變，不單是技術導入。"
+    },
+    {
+        "id": "B24-Plan-14",
+        "question": "關於「AI 治理」，組織應建立什麼機制來管理 AI 模型的偏見與公平性問題？(單選)",
+        "options": [
+            "(A) 禁止使用 AI",
+            "(B) 演算法審查與倫理評估機制 (Algorithm Auditing & Ethics Review)",
+            "(C) 增加運算效能",
+            "(D) 加密模型"
+        ],
+        "answer": "B",
+        "note": "AI 倫理與公平性是 AI 治理 (AI Governance) 的核心議題。"
+    },
+    {
+        "id": "B24-Plan-15",
+        "question": "在 DevOps 流程中，如何確保「合規性 (Compliance)」不被快速發布犧牲？(單選)",
+        "options": [
+            "(A) 放棄合規",
+            "(B) 實施 Compliance as Code (合規即代碼)，將合規檢查自動化嵌入 CI/CD Pipeline",
+            "(C) 每次發布前進行人工審查",
+            "(D) 延長開發週期"
+        ],
+        "answer": "B",
+        "note": "自動化合規檢查是 DevSecOps 實現速度與安全兼顧的關鍵。"
+    },
+    // --- 補充題目 (16-50) ---
+    {
+        "id": "B24-Plan-16",
+        "question": "ISO 27001:2022 新增控制措施「威脅情資」，其執行重點在於？",
+        "options": ["(A) 收集", "(B) 分析", "(C) 應用於決策", "(D) 以上皆是"],
+        "answer": "D",
+        "note": "情資循環包含收集、分析、產出與應用。"
+    },
+    {
+        "id": "B24-Plan-17",
+        "question": "關於 BIA (營運衝擊分析)，下列何者是評估「非財務衝擊」的指標？",
+        "options": ["(A) 營收損失", "(B) 罰款", "(C) 商譽受損與客戶流失", "(D) 設備重置成本"],
+        "answer": "C",
+        "note": "商譽與信任是關鍵的非財務資產。"
+    },
+    {
+        "id": "B24-Plan-18",
+        "question": "在資安事件分級中，若涉及「核心業務系統」且「無法在 RTO 內恢復」，通常屬於？",
+        "options": ["(A) 1 級", "(B) 2 級", "(C) 3 級或 4 級", "(D) 0 級"],
+        "answer": "C",
+        "note": "核心業務受損且超時，屬嚴重事件。"
+    },
+    {
+        "id": "B24-Plan-19",
+        "question": "關於「特權帳號」管理，下列何者違反 SoD 原則？",
+        "options": ["(A) 開發人員擁有正式環境的 Admin 權限", "(B) 稽核員只有讀取權限", "(C) 網管人員管理網路設備", "(D) 兩位管理員各持有一半密碼"],
+        "answer": "A",
+        "note": "開發不應兼任正式環境管理，避免球員兼裁判。"
+    },
+    {
+        "id": "B24-Plan-20",
+        "question": "在供應鏈安全中，SLA (服務水準協議) 的資安條款應包含？",
+        "options": ["(A) 事件通報時限", "(B) 弱點修補時限", "(C) 服務可用性指標", "(D) 以上皆是"],
+        "answer": "D",
+        "note": "SLA 需量化各項資安要求。"
+    },
+    {
+        "id": "B24-Plan-21",
+        "question": "關於「社交工程演練」，若點擊率下降但回報率也下降，代表？",
+        "options": ["(A) 演練非常成功", "(B) 員工可能只是沒看到信，警覺性未必提升", "(C) 資安意識完美", "(D) 系統故障"],
+        "answer": "B",
+        "note": "理想狀況是點擊率下降且回報率上升 (Active Defense)。"
+    },
+    {
+        "id": "B24-Plan-22",
+        "question": "資安長 (CISO) 的績效指標，不應包含？",
+        "options": ["(A) 資安事件的零發生率 (不切實際)", "(B) 風險降低程度", "(C) 合規性達成率", "(D) 事件回應速度"],
+        "answer": "A",
+        "note": "追求零事件會導致隱匿通報，應追求韌性與快速復原。"
+    },
+    {
+        "id": "B24-Plan-23",
+        "question": "在個資保護中，當事人請求刪除個資 (被遺忘權)，企業應？",
+        "options": ["(A) 立即刪除所有備份", "(B) 評估是否有法律保留義務 (如稅法)，若無則刪除", "(C) 拒絕刪除", "(D) 收費"],
+        "answer": "B",
+        "note": "權利行使非絕對，需考量其他法律義務。"
+    },
+    {
+        "id": "B24-Plan-24",
+        "question": "關於「雲端責任共擔」，IaaS 客戶需負責？",
+        "options": ["(A) 實體安全", "(B) 虛擬化層", "(C) OS 與應用程式安全", "(D) 網路硬體"],
+        "answer": "C",
+        "note": "IaaS 客戶如同租用空機，需自行維護 OS 以上層級。"
+    },
+    {
+        "id": "B24-Plan-25",
+        "question": "NIST CSF 的「Recover」功能，重點在於？",
+        "options": ["(A) 阻擋攻擊", "(B) 恢復受損的服務與通訊", "(C) 發現漏洞", "(D) 制定政策"],
+        "answer": "B",
+        "note": "Recover 關注從事件中恢復韌性。"
+    },
+    {
+        "id": "B24-Plan-26",
+        "question": "關於「行動裝置」報廢，Factory Reset (原廠重置) 是否足夠？",
+        "options": ["(A) 足夠", "(B) 不一定，需確認是否包含資料抹除 (Data Wiping/Overwriting)", "(C) 不需重置", "(D) 破壞螢幕即可"],
+        "answer": "B",
+        "note": "部分舊設備重置僅刪除索引，需確保資料被覆寫或加密金鑰被銷毀。"
+    },
+    {
+        "id": "B24-Plan-27",
+        "question": "在資安教育訓練中，針對「財務人員」的重點是？",
+        "options": [
+            "(A) SQL Injection",
+            "(B) BEC (商務郵件詐騙) 與匯款流程安全",
+            "(C) 伺服器管理",
+            "(D) 程式開發"
+        ],
+        "answer": "B",
+        "note": "財務人員是 BEC 攻擊的主要目標。"
+    },
+    {
+        "id": "B24-Plan-28",
+        "question": "關於「弱點管理」，CVSS 用於？",
+        "options": ["(A) 攻擊", "(B) 量化弱點的嚴重程度", "(C) 備份", "(D) 加密"],
+        "answer": "B",
+        "note": "Common Vulnerability Scoring System。"
+    },
+    {
+        "id": "B24-Plan-29",
+        "question": "在「實體安全」中，重要機房應避免設置於？",
+        "options": ["(A) 地下室 (易淹水)", "(B) 高樓層", "(C) 無窗戶房間", "(D) 靠近警衛室"],
+        "answer": "A",
+        "note": "環境威脅 (淹水) 是選址重要考量。"
+    },
+    {
+        "id": "B24-Plan-30",
+        "question": "關於「資產盤點」，軟體資產應包含？",
+        "options": ["(A) 只有 OS", "(B) OS、應用程式、授權數量、版本", "(C) 只有免費軟體", "(D) 不需盤點"],
+        "answer": "B",
+        "note": "完整盤點才能進行漏洞管理與授權合規。"
+    },
+    {
+        "id": "B24-Plan-31",
+        "question": "關於 ISO 27001 的「持續改善」，PDCA 的 A 代表？",
+        "options": ["(A) Audit", "(B) Act (行動/改善)", "(C) Assess", "(D) Analysis"],
+        "answer": "B",
+        "note": "Act 階段針對查核結果進行修正與改善。"
+    },
+    {
+        "id": "B24-Plan-32",
+        "question": "在 BCP 中，MTPD 代表？",
+        "options": ["(A) 最短復原時間", "(B) 最大可容忍中斷時間", "(C) 平均修復時間", "(D) 備份時間"],
+        "answer": "B",
+        "note": "Maximum Tolerable Period of Disruption。"
+    },
+    {
+        "id": "B24-Plan-33",
+        "question": "關於「機密性 (Confidentiality)」的控制措施？",
+        "options": ["(A) 備份", "(B) 加密與存取控制", "(C) 雜湊", "(D) 負載平衡"],
+        "answer": "B",
+        "note": "加密防止未授權讀取，存取控制限制對象。"
+    },
+    {
+        "id": "B24-Plan-34",
+        "question": "在「網路架構」中，將對外服務置於 DMZ 的目的是？",
+        "options": ["(A) 加速", "(B) 隔離外部威脅，保護內部網路", "(C) 節省 IP", "(D) 方便管理"],
+        "answer": "B",
+        "note": "DMZ 是緩衝區，防止外網直接接觸內網。"
+    },
+    {
+        "id": "B24-Plan-35",
+        "question": "關於「可歸責性 (Accountability)」，關鍵在於？",
+        "options": ["(A) 共用帳號", "(B) 唯一帳號與完整日誌", "(C) 不需日誌", "(D) 自動登入"],
+        "answer": "B",
+        "note": "能追溯到特定個人的行為。"
+    },
+    {
+        "id": "B24-Plan-36",
+        "question": "在「遠端存取」中，VPN 應搭配？",
+        "options": ["(A) 弱密碼", "(B) MFA (多因子認證)", "(C) 共用帳號", "(D) 不需認證"],
+        "answer": "B",
+        "note": "強化身分驗證是 VPN 安全的關鍵。"
+    },
+    {
+        "id": "B24-Plan-37",
+        "question": "關於「資料備份」，3-2-1 原則的 1 是？",
+        "options": ["(A) 1 份異地", "(B) 1 份本地", "(C) 1 個人", "(D) 1 台機器"],
+        "answer": "A",
+        "note": "異地備份防範區域性災難。"
+    },
+    {
+        "id": "B24-Plan-38",
+        "question": "在「資安監控」中，SIEM 的功能是？",
+        "options": ["(A) 阻擋攻擊", "(B) 日誌收集與關聯分析", "(C) 掃毒", "(D) 加密"],
+        "answer": "B",
+        "note": "Security Information and Event Management。"
+    },
+    {
+        "id": "B24-Plan-39",
+        "question": "關於「變更管理」，緊急變更後應？",
+        "options": ["(A) 不需補單", "(B) 補齊紀錄與審查", "(C) 刪除紀錄", "(D) 隱瞞"],
+        "answer": "B",
+        "note": "即使緊急也要事後補正，維持可追溯性。"
+    },
+    {
+        "id": "B24-Plan-40",
+        "question": "在「實體安全」中，UPS 用於？",
+        "options": ["(A) 長期供電", "(B) 短期電力銜接與穩壓", "(C) 滅火", "(D) 監控"],
+        "answer": "B",
+        "note": "不斷電系統。"
+    },
+    {
+        "id": "B24-Plan-41",
+        "question": "關於「資安政策」，應由誰核定？",
+        "options": ["(A) 資安人員", "(B) 最高管理階層", "(C) 廠商", "(D) 客戶"],
+        "answer": "B",
+        "note": "高層承諾是資安治理的起點。"
+    },
+    {
+        "id": "B24-Plan-42",
+        "question": "在「風險評鑑」中，資產價值通常取決於？",
+        "options": ["(A) 購買成本", "(B) 對業務的 C.I.A. 重要性", "(C) 重量", "(D) 顏色"],
+        "answer": "B",
+        "note": "業務衝擊才是價值的核心。"
+    },
+    {
+        "id": "B24-Plan-43",
+        "question": "關於「漏洞修補」，零日漏洞 (Zero-day) 是指？",
+        "options": ["(A) 沒有漏洞", "(B) 廠商尚未發布修補程式的漏洞", "(C) 很久的漏洞", "(D) 沒人知道的漏洞"],
+        "answer": "B",
+        "note": "風險極高，需依賴緩解措施。"
+    },
+    {
+        "id": "B24-Plan-44",
+        "question": "在「個資法」中，公務機關的賠償責任適用？",
+        "options": ["(A) 民法", "(B) 國家賠償法", "(C) 刑法", "(D) 不需賠償"],
+        "answer": "B",
+        "note": "公務機關違法適用國賠。"
+    },
+    {
+        "id": "B24-Plan-45",
+        "question": "關於「資安演練」，應包含？",
+        "options": ["(A) 社交工程", "(B) 通報應變", "(C) 系統復原", "(D) 以上皆是"],
+        "answer": "D",
+        "note": "全方位的演練才能驗證韌性。"
+    },
+    {
+        "id": "B24-Plan-46",
+        "question": "在「存取控制」中，Need-to-Know 是？",
+        "options": ["(A) 知道越多越好", "(B) 僅知悉工作所需資訊", "(C) 隨意存取", "(D) 公開資訊"],
+        "answer": "B",
+        "note": "最小化資訊暴露。"
+    },
+    {
+        "id": "B24-Plan-47",
+        "question": "關於「密碼管理」，NIST 建議？",
+        "options": ["(A) 定期強制更換", "(B) 密碼長度優於複雜度，僅在洩漏時更換", "(C) 使用短密碼", "(D) 共用密碼"],
+        "answer": "B",
+        "note": "最新趨勢：避免密碼疲勞。"
+    },
+    {
+        "id": "B24-Plan-48",
+        "question": "在「雲端安全」中，SaaS 使用者不需管理？",
+        "options": ["(A) 資料", "(B) 存取權限", "(C) 應用程式底層與硬體", "(D) 帳號"],
+        "answer": "C",
+        "note": "底層由供應商負責。"
+    },
+    {
+        "id": "B24-Plan-49",
+        "question": "關於「資安健診」，主要目的？",
+        "options": ["(A) 處罰", "(B) 發現技術弱點與架構問題", "(C) 寫報告", "(D) 採購"],
+        "answer": "B",
+        "note": "健康檢查，及早治療。"
+    },
+    {
+        "id": "B24-Plan-50",
+        "question": "資安治理的核心目標？",
+        "options": ["(A) 買設備", "(B) 支援業務目標與風險管理", "(C) 阻礙業務", "(D) 遵守所有規則"],
+        "answer": "B",
+        "note": "Alignment with Business Objectives。"
+    }
+];
+
+// 將 Batch 24 的題目合併到主陣列
+if (typeof protectionQuestions !== 'undefined') {
+    protectionQuestions.push(...protectionQuestions_Batch24);
+}
+if (typeof planningQuestions !== 'undefined') {
+    planningQuestions.push(...planningQuestions_Batch24);
+}
+// ==========================================
+// 2025 資安工程師模擬題庫 - 第二十五批次 (Batch 25)
+// 包含：防護實務 50 題 + 規劃實務 50 題
+// 特色：初級基礎觀念總複習 + 2025 最新標準整合
+// 重點：OSI/TCP/IP 基礎、密碼學原理、惡意程式分類、基礎法規
+// ==========================================
+
+// 請將以下內容合併至原本的 protectionQuestions 陣列中
+const protectionQuestions_Batch25 = [
+    // --- 網路通訊基礎 (OSI & TCP/IP) ---
+    {
+        "id": "B25-Prot-01",
+        "question": "在 OSI 七層模型中，負責「路徑選擇 (Routing)」與「邏輯位址 (IP)」定址的是哪一層？(單選)",
+        "options": [
+            "(A) 資料連結層 (Data Link Layer)",
+            "(B) 網路層 (Network Layer)",
+            "(C) 傳輸層 (Transport Layer)",
+            "(D) 應用層 (Application Layer)"
+        ],
+        "answer": "B",
+        "note": "L2 (MAC) 負責相鄰節點傳輸，L3 (IP) 負責跨網段路由。"
+    },
+    {
+        "id": "B25-Prot-02",
+        "question": "下列哪一個通訊協定是基於 UDP 且不保證資料送達，常用於視訊串流或 DNS 查詢？(單選)",
+        "options": [
+            "(A) TCP",
+            "(B) HTTP",
+            "(C) UDP",
+            "(D) FTP"
+        ],
+        "answer": "C",
+        "note": "UDP (User Datagram Protocol) 是非連線導向、不可靠的傳輸協定，優點是速度快。"
+    },
+    {
+        "id": "B25-Prot-03",
+        "question": "關於「ARP (Address Resolution Protocol)」的功能，下列何者正確？(單選)",
+        "options": [
+            "(A) 將網域名稱解析為 IP 位址",
+            "(B) 將 IP 位址解析為 MAC 位址",
+            "(C) 自動分配 IP 位址",
+            "(D) 加密網路連線"
+        ],
+        "answer": "B",
+        "note": "ARP 是 L3 轉 L2 的關鍵協定；DNS 才是將網域轉 IP。"
+    },
+    {
+        "id": "B25-Prot-04",
+        "question": "TCP 三向交握 (Three-way Handshake) 的正確順序為何？(單選)",
+        "options": [
+            "(A) SYN -> SYN/ACK -> ACK",
+            "(B) ACK -> SYN -> SYN/ACK",
+            "(C) SYN -> ACK -> FIN",
+            "(D) SYN -> PSH -> RST"
+        ],
+        "answer": "A",
+        "note": "建立可靠連線的標準程序：發送同步 (SYN)、回應同步確認 (SYN/ACK)、確認 (ACK)。"
+    },
+    {
+        "id": "B25-Prot-05",
+        "question": "下列哪個 Port 號是 HTTPS 預設使用的？(單選)",
+        "options": [
+            "(A) 80",
+            "(B) 21",
+            "(C) 443",
+            "(D) 25"
+        ],
+        "answer": "C",
+        "note": "80 (HTTP), 21 (FTP), 443 (HTTPS), 25 (SMTP)。"
+    },
+    {
+        "id": "B25-Prot-06",
+        "question": "關於「DDoS (分散式阻斷服務)」攻擊，下列何者屬於「反射放大攻擊 (Reflection Amplification)」？(複選)",
+        "options": [
+            "(A) DNS Amplification",
+            "(B) NTP Amplification",
+            "(C) HTTP Flood",
+            "(D) SQL Injection"
+        ],
+        "answer": "AB",
+        "note": "利用 UDP 協定無狀態特性，偽造來源 IP 請求回應較大的服務 (如 DNS, NTP)。"
+    },
+    {
+        "id": "B25-Prot-07",
+        "question": "在防火牆技術中，「封包過濾 (Packet Filtering)」主要檢查 OSI 模型的哪些資訊？(單選)",
+        "options": [
+            "(A) 應用層內容 (如 SQL 指令)",
+            "(B) 來源/目的 IP 位址與 Port 號 (L3/L4 標頭)",
+            "(C) 使用者身分",
+            "(D) 病毒特徵碼"
+        ],
+        "answer": "B",
+        "note": "傳統封包過濾不檢查 Payload，只看標頭資訊。"
+    },
+    {
+        "id": "B25-Prot-08",
+        "question": "關於 VPN (虛擬私人網路) 的功能，下列何者錯誤？(單選)",
+        "options": [
+            "(A) 可以隱藏使用者的真實 IP",
+            "(B) 建立加密通道保護資料傳輸",
+            "(C) 可以完全取代防毒軟體",
+            "(D) 常用於遠端存取公司內網"
+        ],
+        "answer": "C",
+        "note": "VPN 僅保護傳輸通道，無法防止終端設備感染病毒。"
+    },
+    {
+        "id": "B25-Prot-09",
+        "question": "下列何者是「中間人攻擊 (MITM)」的常見手法？(複選)",
+        "options": [
+            "(A) ARP Spoofing (ARP 欺騙)",
+            "(B) DNS Spoofing (DNS 欺騙)",
+            "(C) Rogue AP (惡意無線基地台)",
+            "(D) SQL Injection"
+        ],
+        "answer": "ABC",
+        "note": "SQLi 是針對資料庫的攻擊，非網路層的中間人攔截。"
+    },
+    {
+        "id": "B25-Prot-10",
+        "question": "ICMP 協定主要用於什麼用途？(單選)",
+        "options": [
+            "(A) 傳輸網頁",
+            "(B) 網路偵錯與錯誤回報 (如 Ping, Traceroute)",
+            "(C) 傳輸郵件",
+            "(D) 檔案下載"
+        ],
+        "answer": "B",
+        "note": "Ping 使用 ICMP Echo Request/Reply。"
+    },
+    // --- 系統與惡意程式 (System & Malware) ---
+    {
+        "id": "B25-Prot-11",
+        "question": "關於「特洛伊木馬 (Trojan Horse)」的特徵，下列何者正確？(單選)",
+        "options": [
+            "(A) 會自我複製傳播",
+            "(B) 偽裝成合法或有用的軟體，誘騙使用者執行",
+            "(C) 需要寄生在其他檔案中 (如病毒)",
+            "(D) 鎖定檔案勒索贖金"
+        ],
+        "answer": "B",
+        "note": "木馬不自我複製，依賴社交工程誘騙執行；病毒需寄生；蠕蟲會自我複製。"
+    },
+    {
+        "id": "B25-Prot-12",
+        "question": "「勒索軟體 (Ransomware)」的主要攻擊行為是？(單選)",
+        "options": [
+            "(A) 竊取帳號密碼",
+            "(B) 加密使用者檔案並要求支付贖金以換取解密金鑰",
+            "(C) 破壞硬體設備",
+            "(D) 將電腦變成殭屍網路"
+        ],
+        "answer": "B",
+        "note": "現代勒索軟體常結合資料外洩 (雙重勒索)。"
+    },
+    {
+        "id": "B25-Prot-13",
+        "question": "關於「Botnet (殭屍網路)」，下列敘述何者正確？(單選)",
+        "options": [
+            "(A) 由大量受駭電腦 (Bots) 組成，受 C2 (Command & Control) 伺服器控制",
+            "(B) 是一種防毒軟體",
+            "(C) 用來加速網路",
+            "(D) 是一種加密技術"
+        ],
+        "answer": "A",
+        "note": "Botnet 常用於發動 DDoS 或發送垃圾郵件。"
+    },
+    {
+        "id": "B25-Prot-14",
+        "question": "在 Windows 系統中，權限最高的帳號是？(單選)",
+        "options": [
+            "(A) Guest",
+            "(B) Administrator (或 SYSTEM)",
+            "(C) User",
+            "(D) Operator"
+        ],
+        "answer": "B",
+        "note": "Linux 對應的是 Root。"
+    },
+    {
+        "id": "B25-Prot-15",
+        "question": "關於「Rootkit」的特性，主要是為了？(單選)",
+        "options": [
+            "(A) 破壞 BIOS",
+            "(B) 隱藏惡意程式的蹤跡 (如隱藏 Process、檔案、連線)，並維持最高權限",
+            "(C) 進行 SQL 注入",
+            "(D) 加密檔案"
+        ],
+        "answer": "B",
+        "note": "Rootkit 深入 OS 核心或底層，難以被一般防毒偵測。"
+    },
+    {
+        "id": "B25-Prot-16",
+        "question": "Linux 系統中，權限 `rwxr-x---` (750) 代表？(單選)",
+        "options": [
+            "(A) 擁有者可讀寫執行，群組可讀執行，其他人無權限",
+            "(B) 所有人皆可讀寫執行",
+            "(C) 只有擁有者可讀寫",
+            "(D) 唯讀"
+        ],
+        "answer": "A",
+        "note": "r=4, w=2, x=1。Owner(4+2+1=7), Group(4+0+1=5), Others(0)。"
+    },
+    {
+        "id": "B25-Prot-17",
+        "question": "「零日攻擊 (Zero-day Attack)」是指？(單選)",
+        "options": [
+            "(A) 攻擊發生在午夜 0 點",
+            "(B) 利用廠商尚未發布修補程式 (Patch) 的漏洞進行的攻擊",
+            "(C) 攻擊持續 0 天",
+            "(D) 沒有危害的攻擊"
+        ],
+        "answer": "B",
+        "note": "因為防禦者有「0 天」的時間準備，風險極高。"
+    },
+    {
+        "id": "B25-Prot-18",
+        "question": "關於「沙箱 (Sandbox)」技術，其主要用途是？(單選)",
+        "options": [
+            "(A) 隔離執行可疑程式，觀察其行為而不影響真實系統",
+            "(B) 加密檔案",
+            "(C) 備份資料",
+            "(D) 加速開機"
+        ],
+        "answer": "A",
+        "note": "動態分析惡意程式或瀏覽網頁時的隔離保護。"
+    },
+    {
+        "id": "B25-Prot-19",
+        "question": "在 Windows 中，查看目前網路連線狀態的指令是？(單選)",
+        "options": [
+            "(A) ipconfig",
+            "(B) ping",
+            "(C) netstat",
+            "(D) tracert"
+        ],
+        "answer": "C",
+        "note": "`netstat -an` 可列出所有 TCP/UDP 連線與 Port 狀態。"
+    },
+    {
+        "id": "B25-Prot-20",
+        "question": "關於「APT (進階持續性威脅)」的特性，下列何者錯誤？(單選)",
+        "options": [
+            "(A) 針對特定目標",
+            "(B) 長期潛伏",
+            "(C) 手法複雜多變",
+            "(D) 通常是隨機掃描攻擊"
+        ],
+        "answer": "D",
+        "note": "APT 是精心策畫的針對性攻擊，非隨機掃描。"
+    },
+    // --- 應用程式與 Web 安全 (AppSec) ---
+    {
+        "id": "B25-Prot-21",
+        "question": "SQL Injection (SQL 注入) 的根本原因是？(單選)",
+        "options": [
+            "(A) 資料庫密碼太弱",
+            "(B) 應用程式未對使用者輸入進行驗證或過濾，直接將輸入拼接到 SQL 指令中執行",
+            "(C) Web Server 版本過舊",
+            "(D) 使用了 HTTPS"
+        ],
+        "answer": "B",
+        "note": "應使用參數化查詢 (Prepared Statements) 防禦。"
+    },
+    {
+        "id": "B25-Prot-22",
+        "question": "XSS (跨站腳本攻擊) 主要攻擊對象是？(單選)",
+        "options": [
+            "(A) 網頁伺服器",
+            "(B) 資料庫",
+            "(C) 瀏覽網頁的使用者 (瀏覽器)",
+            "(D) 防火牆"
+        ],
+        "answer": "C",
+        "note": "惡意腳本在使用者瀏覽器執行，竊取 Cookie 或進行釣魚。"
+    },
+    {
+        "id": "B25-Prot-23",
+        "question": "關於 CSRF (跨站請求偽造)，攻擊者利用的是？(單選)",
+        "options": [
+            "(A) 使用者的密碼",
+            "(B) 使用者瀏覽器中已登入的信任狀態 (Cookie/Session)，在使用者不知情下發送請求",
+            "(C) 伺服器的漏洞",
+            "(D) SQL 語法"
+        ],
+        "answer": "B",
+        "note": "防禦方式包括使用 Anti-CSRF Token 或 SameSite Cookie。"
+    },
+    {
+        "id": "B25-Prot-24",
+        "question": "OWASP Top 10 2021 第一名是？(單選)",
+        "options": [
+            "(A) Injection",
+            "(B) Broken Access Control (權限控制失效)",
+            "(C) Cryptographic Failures",
+            "(D) Insecure Design"
+        ],
+        "answer": "B",
+        "note": "越權存取 (IDOR 等) 是目前最普遍且嚴重的 Web 漏洞。"
+    },
+    {
+        "id": "B25-Prot-25",
+        "question": "下列何者是防禦密碼暴力破解的有效機制？(複選)",
+        "options": [
+            "(A) 帳戶鎖定策略 (Account Lockout)",
+            "(B) 增加密碼複雜度",
+            "(C) 限制登入速率 (Rate Limiting)",
+            "(D) 使用 MFA"
+        ],
+        "answer": "ABCD",
+        "note": "延長攻擊時間或增加攻擊難度。"
+    },
+    {
+        "id": "B25-Prot-26",
+        "question": "HTTP 狀態碼 404 代表？(單選)",
+        "options": [
+            "(A) 伺服器錯誤",
+            "(B) 禁止存取 (Forbidden)",
+            "(C) 找不到網頁 (Not Found)",
+            "(D) 請求成功"
+        ],
+        "answer": "C",
+        "note": "200 OK, 403 Forbidden, 404 Not Found, 500 Server Error。"
+    },
+    {
+        "id": "B25-Prot-27",
+        "question": "關於「WAF (網頁應用程式防火牆)」的功能，主要是防禦哪一層的攻擊？(單選)",
+        "options": [
+            "(A) L3 (網路層)",
+            "(B) L4 (傳輸層)",
+            "(C) L7 (應用層)",
+            "(D) L2 (資料連結層)"
+        ],
+        "answer": "C",
+        "note": "WAF 解析 HTTP/HTTPS 內容，防禦 SQLi, XSS 等應用層攻擊。"
+    },
+    {
+        "id": "B25-Prot-28",
+        "question": "在 SSDLC 中，源碼檢測 (SAST) 通常在什麼階段執行？(單選)",
+        "options": [
+            "(A) 需求分析",
+            "(B) 開發 (Coding/Build) 階段",
+            "(C) 上線後",
+            "(D) 廢棄階段"
+        ],
+        "answer": "B",
+        "note": "白箱測試，檢查程式碼邏輯。"
+    },
+    {
+        "id": "B25-Prot-29",
+        "question": "關於「目錄遍歷 (Directory Traversal)」攻擊，攻擊者使用什麼字元嘗試存取上層目錄？(單選)",
+        "options": [
+            "(A) `../`",
+            "(B) `<script>`",
+            "(C) `' OR 1=1`",
+            "(D) `--`"
+        ],
+        "answer": "A",
+        "note": "試圖存取 Web Root 以外的敏感檔案 (如 /etc/passwd)。"
+    },
+    {
+        "id": "B25-Prot-30",
+        "question": "下列何者是安全的 HTTP 標頭，可用來強制瀏覽器使用 HTTPS？(單選)",
+        "options": [
+            "(A) X-XSS-Protection",
+            "(B) HSTS (Strict-Transport-Security)",
+            "(C) X-Frame-Options",
+            "(D) CORS"
+        ],
+        "answer": "B",
+        "note": "HSTS 告訴瀏覽器：「以後只用 HTTPS 連我」。"
+    },
+    // --- 密碼學 (Cryptography) ---
+    {
+        "id": "B25-Prot-31",
+        "question": "關於「對稱式加密 (Symmetric Encryption)」，下列何者正確？(單選)",
+        "options": [
+            "(A) 加密和解密使用同一把金鑰",
+            "(B) 加密用公鑰，解密用私鑰",
+            "(C) 速度比非對稱式慢",
+            "(D) 不需要金鑰"
+        ],
+        "answer": "A",
+        "note": "常見演算法：AES, DES, 3DES。優點速度快，缺點金鑰交換困難。"
+    },
+    {
+        "id": "B25-Prot-32",
+        "question": "關於「非對稱式加密 (Asymmetric Encryption)」，下列何者正確？(單選)",
+        "options": [
+            "(A) 有一對金鑰：公鑰 (Public Key) 與 私鑰 (Private Key)",
+            "(B) 公鑰加密，私鑰解密 (保密性)",
+            "(C) 私鑰簽章，公鑰驗證 (不可否認性)",
+            "(D) 以上皆是"
+        ],
+        "answer": "D",
+        "note": "常見演算法：RSA, ECC。解決了金鑰交換問題。"
+    },
+    {
+        "id": "B25-Prot-33",
+        "question": "「雜湊函數 (Hash Function)」的特性不包含？(單選)",
+        "options": [
+            "(A) 單向性 (不可逆)",
+            "(B) 固定長度輸出",
+            "(C) 可解密還原回明文",
+            "(D) 抗碰撞性"
+        ],
+        "answer": "C",
+        "note": "Hash 不是加密，無法解密。用於驗證完整性。"
+    },
+    {
+        "id": "B25-Prot-34",
+        "question": "下列何者是常見的雜湊演算法？(複選)",
+        "options": [
+            "(A) MD5 (已不安全)",
+            "(B) SHA-1 (已不安全)",
+            "(C) SHA-256",
+            "(D) AES"
+        ],
+        "answer": "ABC",
+        "note": "AES 是對稱加密，非雜湊。"
+    },
+    {
+        "id": "B25-Prot-35",
+        "question": "數位簽章 (Digital Signature) 可以提供什麼資安特性？(複選)",
+        "options": [
+            "(A) 完整性 (Integrity)",
+            "(B) 不可否認性 (Non-repudiation)",
+            "(C) 身分鑑別 (Authentication)",
+            "(D) 機密性 (Confidentiality)"
+        ],
+        "answer": "ABC",
+        "note": "數位簽章本身不加密內容，故不提供機密性。"
+    },
+    {
+        "id": "B25-Prot-36",
+        "question": "PKI (公開金鑰基礎建設) 中，負責簽發憑證的機構是？(單選)",
+        "options": [
+            "(A) RA (Registration Authority)",
+            "(B) CA (Certificate Authority)",
+            "(C) CRL",
+            "(D) LDAP"
+        ],
+        "answer": "B",
+        "note": "CA 是信任的根源。"
+    },
+    {
+        "id": "B25-Prot-37",
+        "question": "在 TLS 1.3 中，為了防範未來的量子電腦攻擊，開始導入什麼技術？(單選)",
+        "options": [
+            "(A) DES",
+            "(B) PQC (後量子密碼學)",
+            "(C) MD5",
+            "(D) WEP"
+        ],
+        "answer": "B",
+        "note": "NIST 已選定 Kyber 等 PQC 演算法。"
+    },
+    {
+        "id": "B25-Prot-38",
+        "question": "鹽 (Salt) 在密碼儲存中的作用是？(單選)",
+        "options": [
+            "(A) 加速運算",
+            "(B) 防止彩虹表 (Rainbow Table) 攻擊，確保相同密碼產生不同的 Hash",
+            "(C) 解密密碼",
+            "(D) 縮短 Hash 長度"
+        ],
+        "answer": "B",
+        "note": "Salt 增加了雜湊的隨機性。"
+    },
+    {
+        "id": "B25-Prot-39",
+        "question": "下列何者屬於「雙因子認證 (2FA)」的正確組合？(單選)",
+        "options": [
+            "(A) 密碼 + PIN 碼 (皆為所知)",
+            "(B) 密碼 + 手機 OTP (所知 + 所有)",
+            "(C) 指紋 + 臉部 (皆為所是)",
+            "(D) 兩組密碼"
+        ],
+        "answer": "B",
+        "note": "MFA 需來自不同類別 (Knowledge, Possession, Inherence)。"
+    },
+    {
+        "id": "B25-Prot-40",
+        "question": "關於 Base64 編碼，下列敘述何者正確？(單選)",
+        "options": [
+            "(A) 是一種加密方式，很安全",
+            "(B) 是一種雜湊",
+            "(C) 是一種編碼，可輕易還原，不具機密性",
+            "(D) 可以壓縮資料"
+        ],
+        "answer": "C",
+        "note": "Base64 只是將二進位轉為文字格式，非加密。"
+    },
+    // --- 雲端與新興技術 (Cloud & Emerging) ---
+    {
+        "id": "B25-Prot-41",
+        "question": "雲端服務模式中，使用者負責管理「作業系統、應用程式、資料」的是？(單選)",
+        "options": [
+            "(A) SaaS (軟體即服務)",
+            "(B) PaaS (平台即服務)",
+            "(C) IaaS (基礎設施即服務)",
+            "(D) DaaS"
+        ],
+        "answer": "C",
+        "note": "IaaS 類似租用虛擬機，使用者控制權最大，責任也最重。"
+    },
+    {
+        "id": "B25-Prot-42",
+        "question": "雲端安全責任共擔模型 (Shared Responsibility Model) 中，雲端供應商 (CSP) 永遠負責的是？(單選)",
+        "options": [
+            "(A) 客戶的資料",
+            "(B) 雲端的實體基礎設施 (硬體、機房、網路)",
+            "(C) 使用者的帳號權限",
+            "(D) 應用程式漏洞"
+        ],
+        "answer": "B",
+        "note": "Security 'of' the Cloud (CSP) vs Security 'in' the Cloud (Client)。"
+    },
+    {
+        "id": "B25-Prot-43",
+        "question": "下列何者是 IoT 設備常見的資安弱點？(複選)",
+        "options": [
+            "(A) 使用預設密碼 (如 admin/admin)",
+            "(B) 無法更新韌體",
+            "(C) 傳輸未加密",
+            "(D) 實體介面 (如 UART) 外露"
+        ],
+        "answer": "ABCD",
+        "note": "IoT 設備常因資源受限或設計不良而充滿漏洞。"
+    },
+    {
+        "id": "B25-Prot-44",
+        "question": "容器 (Container) 與虛擬機 (VM) 的主要差異？(單選)",
+        "options": [
+            "(A) 容器共用 Host OS 核心，輕量但隔離性較差；VM 有獨立 Guest OS，隔離性佳",
+            "(B) 容器比較慢",
+            "(C) VM 不需 Hypervisor",
+            "(D) 兩者一樣"
+        ],
+        "answer": "A",
+        "note": "容器的隔離依賴 Kernel Namespace/Cgroup。"
+    },
+    {
+        "id": "B25-Prot-45",
+        "question": "關於 BYOD (Bring Your Own Device)，企業應採取的措施？(單選)",
+        "options": [
+            "(A) 禁止所有私人手機",
+            "(B) 導入 MDM/MAM 管理，隔離公私資料",
+            "(C) 允許隨意連線內網",
+            "(D) 不需管理"
+        ],
+        "answer": "B",
+        "note": "Containerization 是平衡隱私與安全的關鍵。"
+    },
+    {
+        "id": "B25-Prot-46",
+        "question": "下列何者不是零信任 (Zero Trust) 的核心原則？(單選)",
+        "options": [
+            "(A) 永不信任，始終驗證",
+            "(B) 內網是可信的",
+            "(C) 最小權限存取",
+            "(D) 持續監控與評估"
+        ],
+        "answer": "B",
+        "note": "零信任假設內網已經充滿威脅 (Assume Breach)。"
+    },
+    {
+        "id": "B25-Prot-47",
+        "question": "關於供應鏈攻擊，SolarWinds 事件是攻擊了哪個環節？(單選)",
+        "options": [
+            "(A) 硬體晶片",
+            "(B) 軟體更新機制 (軟體供應鏈)",
+            "(C) 員工信箱",
+            "(D) 雲端主機"
+        ],
+        "answer": "B",
+        "note": "駭客在官方更新檔中植入後門。"
+    },
+    {
+        "id": "B25-Prot-48",
+        "question": "FIDO 認證的主要優點是？(單選)",
+        "options": [
+            "(A) 密碼可以設很簡單",
+            "(B) 生物特徵不離開裝置，伺服器只存公鑰，避免資料庫外洩導致密碼遭竊",
+            "(C) 不需要手機",
+            "(D) 價格昂貴"
+        ],
+        "answer": "B",
+        "note": "隱私與安全兼顧。"
+    },
+    {
+        "id": "B25-Prot-49",
+        "question": "區塊鏈 (Blockchain) 的資安特性不包含？(單選)",
+        "options": [
+            "(A) 不可竄改性 (Immutability)",
+            "(B) 去中心化",
+            "(C) 資料完全匿名且無法追蹤",
+            "(D) 透明性"
+        ],
+        "answer": "C",
+        "note": "大多數區塊鏈 (如 Bitcoin) 是假名 (Pseudonymous) 且交易紀錄公開可追蹤。"
+    },
+    {
+        "id": "B25-Prot-50",
+        "question": "關於勒索軟體 (Ransomware) 的防護，最有效的復原手段是？(單選)",
+        "options": [
+            "(A) 付贖金",
+            "(B) 定期且離線的備份 (Offline Backup)",
+            "(C) 安裝防火牆",
+            "(D) 關閉電腦"
+        ],
+        "answer": "B",
+        "note": "3-2-1 備份原則中的「離線」或「異地」備份是救命稻草。"
+    }
+];
+
+// 請將以下內容合併至原本的 planningQuestions 陣列中
+const planningQuestions_Batch25 = [
+    // --- 資安基本觀念 (CIA & ISMS) ---
+    {
+        "id": "B25-Plan-01",
+        "question": "資安三要素 (CIA Triad) 是指？(單選)",
+        "options": [
+            "(A) 機密性 (Confidentiality)、完整性 (Integrity)、可用性 (Availability)",
+            "(B) 機密性、完整性、認證性",
+            "(C) 控制性、完整性、準確性",
+            "(D) 電腦、網路、應用程式"
+        ],
+        "answer": "A",
+        "note": "資安防護的基石。"
+    },
+    {
+        "id": "B25-Plan-02",
+        "question": "確保資料「不被未經授權的人讀取」是屬於？(單選)",
+        "options": [
+            "(A) 機密性",
+            "(B) 完整性",
+            "(C) 可用性",
+            "(D) 可歸責性"
+        ],
+        "answer": "A",
+        "note": "加密、存取控制是保護機密性的手段。"
+    },
+    {
+        "id": "B25-Plan-03",
+        "question": "確保資料「不被未經授權的人竄改」是屬於？(單選)",
+        "options": [
+            "(A) 機密性",
+            "(B) 完整性",
+            "(C) 可用性",
+            "(D) 不可否認性"
+        ],
+        "answer": "B",
+        "note": "雜湊、數位簽章是保護完整性的手段。"
+    },
+    {
+        "id": "B25-Plan-04",
+        "question": "確保系統「在需要時能正常運作供使用者存取」是屬於？(單選)",
+        "options": [
+            "(A) 機密性",
+            "(B) 完整性",
+            "(C) 可用性",
+            "(D) 鑑別性"
+        ],
+        "answer": "C",
+        "note": "備援、備份、DDoS 防護是保護可用性的手段。"
+    },
+    {
+        "id": "B25-Plan-05",
+        "question": "ISO 27001 採用的管理循環是？(單選)",
+        "options": [
+            "(A) OODA",
+            "(B) PDCA (Plan-Do-Check-Act)",
+            "(C) SWOT",
+            "(D) 瀑布式"
+        ],
+        "answer": "B",
+        "note": "持續改善的核心流程：規劃、執行、查核、行動。"
+    },
+    {
+        "id": "B25-Plan-06",
+        "question": "ISO 27001:2022 版將控制措施歸類為哪四大主題？(單選)",
+        "options": [
+            "(A) 網路、系統、應用、資料",
+            "(B) 組織、人員、實體、技術",
+            "(C) 預防、偵測、回應、復原",
+            "(D) 高、中、低、無"
+        ],
+        "answer": "B",
+        "note": "2022 版的重大架構變更。"
+    },
+    {
+        "id": "B25-Plan-07",
+        "question": "關於資安政策 (Policy)，應由誰核定？(單選)",
+        "options": [
+            "(A) IT 經理",
+            "(B) 最高管理階層 (Top Management)",
+            "(C) 一般員工",
+            "(D) 廠商"
+        ],
+        "answer": "B",
+        "note": "高層的支持與承諾是 ISMS 成功的關鍵。"
+    },
+    {
+        "id": "B25-Plan-08",
+        "question": "ISMS 中的 SoA 是指？(單選)",
+        "options": [
+            "(A) 服務水準協議",
+            "(B) 適用性聲明書 (Statement of Applicability)",
+            "(C) 資產清冊",
+            "(D) 風險評估報告"
+        ],
+        "answer": "B",
+        "note": "列出組織採用了哪些控制措施的文件。"
+    },
+    // --- 風險管理 (Risk Management) ---
+    {
+        "id": "B25-Plan-09",
+        "question": "風險 (Risk) 的組成要素通常包含？(複選)",
+        "options": [
+            "(A) 資產 (Asset) 的價值",
+            "(B) 威脅 (Threat) 的發生機率",
+            "(C) 弱點 (Vulnerability) 的嚴重程度",
+            "(D) 既有的控制措施"
+        ],
+        "answer": "ABCD",
+        "note": "風險 = 資產 x 威脅 x 弱點 (考慮現有控制)。"
+    },
+    {
+        "id": "B25-Plan-10",
+        "question": "面對風險的四種處理策略 (Risk Treatment) 為？(複選)",
+        "options": [
+            "(A) 規避 / 避免 (Avoid)",
+            "(B) 降低 / 緩解 (Reduce/Mitigate)",
+            "(C) 轉移 / 分擔 (Transfer/Share)",
+            "(D) 接受 / 保留 (Accept/Retain)"
+        ],
+        "answer": "ABCD",
+        "note": "這是風險處置的標準選項。"
+    },
+    {
+        "id": "B25-Plan-11",
+        "question": "購買「資安保險」屬於哪種風險處理策略？(單選)",
+        "options": [
+            "(A) 規避",
+            "(B) 降低",
+            "(C) 轉移",
+            "(D) 接受"
+        ],
+        "answer": "C",
+        "note": "將財務損失風險轉嫁給保險公司。"
+    },
+    {
+        "id": "B25-Plan-12",
+        "question": "安裝防火牆、修補漏洞屬於哪種風險處理策略？(單選)",
+        "options": [
+            "(A) 規避",
+            "(B) 降低",
+            "(C) 轉移",
+            "(D) 接受"
+        ],
+        "answer": "B",
+        "note": "透過控制措施降低發生機率或衝擊。"
+    },
+    {
+        "id": "B25-Plan-13",
+        "question": "「殘餘風險 (Residual Risk)」是指？(單選)",
+        "options": [
+            "(A) 未處理前的風險",
+            "(B) 實施控制措施後，仍然存在的風險",
+            "(C) 不重要的風險",
+            "(D) 已消除的風險"
+        ],
+        "answer": "B",
+        "note": "資安無法零風險，殘餘風險需由管理層接受。"
+    },
+    {
+        "id": "B25-Plan-14",
+        "question": "NIST RMF (Risk Management Framework) 2.0 新增的步驟是？(單選)",
+        "options": [
+            "(A) Prepare (準備)",
+            "(B) Categorize",
+            "(C) Select",
+            "(D) Monitor"
+        ],
+        "answer": "A",
+        "note": "強調組織層級的準備工作。"
+    },
+    {
+        "id": "B25-Plan-15",
+        "question": "關於「資產盤點」，下列何者應納入列管？(單選)",
+        "options": [
+            "(A) 只有硬體",
+            "(B) 硬體、軟體、資料 (資訊)、人員、服務",
+            "(C) 只有軟體",
+            "(D) 只有機密文件"
+        ],
+        "answer": "B",
+        "note": "資產定義廣泛，包含所有對組織有價值的東西。"
+    },
+    // --- 營運持續與應變 (BCP/Incident Response) ---
+    {
+        "id": "B25-Plan-16",
+        "question": "BCP (Business Continuity Plan) 與 DRP (Disaster Recovery Plan) 的主要差異？(單選)",
+        "options": [
+            "(A) BCP 關注業務流程持續，DRP 關注 IT 系統復原",
+            "(B) BCP 是備份，DRP 是還原",
+            "(C) 兩者完全相同",
+            "(D) DRP 比 BCP 範圍大"
+        ],
+        "answer": "A",
+        "note": "DRP 通常是 BCP 的一部分，專注於技術面。"
+    },
+    {
+        "id": "B25-Plan-17",
+        "question": "RTO (復原時間目標) 是指？(單選)",
+        "options": [
+            "(A) 災害發生後，系統必須在多久內恢復運作 (容許中斷多久)",
+            "(B) 容許遺失多少資料",
+            "(C) 備份的時間",
+            "(D) 修復硬體的時間"
+        ],
+        "answer": "A",
+        "note": "Time = 速度。"
+    },
+    {
+        "id": "B25-Plan-18",
+        "question": "RPO (復原點目標) 是指？(單選)",
+        "options": [
+            "(A) 復原所需時間",
+            "(B) 容許遺失多少資料 (回溯到多久前的備份點)",
+            "(C) 備份媒體的數量",
+            "(D) 演練次數"
+        ],
+        "answer": "B",
+        "note": "Point = 資料量/時間點。"
+    },
+    {
+        "id": "B25-Plan-19",
+        "question": "備份 3-2-1 原則中，1 代表？(單選)",
+        "options": [
+            "(A) 1 份異地備份 (Off-site)",
+            "(B) 1 份正本",
+            "(C) 1 個管理員",
+            "(D) 1 年檢查一次"
+        ],
+        "answer": "A",
+        "note": "防止本地災害 (火災、地震) 同時摧毀正本與本地備份。"
+    },
+    {
+        "id": "B25-Plan-20",
+        "question": "資安事件處理流程 (PICERL) 的第一步是？(單選)",
+        "options": [
+            "(A) Preparation (準備)",
+            "(B) Identification (識別)",
+            "(C) Containment (圍堵)",
+            "(D) Recovery (復原)"
+        ],
+        "answer": "A",
+        "note": "準備工作 (政策、工具、團隊) 是應變成功的基礎。"
+    },
+    {
+        "id": "B25-Plan-21",
+        "question": "社交工程演練 (Social Engineering Drill) 的主要目的是？(單選)",
+        "options": [
+            "(A) 測試防火牆",
+            "(B) 提升員工的資安意識，測試其對釣魚郵件的辨識能力",
+            "(C) 測試郵件伺服器效能",
+            "(D) 蒐集員工密碼"
+        ],
+        "answer": "B",
+        "note": "人是資安最脆弱的一環。"
+    },
+    // --- 法規與遵循 (Laws & Compliance) ---
+    {
+        "id": "B25-Plan-22",
+        "question": "我國《資通安全管理法》規定，公務機關知悉資安事件後，應於多久內通報？(單選)",
+        "options": [
+            "(A) 1 小時",
+            "(B) 24 小時",
+            "(C) 36 小時",
+            "(D) 72 小時"
+        ],
+        "answer": "A",
+        "note": "這是初級必考題，強調通報時效性。"
+    },
+    {
+        "id": "B25-Plan-23",
+        "question": "《個人資料保護法》規定，蒐集個資時應履行？(單選)",
+        "options": [
+            "(A) 告知義務 (告知目的、類別、利用期間等)",
+            "(B) 保密義務",
+            "(C) 賠償義務",
+            "(D) 備份義務"
+        ],
+        "answer": "A",
+        "note": "個資法第 8 條。"
+    },
+    {
+        "id": "B25-Plan-24",
+        "question": "關於 GDPR (歐盟通用資料保護規則)，下列何者是其賦予資料主體的權利？(複選)",
+        "options": [
+            "(A) 被遺忘權 (Right to be forgotten / Erasure)",
+            "(B) 資料可攜權 (Data Portability)",
+            "(C) 拒絕自動化決策權",
+            "(D) 知情權"
+        ],
+        "answer": "ABCD",
+        "note": "GDPR 大幅增強了個人的資料控制權。"
+    },
+    {
+        "id": "B25-Plan-25",
+        "question": "關於「營業秘密法」，營業秘密須具備哪三要件？(單選)",
+        "options": [
+            "(A) 秘密性、經濟價值、合理保密措施",
+            "(B) 公開性、完整性、可用性",
+            "(C) 創新性、進步性、產業利用性",
+            "(D) 高價、稀有、難以複製"
+        ],
+        "answer": "A",
+        "note": "未採取合理保密措施的資訊，不受營業秘密法保護。"
+    },
+    // --- 實體與人員安全 (Physical & Personnel) ---
+    {
+        "id": "B25-Plan-26",
+        "question": "「潔淨桌面 (Clear Desk)」政策要求員工離開座位時應？(單選)",
+        "options": [
+            "(A) 收好桌面上的敏感文件，並鎖定電腦螢幕",
+            "(B) 關閉電源",
+            "(C) 帶走鍵盤",
+            "(D) 通知主管"
+        ],
+        "answer": "A",
+        "note": "防止未經授權的實體窺探或存取。"
+    },
+    {
+        "id": "B25-Plan-27",
+        "question": "機房門禁管制的「反尾隨 (Anti-tailgating)」設施是？(單選)",
+        "options": [
+            "(A) 曼通門 (Mantrap) / 雙重互鎖門",
+            "(B) 喇叭鎖",
+            "(C) 監視器",
+            "(D) 警衛"
+        ],
+        "answer": "A",
+        "note": "強制一次一人通過。"
+    },
+    {
+        "id": "B25-Plan-28",
+        "question": "火災分類中，電氣設備火災屬於哪一類？(單選)",
+        "options": [
+            "(A) A 類",
+            "(B) B 類",
+            "(C) C 類",
+            "(D) D 類"
+        ],
+        "answer": "C",
+        "note": "A:普通, B:油類, C:電氣, D:金屬。電氣火災不可用水滅火。"
+    },
+    {
+        "id": "B25-Plan-29",
+        "question": "UPS (不斷電系統) 的主要功能是？(單選)",
+        "options": [
+            "(A) 長期供電",
+            "(B) 提供短期電力銜接，並穩定電壓",
+            "(C) 發電",
+            "(D) 降溫"
+        ],
+        "answer": "B",
+        "note": "長期斷電需靠發電機，UPS 負責過渡。"
+    },
+    {
+        "id": "B25-Plan-30",
+        "question": "人員離職時，最重要的資安程序是？(單選)",
+        "options": [
+            "(A) 立即停用或刪除其帳號權限，並繳回資產",
+            "(B) 請吃送別飯",
+            "(C) 保留帳號以備不時之需",
+            "(D) 備份其電腦"
+        ],
+        "answer": "A",
+        "note": "防止離職員工報復或資料外洩。"
+    },
+    // --- 最新標準與趨勢 (Latest Standards) ---
+    {
+        "id": "B25-Plan-31",
+        "question": "NIST CSF 2.0 新增的第六個核心功能是？(單選)",
+        "options": [
+            "(A) Govern (治理)",
+            "(B) Protect",
+            "(C) Detect",
+            "(D) Recover"
+        ],
+        "answer": "A",
+        "note": "強調資安治理與戰略的重要性。"
+    },
+    {
+        "id": "B25-Plan-32",
+        "question": "零信任 (Zero Trust) 的核心精神是？(單選)",
+        "options": [
+            "(A) 信任但驗證",
+            "(B) 永不信任，始終驗證 (Never Trust, Always Verify)",
+            "(C) 內網絕對安全",
+            "(D) 只信任 VPN"
+        ],
+        "answer": "B",
+        "note": "不再以網路邊界作為信任依據。"
+    },
+    {
+        "id": "B25-Plan-33",
+        "question": "供應鏈安全中，SBOM 是指？(單選)",
+        "options": [
+            "(A) 軟體物料清單 (Software Bill of Materials)",
+            "(B) 軟體炸彈",
+            "(C) 供應商名單",
+            "(D) 軟體授權書"
+        ],
+        "answer": "A",
+        "note": "用於盤點軟體組件，快速應對開源漏洞 (如 Log4j)。"
+    },
+    {
+        "id": "B25-Plan-34",
+        "question": "關於「社交工程」，攻擊者利用的是？(單選)",
+        "options": [
+            "(A) 系統漏洞",
+            "(B) 人性弱點 (信任、恐懼、貪婪)",
+            "(C) 暴力破解",
+            "(D) 病毒"
+        ],
+        "answer": "B",
+        "note": "心理操控術。"
+    },
+    {
+        "id": "B25-Plan-35",
+        "question": "MFA (多因子認證) 要求至少使用幾種不同類型的驗證因子？(單選)",
+        "options": [
+            "(A) 1 種",
+            "(B) 2 種",
+            "(C) 3 種",
+            "(D) 4 種"
+        ],
+        "answer": "B",
+        "note": "Knowledge (知), Possession (有), Inherence (是) 中至少取二。"
+    },
+    {
+        "id": "B25-Plan-36",
+        "question": "資料銷毀最安全的方式是？(單選)",
+        "options": [
+            "(A) 格式化",
+            "(B) 刪除檔案",
+            "(C) 物理破壞 (如粉碎、消磁)",
+            "(D) 丟垃圾桶"
+        ],
+        "answer": "C",
+        "note": "確保資料無法被復原。"
+    },
+    {
+        "id": "B25-Plan-37",
+        "question": "關於「最小權限原則 (Least Privilege)」，是指？(單選)",
+        "options": [
+            "(A) 給予所有權限",
+            "(B) 僅給予完成工作所需的最小必要權限",
+            "(C) 不給權限",
+            "(D) 只給 Root 權限"
+        ],
+        "answer": "B",
+        "note": "降低帳號被駭後的損害範圍。"
+    },
+    {
+        "id": "B25-Plan-38",
+        "question": "在 SSDLC 中，資安應在何時介入？(單選)",
+        "options": [
+            "(A) 系統上線後",
+            "(B) 發生事故後",
+            "(C) 需求分析與設計階段 (Shift Left)",
+            "(D) 測試階段"
+        ],
+        "answer": "C",
+        "note": "Security by Design，越早介入成本越低。"
+    },
+    {
+        "id": "B25-Plan-39",
+        "question": "關於「職務區隔 (SoD)」，其目的是？(單選)",
+        "options": [
+            "(A) 防止單一人員擁有過大權力而舞弊",
+            "(B) 增加人力成本",
+            "(C) 降低效率",
+            "(D) 分散責任"
+        ],
+        "answer": "A",
+        "note": "例如：開發人員不能兼任系統管理員。"
+    },
+    {
+        "id": "B25-Plan-40",
+        "question": "雲端安全責任共擔模型中，SaaS 使用者主要負責？(單選)",
+        "options": [
+            "(A) 實體機房",
+            "(B) 網路設備",
+            "(C) 資料與存取權限管理",
+            "(D) 作業系統修補"
+        ],
+        "answer": "C",
+        "note": "SaaS 用戶負責資料與帳號，其餘多由廠商負責。"
+    },
+    // --- 實務情境 (Scenarios) ---
+    {
+        "id": "B25-Plan-41",
+        "question": "收到不明郵件含連結，應？(單選)",
+        "options": [
+            "(A) 點開看看",
+            "(B) 轉寄給朋友",
+            "(C) 不點擊，並向資安單位回報 (Phishing)",
+            "(D) 回信詢問"
+        ],
+        "answer": "C",
+        "note": "標準防釣魚 SOP。"
+    },
+    {
+        "id": "B25-Plan-42",
+        "question": "筆電遺失，第一時間應？(單選)",
+        "options": [
+            "(A) 買新的",
+            "(B) 通報公司進行帳號停用或遠端抹除 (Remote Wipe)",
+            "(C) 報警找回後再說",
+            "(D) 隱瞞不報"
+        ],
+        "answer": "B",
+        "note": "防止資料外洩優先。"
+    },
+    {
+        "id": "B25-Plan-43",
+        "question": "設定密碼時，應避免？(單選)",
+        "options": [
+            "(A) 使用長密碼",
+            "(B) 使用複雜字元",
+            "(C) 使用生日、電話等易猜測資訊",
+            "(D) 定期更換"
+        ],
+        "answer": "C",
+        "note": "避免使用弱密碼。"
+    },
+    {
+        "id": "B25-Plan-44",
+        "question": "在公共場所使用 Wi-Fi，應？(單選)",
+        "options": [
+            "(A) 進行轉帳",
+            "(B) 傳送機密文件",
+            "(C) 使用 VPN 加密連線",
+            "(D) 直接裸連"
+        ],
+        "answer": "C",
+        "note": "公共 Wi-Fi 易遭監聽 (MITM)。"
+    },
+    {
+        "id": "B25-Plan-45",
+        "question": "發現電腦變慢且檔案被加密，附檔名改變，這是？(單選)",
+        "options": [
+            "(A) 硬碟壞軌",
+            "(B) 勒索軟體 (Ransomware) 感染",
+            "(C) 網路斷線",
+            "(D) 螢幕故障"
+        ],
+        "answer": "B",
+        "note": "勒索軟體的典型特徵。"
+    },
+    {
+        "id": "B25-Plan-46",
+        "question": "關於「備份」，最重要的一步是？(單選)",
+        "options": [
+            "(A) 買磁帶",
+            "(B) 進行還原測試 (Restore Test)，確保備份可用",
+            "(C) 每天備份",
+            "(D) 異地存放"
+        ],
+        "answer": "B",
+        "note": "無法還原的備份等於沒有備份。"
+    },
+    {
+        "id": "B25-Plan-47",
+        "question": "辦公室發現陌生人尾隨進入，應？(單選)",
+        "options": [
+            "(A) 幫他開門",
+            "(B) 詢問身分或通知警衛 (Anti-tailgating)",
+            "(C) 假裝沒看到",
+            "(D) 跟他聊天"
+        ],
+        "answer": "B",
+        "note": "實體安全意識。"
+    },
+    {
+        "id": "B25-Plan-48",
+        "question": "關於「螢幕鎖定」，離開座位時應？(單選)",
+        "options": [
+            "(A) 關機",
+            "(B) 登出或鎖定螢幕 (Win+L)",
+            "(C) 保持開啟",
+            "(D) 蓋住螢幕"
+        ],
+        "answer": "B",
+        "note": "防止未授權操作 (Clear Screen)。"
+    },
+    {
+        "id": "B25-Plan-49",
+        "question": "在社群媒體上，應避免？(單選)",
+        "options": [
+            "(A) 分享生活照",
+            "(B) 洩漏公司機密、客戶資料或內部系統截圖",
+            "(C) 加好友",
+            "(D) 按讚"
+        ],
+        "answer": "B",
+        "note": "社群媒體是情報蒐集 (OSINT) 的來源，也是資料外洩管道。"
+    },
+    {
+        "id": "B25-Plan-50",
+        "question": "資安是誰的責任？(單選)",
+        "options": [
+            "(A) IT 部門",
+            "(B) 資安部門",
+            "(C) 老闆",
+            "(D) 組織內的所有人"
+        ],
+        "answer": "D",
+        "note": "資安意識的核心：Security is everyone's responsibility。"
+    }
+];
+
+// 將 Batch 25 的題目合併到主陣列
+if (typeof protectionQuestions !== 'undefined') {
+    protectionQuestions.push(...protectionQuestions_Batch25);
+}
+if (typeof planningQuestions !== 'undefined') {
+    planningQuestions.push(...planningQuestions_Batch25);
+}
+// ==========================================
+// 2025 資安工程師模擬題庫 - 第二十六批次 (Batch 26)
+// 包含：防護實務 (技術概論) 50 題 + 規劃實務 (管理概論) 50 題
+// 特色：iPAS 初級歷屆試題重點整合 (113-114年)
+// 重點：網路基礎、惡意程式、資安法規、風險管理基礎
+// ==========================================
+
+// 請將以下內容合併至原本的 protectionQuestions 陣列中
+const protectionQuestions_Batch26 = [
+    // --- 網路與通訊安全 (初級重點) ---
+    {
+        "id": "B26-Prot-01",
+        "question": "下列哪一個通訊埠 (Port) 是 SSH 遠端連線服務預設使用的？(單選)",
+        "options": [
+            "(A) 21",
+            "(B) 22",
+            "(C) 23",
+            "(D) 25"
+        ],
+        "answer": "B",
+        "note": "iPAS 初級常考埠號：21(FTP), 22(SSH), 23(Telnet), 25(SMTP)。"
+    },
+    {
+        "id": "B26-Prot-02",
+        "question": "關於「DMZ (非軍事區)」的敘述，下列何者正確？(單選)",
+        "options": [
+            "(A) 放置內部資料庫主機，保護最重要資料",
+            "(B) 放置對外服務的伺服器 (如 Web Server)，隔離外部網路與內部網路",
+            "(C) 放置員工個人電腦",
+            "(D) 不受防火牆保護的區域"
+        ],
+        "answer": "B",
+        "note": "DMZ 用於緩衝外部攻擊，避免直接危害內網。"
+    },
+    {
+        "id": "B26-Prot-03",
+        "question": "下列何者屬於「社交工程 (Social Engineering)」攻擊？(複選)",
+        "options": [
+            "(A) 釣魚郵件 (Phishing)",
+            "(B) 假冒技術支援人員電話詐騙 (Vishing)",
+            "(C) 尾隨進入門禁區域 (Tailgating)",
+            "(D) SQL 注入"
+        ],
+        "answer": "ABC",
+        "note": "社交工程是利用人性弱點進行攻擊；SQL 注入是針對系統漏洞。"
+    },
+    {
+        "id": "B26-Prot-04",
+        "question": "在資訊安全三要素 (CIA) 中，使用「加密技術」主要是為了保障？(單選)",
+        "options": [
+            "(A) 機密性 (Confidentiality)",
+            "(B) 完整性 (Integrity)",
+            "(C) 可用性 (Availability)",
+            "(D) 不可否認性"
+        ],
+        "answer": "A",
+        "note": "加密防止資料被未經授權者讀取 (機密性)。"
+    },
+    {
+        "id": "B26-Prot-05",
+        "question": "下列哪一種惡意程式會「自我複製」並透過網路傳播，不需要宿主檔案？(單選)",
+        "options": [
+            "(A) 病毒 (Virus)",
+            "(B) 蠕蟲 (Worm)",
+            "(C) 特洛伊木馬 (Trojan)",
+            "(D) 廣告軟體 (Adware)"
+        ],
+        "answer": "B",
+        "note": "蠕蟲 (Worm) 具備獨立執行與自我傳播能力；病毒需寄生；木馬需誘騙執行。"
+    },
+    {
+        "id": "B26-Prot-06",
+        "question": "關於「防火牆 (Firewall)」的功能，下列何者錯誤？(單選)",
+        "options": [
+            "(A) 可以依據 IP 位址過濾封包",
+            "(B) 可以依據 Port 號過濾封包",
+            "(C) 可以自動刪除所有電腦病毒",
+            "(D) 可以建立網路隔離"
+        ],
+        "answer": "C",
+        "note": "防火牆主要負責存取控制，防毒是防毒軟體的工作。"
+    },
+    {
+        "id": "B26-Prot-07",
+        "question": "HTTPS 協定是在 HTTP 之下加入了哪一層加密機制？(單選)",
+        "options": [
+            "(A) SSH",
+            "(B) SSL/TLS",
+            "(C) IPsec",
+            "(D) VPN"
+        ],
+        "answer": "B",
+        "note": "HTTP + SSL/TLS = HTTPS，保障傳輸安全。"
+    },
+    {
+        "id": "B26-Prot-08",
+        "question": "下列何者是防範「勒索軟體」最有效的「復原」手段？(單選)",
+        "options": [
+            "(A) 安裝防火牆",
+            "(B) 定期且離線的資料備份 (Offline Backup)",
+            "(C) 支付贖金",
+            "(D) 更換硬碟"
+        ],
+        "answer": "B",
+        "note": "3-2-1 備份原則是勒索軟體的剋星。"
+    },
+    {
+        "id": "B26-Prot-09",
+        "question": "在 Windows 系統中，要查看目前的網路連線狀態 (如 TCP 連線)，應使用哪個指令？(單選)",
+        "options": [
+            "(A) ipconfig",
+            "(B) ping",
+            "(C) netstat",
+            "(D) nslookup"
+        ],
+        "answer": "C",
+        "note": "netstat -an 可顯示所有活動連線與監聽埠。"
+    },
+    {
+        "id": "B26-Prot-10",
+        "question": "下列哪種攻擊手法是透過「偽造來源 IP 位址」來發動？(單選)",
+        "options": [
+            "(A) IP Spoofing",
+            "(B) Phishing",
+            "(C) Ransomware",
+            "(D) XSS"
+        ],
+        "answer": "A",
+        "note": "IP Spoofing 常見於 DDoS 攻擊中，用來隱藏攻擊者或進行反射放大。"
+    },
+    // --- 應用程式與系統安全 (初級) ---
+    {
+        "id": "B26-Prot-11",
+        "question": "OWASP Top 10 中，「SQL Injection」屬於哪一類風險？(單選)",
+        "options": [
+            "(A) Injection (注入)",
+            "(B) Broken Access Control",
+            "(C) Security Misconfiguration",
+            "(D) Cryptographic Failures"
+        ],
+        "answer": "A",
+        "note": "SQL 注入是將惡意指令插入到查詢字串中。"
+    },
+    {
+        "id": "B26-Prot-12",
+        "question": "下列何者不是「強密碼」的特徵？(單選)",
+        "options": [
+            "(A) 長度至少 8-12 碼以上",
+            "(B) 包含大小寫字母、數字與符號",
+            "(C) 使用自己的生日或電話號碼",
+            "(D) 定期更換"
+        ],
+        "answer": "C",
+        "note": "避免使用易被猜測的個資作為密碼。"
+    },
+    {
+        "id": "B26-Prot-13",
+        "question": "在 Linux 權限設定中，`chmod 777` 代表什麼意思？(單選)",
+        "options": [
+            "(A) 只有擁有者可以讀寫執行",
+            "(B) 所有人 (User, Group, Others) 都可以讀、寫、執行",
+            "(C) 檔案被鎖定",
+            "(D) 刪除檔案"
+        ],
+        "answer": "B",
+        "note": "777 是最危險的權限設定，應極力避免。"
+    },
+    {
+        "id": "B26-Prot-14",
+        "question": "關於「緩衝區溢位 (Buffer Overflow)」攻擊，攻擊者試圖覆寫記憶體的哪一部分？(單選)",
+        "options": [
+            "(A) 硬碟磁區",
+            "(B) 堆疊 (Stack) 或 堆積 (Heap) 中的返回位址 (Return Address)",
+            "(C) 螢幕顯示記憶體",
+            "(D) 鍵盤緩衝區"
+        ],
+        "answer": "B",
+        "note": "透過覆寫返回位址，攻擊者可控制程式執行流程，執行惡意 Shellcode。"
+    },
+    {
+        "id": "B26-Prot-15",
+        "question": "下列何者是「多因子認證 (MFA)」的要素？(複選)",
+        "options": [
+            "(A) 所知 (Knowledge) - 密碼",
+            "(B) 所有 (Possession) - 手機/Token",
+            "(C) 所是 (Inherence) - 指紋/臉部",
+            "(D) 所在 (Location) - GPS"
+        ],
+        "answer": "ABC",
+        "note": "MFA 需包含以上三種要素中的至少兩種。"
+    },
+    {
+        "id": "B26-Prot-16",
+        "question": "關於 Web 安全，`Cookie` 的 `HttpOnly` 屬性可以防止哪種攻擊？(單選)",
+        "options": [
+            "(A) SQL Injection",
+            "(B) XSS (跨站腳本攻擊) 竊取 Cookie",
+            "(C) DDoS",
+            "(D) Brute Force"
+        ],
+        "answer": "B",
+        "note": "HttpOnly 禁止 JavaScript (document.cookie) 讀取 Cookie，有效減緩 XSS 危害。"
+    },
+    {
+        "id": "B26-Prot-17",
+        "question": "下列哪一種無線網路加密標準目前被認為最安全？(單選)",
+        "options": [
+            "(A) WEP",
+            "(B) WPA",
+            "(C) WPA2",
+            "(D) WPA3"
+        ],
+        "answer": "D",
+        "note": "WPA3 引入了 SAE 對抗字典攻擊，並增強了加密強度。"
+    },
+    {
+        "id": "B26-Prot-18",
+        "question": "關於「雜湊函數 (Hash Function)」的特性，下列何者正確？(單選)",
+        "options": [
+            "(A) 可以解密還原回明文",
+            "(B) 單向不可逆，且輸入若有微小改變，輸出會有巨大差異 (雪崩效應)",
+            "(C) 輸出長度不固定",
+            "(D) 是對稱式加密"
+        ],
+        "answer": "B",
+        "note": "Hash 用於驗證完整性 (如 MD5, SHA-256)，不可逆。"
+    },
+    {
+        "id": "B26-Prot-19",
+        "question": "VPN (虛擬私人網路) 主要使用的技術是？(單選)",
+        "options": [
+            "(A) 穿隧 (Tunneling) 與 加密 (Encryption)",
+            "(B) 廣播",
+            "(C) 壓縮",
+            "(D) 格式化"
+        ],
+        "answer": "A",
+        "note": "VPN 在公網上建立加密隧道，保障資料傳輸安全。"
+    },
+    {
+        "id": "B26-Prot-20",
+        "question": "下列何者是偵測網路掃描行為的工具？(單選)",
+        "options": [
+            "(A) Photoshop",
+            "(B) IDS (入侵偵測系統)",
+            "(C) Word",
+            "(D) Excel"
+        ],
+        "answer": "B",
+        "note": "IDS 可偵測 Nmap 掃描等異常網路行為。"
+    },
+    // --- 進階與新興技術 (初級延伸) ---
+    {
+        "id": "B26-Prot-21",
+        "question": "關於「零信任 (Zero Trust)」的核心概念，下列何者正確？(單選)",
+        "options": [
+            "(A) 內網是絕對安全的",
+            "(B) 永不信任，始終驗證 (Never Trust, Always Verify)",
+            "(C) 只要有 VPN 就安全",
+            "(D) 信任所有員工"
+        ],
+        "answer": "B",
+        "note": "零信任不再以網路邊界作為信任依據。"
+    },
+    {
+        "id": "B26-Prot-22",
+        "question": "在物聯網 (IoT) 安全中，最常見的風險是？(複選)",
+        "options": [
+            "(A) 預設密碼未更改 (如 admin/admin)",
+            "(B) 韌體無法更新",
+            "(C) 傳輸未加密",
+            "(D) 實體介面外露"
+        ],
+        "answer": "ABCD",
+        "note": "IoT 設備常因設計簡陋或管理疏忽而成為殭屍網路的溫床。"
+    },
+    {
+        "id": "B26-Prot-23",
+        "question": "關於「雲端運算」的服務模式，使用者只需管理「應用程式與資料」的是？(單選)",
+        "options": [
+            "(A) IaaS",
+            "(B) PaaS (平台即服務)",
+            "(C) SaaS",
+            "(D) DaaS"
+        ],
+        "answer": "B",
+        "note": "PaaS 提供開發平台，使用者不需管理 OS 與硬體，只需專注應用程式。"
+    },
+    {
+        "id": "B26-Prot-24",
+        "question": "區塊鏈技術的「不可竄改性」是基於什麼機制？(單選)",
+        "options": [
+            "(A) 防火牆",
+            "(B) 雜湊鏈 (Hash Chain) 與分散式帳本",
+            "(C) 管理員權限",
+            "(D) 法律規定"
+        ],
+        "answer": "B",
+        "note": "每個區塊包含前一個區塊的 Hash，一旦修改將導致鏈斷裂。"
+    },
+    {
+        "id": "B26-Prot-25",
+        "question": "下列何者是「對稱式加密」演算法？(單選)",
+        "options": [
+            "(A) RSA",
+            "(B) AES (Advanced Encryption Standard)",
+            "(C) ECC",
+            "(D) SHA-256"
+        ],
+        "answer": "B",
+        "note": "AES 是目前最標準的對稱加密；RSA/ECC 是非對稱；SHA 是雜湊。"
+    },
+    // --- 實務操作 ---
+    {
+        "id": "B26-Prot-26",
+        "question": "在 Windows 中，Event Viewer (事件檢視器) 的安全性日誌中，Event ID 4625 代表？(單選)",
+        "options": [
+            "(A) 登入成功",
+            "(B) 登入失敗 (可能遭暴力破解)",
+            "(C) 系統關機",
+            "(D) 新增使用者"
+        ],
+        "answer": "B",
+        "note": "4624 成功，4625 失敗。監控 4625 是偵測入侵的基礎。"
+    },
+    {
+        "id": "B26-Prot-27",
+        "question": "使用 `ping` 指令無法連通目標主機，可能原因包括？(複選)",
+        "options": [
+            "(A) 目標主機關機",
+            "(B) 防火牆阻擋了 ICMP 封包",
+            "(C) 網路線鬆脫",
+            "(D) DNS 解析失敗"
+        ],
+        "answer": "ABCD",
+        "note": "Ping 失敗不代表主機一定不在，常因防火牆設定而 Drop。"
+    },
+    {
+        "id": "B26-Prot-28",
+        "question": "關於「備份 (Backup)」與「封存 (Archive)」的差別？(單選)",
+        "options": [
+            "(A) 沒差別",
+            "(B) 備份是為了災難復原 (短期、快速)；封存是為了法規遵循與長期保存 (長期、索引)",
+            "(C) 封存比較快",
+            "(D) 備份不能刪"
+        ],
+        "answer": "B",
+        "note": "備份是 Copy，封存是 Move (通常)。"
+    },
+    {
+        "id": "B26-Prot-29",
+        "question": "在網頁瀏覽器中，看到「鎖頭」圖示代表？(單選)",
+        "options": [
+            "(A) 該網站絕對安全",
+            "(B) 該網站使用 HTTPS 加密連線，且憑證有效",
+            "(C) 該網站沒有病毒",
+            "(D) 該網站不會詐騙"
+        ],
+        "answer": "B",
+        "note": "鎖頭只代表傳輸通道加密與身分驗證，不代表網站內容本身無惡意 (釣魚網站也可能有 HTTPS)。"
+    },
+    {
+        "id": "B26-Prot-30",
+        "question": "下列何者是安全的電子郵件使用習慣？(單選)",
+        "options": [
+            "(A) 開啟所有附件",
+            "(B) 點擊所有連結",
+            "(C) 關閉預覽窗格，不隨意點擊不明來源的連結或附件",
+            "(D) 使用純文字密碼"
+        ],
+        "answer": "C",
+        "note": "預覽窗格可能觸發惡意程式，不點擊是防範釣魚的基本原則。"
+    },
+    // --- 補充技術題 (20題) ---
+    {
+        "id": "B26-Prot-31",
+        "question": "關於 BYOD 裝置遺失，MDM 系統可執行的保護措施是？",
+        "options": ["(A) 報警", "(B) 遠端抹除 (Remote Wipe)", "(C) 備份", "(D) 加密"],
+        "answer": "B",
+        "note": "確保資料不外洩。"
+    },
+    {
+        "id": "B26-Prot-32",
+        "question": "WPA2 協定的主要弱點是容易受到什麼攻擊？",
+        "options": ["(A) KRACK (Key Reinstallation Attack)", "(B) SQLi", "(C) XSS", "(D) Phishing"],
+        "answer": "A",
+        "note": "針對四向交握的攻擊。"
+    },
+    {
+        "id": "B26-Prot-33",
+        "question": "在 OSI 模型中，MAC Address 位於？",
+        "options": ["(A) 實體層", "(B) 資料連結層", "(C) 網路層", "(D) 傳輸層"],
+        "answer": "B",
+        "note": "Layer 2 Address。"
+    },
+    {
+        "id": "B26-Prot-34",
+        "question": "DNS 服務使用哪個 Port？",
+        "options": ["(A) TCP/UDP 53", "(B) TCP 80", "(C) TCP 25", "(D) UDP 69"],
+        "answer": "A",
+        "note": "DNS 主要用 UDP 53，Zone Transfer 用 TCP 53。"
+    },
+    {
+        "id": "B26-Prot-35",
+        "question": "關於「蜜罐 (Honeypot)」，其主要功能是？",
+        "options": ["(A) 誘捕駭客，收集攻擊行為資訊", "(B) 加速網路", "(C) 儲存資料", "(D) 防毒"],
+        "answer": "A",
+        "note": "欺敵技術。"
+    },
+    {
+        "id": "B26-Prot-36",
+        "question": "下列何者是「實體安全」威脅？",
+        "options": ["(A) 病毒", "(B) 火災、水災、斷電", "(C) 駭客", "(D) 軟體漏洞"],
+        "answer": "B",
+        "note": "環境威脅。"
+    },
+    {
+        "id": "B26-Prot-37",
+        "question": "在密碼學中，非對稱加密又稱為？",
+        "options": ["(A) 私鑰加密", "(B) 公鑰加密", "(C) 雜湊", "(D) 區塊加密"],
+        "answer": "B",
+        "note": "Public Key Infrastructure。"
+    },
+    {
+        "id": "B26-Prot-38",
+        "question": "關於 VPN，Split Tunneling 的風險是？",
+        "options": ["(A) 速度慢", "(B) 繞過 VPN 的流量可能成為攻擊破口", "(C) 無法連線", "(D) 費用高"],
+        "answer": "B",
+        "note": "未受保護的通道。"
+    },
+    {
+        "id": "B26-Prot-39",
+        "question": "在 Windows 中，Administrator 帳號的 SID 結尾通常是？",
+        "options": ["(A) 500", "(B) 501", "(C) 1000", "(D) 0"],
+        "answer": "A",
+        "note": "RID 500 是內建管理員。"
+    },
+    {
+        "id": "B26-Prot-40",
+        "question": "關於「數位浮水印」，用途是？",
+        "options": ["(A) 美觀", "(B) 版權保護與追蹤資料外洩源頭", "(C) 壓縮", "(D) 加密"],
+        "answer": "B",
+        "note": "可追溯性。"
+    },
+    {
+        "id": "B26-Prot-41",
+        "question": "下列何者是「被動式攻擊」？",
+        "options": [ "(A) 竊聽 (Sniffing)", "(B) 阻斷服務", "(C) 竄改資料", "(D) 植入木馬"],
+        "answer": "A",
+        "note": "不影響系統運作，僅竊取資訊。"
+    },
+    {
+        "id": "B26-Prot-42",
+        "question": "關於「行動電源」借用，可能存在的資安風險是？",
+        "options": ["(A) 爆炸", "(B) Juice Jacking (資料傳輸)", "(C) 沒電", "(D) 遺失"],
+        "answer": "B",
+        "note": "透過 USB 進行資料竊取。"
+    },
+    {
+        "id": "B26-Prot-43",
+        "question": "在資安檢測中，黑箱測試 (Black Box) 是指？",
+        "options": ["(A) 知道所有原始碼", "(B) 不知道內部結構，模擬外部攻擊", "(C) 知道部分資訊", "(D) 破壞硬體"],
+        "answer": "B",
+        "note": "模擬真實駭客視角。"
+    },
+    {
+        "id": "B26-Prot-44",
+        "question": "關於「網頁掛馬」，是指？",
+        "options": ["(A) 網頁上有馬的照片", "(B) 網頁被植入惡意程式碼，瀏覽即中毒 (Drive-by Download)", "(C) 網頁當機", "(D) 網頁變慢"],
+        "answer": "B",
+        "note": "利用瀏覽器漏洞進行攻擊。"
+    },
+    {
+        "id": "B26-Prot-45",
+        "question": "下列何者是「社交工程」的防範重點？",
+        "options": ["(A) 安裝防火牆", "(B) 提升人員資安意識 (Security Awareness)", "(C) 加密硬碟", "(D) 備份"],
+        "answer": "B",
+        "note": "人是關鍵。"
+    },
+    {
+        "id": "B26-Prot-46",
+        "question": "在 Linux 中，`ls -l` 顯示 `drwxr-xr-x`，代表這是？",
+        "options": ["(A) 檔案", "(B) 目錄 (Directory)", "(C) 連結", "(D) 設備"],
+        "answer": "B",
+        "note": "`d` 開頭代表目錄。"
+    },
+    {
+        "id": "B26-Prot-47",
+        "question": "關於「勒索軟體」支付贖金，資安專家的建議是？",
+        "options": ["(A) 立即支付", "(B) 不要支付，因為不保證能拿回資料，且助長犯罪", "(C) 殺價", "(D) 報警並支付"],
+        "answer": "B",
+        "note": "支付贖金無法保證解密，且可能被標記為肥羊。"
+    },
+    {
+        "id": "B26-Prot-48",
+        "question": "下列何者是「強密碼」？",
+        "options": ["(A) 123456", "(B) password", "(C) P@ssw0rd123!", "(D) admin"],
+        "answer": "C",
+        "note": "長度夠且包含多種字元類型。"
+    },
+    {
+        "id": "B26-Prot-49",
+        "question": "關於「公鑰基礎建設 (PKI)」，CRL 是？",
+        "options": ["(A) 憑證註冊中心", "(B) 憑證撤銷清單 (Certificate Revocation List)", "(C) 憑證授權中心", "(D) 金鑰"],
+        "answer": "B",
+        "note": "列出已失效的憑證。"
+    },
+    {
+        "id": "B26-Prot-50",
+        "question": "在 Web 安全中，SQL Injection 可以造成？",
+        "options": ["(A) 資料外洩", "(B) 資料竄改", "(C) 繞過驗證", "(D) 以上皆是"],
+        "answer": "D",
+        "note": "SQLi 危害極大，可完全控制資料庫。"
+    }
+];
+
+// 請將以下內容合併至原本的 planningQuestions 陣列中
+const planningQuestions_Batch26 = [
+    // --- 資安管理基礎 (Management Basics) ---
+    {
+        "id": "B26-Plan-01",
+        "question": "PDCA 管理循環中，P 代表什麼？(單選)",
+        "options": [
+            "(A) Perform",
+            "(B) Plan (規劃)",
+            "(C) Process",
+            "(D) Policy"
+        ],
+        "answer": "B",
+        "note": "Plan-Do-Check-Act：規劃、執行、查核、行動。"
+    },
+    {
+        "id": "B26-Plan-02",
+        "question": "資訊安全管理系統 (ISMS) 的國際標準是？(單選)",
+        "options": [
+            "(A) ISO 9001",
+            "(B) ISO 27001",
+            "(C) ISO 14001",
+            "(D) ISO 20000"
+        ],
+        "answer": "B",
+        "note": "ISO 27001 是資安管理的黃金標準。"
+    },
+    {
+        "id": "B26-Plan-03",
+        "question": "關於「資產 (Asset)」的定義，下列何者正確？(單選)",
+        "options": [
+            "(A) 只有硬體",
+            "(B) 對組織有價值的任何東西 (包含資訊、軟體、硬體、人員等)",
+            "(C) 只有錢",
+            "(D) 只有軟體"
+        ],
+        "answer": "B",
+        "note": "ISMS 保護範圍包含所有有價值的資產。"
+    },
+    {
+        "id": "B26-Plan-04",
+        "question": "風險評鑑 (Risk Assessment) 的目的是？(單選)",
+        "options": [
+            "(A) 消除所有風險",
+            "(B) 識別、分析與評估風險，以決定適當的處置方式",
+            "(C) 購買保險",
+            "(D) 處罰員工"
+        ],
+        "answer": "B",
+        "note": "風險無法完全消除，需透過評鑑來管理。"
+    },
+    {
+        "id": "B26-Plan-05",
+        "question": "「機密性 (Confidentiality)」喪失會導致？(單選)",
+        "options": [
+            "(A) 資料無法使用",
+            "(B) 資料被竄改",
+            "(C) 資料外洩給未授權者",
+            "(D) 系統變慢"
+        ],
+        "answer": "C",
+        "note": "機密性 = 只有授權者能看。"
+    },
+    {
+        "id": "B26-Plan-06",
+        "question": "「完整性 (Integrity)」喪失會導致？(單選)",
+        "options": [
+            "(A) 資料被未經授權地修改或破壞",
+            "(B) 資料外洩",
+            "(C) 系統當機",
+            "(D) 密碼過期"
+        ],
+        "answer": "A",
+        "note": "完整性 = 資料正確且未被竄改。"
+    },
+    {
+        "id": "B26-Plan-07",
+        "question": "「可用性 (Availability)」喪失會導致？(單選)",
+        "options": [
+            "(A) 資料外洩",
+            "(B) 資料被改",
+            "(C) 授權使用者無法存取系統或資料 (如服務中斷)",
+            "(D) 病毒感染"
+        ],
+        "answer": "C",
+        "note": "可用性 = 隨時可用。"
+    },
+    {
+        "id": "B26-Plan-08",
+        "question": "關於「資安政策 (Security Policy)」，下列敘述何者正確？(單選)",
+        "options": [
+            "(A) 只是參考用",
+            "(B) 是組織資安管理的最高指導原則，全體員工應遵循",
+            "(C) 只有 IT 部門要遵守",
+            "(D) 不需要高層核准"
+        ],
+        "answer": "B",
+        "note": "政策代表高層的承諾與要求。"
+    },
+    {
+        "id": "B26-Plan-09",
+        "question": "依據個資法，蒐集個資應符合？(單選)",
+        "options": [
+            "(A) 越多越好",
+            "(B) 特定目的，並在必要範圍內 (比例原則)",
+            "(C) 隨意蒐集",
+            "(D) 不需要告知"
+        ],
+        "answer": "B",
+        "note": "個資法第 5 條：誠實信用、特定目的、必要範圍。"
+    },
+    {
+        "id": "B26-Plan-10",
+        "question": "下列何者是「社交工程」防範的最佳措施？(單選)",
+        "options": [
+            "(A) 安裝防火牆",
+            "(B) 定期進行資安意識教育訓練與演練",
+            "(C) 加密硬碟",
+            "(D) 備份資料"
+        ],
+        "answer": "B",
+        "note": "提升人員意識是防禦社交工程的關鍵。"
+    },
+    // --- 實務操作與管理 ---
+    {
+        "id": "B26-Plan-11",
+        "question": "關於「密碼設定原則」，下列何者不建議？(單選)",
+        "options": [
+            "(A) 使用複雜度高 (英數符號混合) 的密碼",
+            "(B) 定期更換",
+            "(C) 寫在螢幕旁的便利貼上",
+            "(D) 避免使用個人生日"
+        ],
+        "answer": "C",
+        "note": "密碼外露是實體安全的重大缺失。"
+    },
+    {
+        "id": "B26-Plan-12",
+        "question": "人員離職時，資訊資產應？(單選)",
+        "options": [
+            "(A) 送給員工",
+            "(B) 確實繳回，並移除相關帳號權限",
+            "(C) 借給員工帶回家",
+            "(D) 不需處理"
+        ],
+        "answer": "B",
+        "note": "確保資產與資料不隨人員流失。"
+    },
+    {
+        "id": "B26-Plan-13",
+        "question": "關於「備份 (Backup)」，3-2-1 原則是指？(單選)",
+        "options": [
+            "(A) 3 份資料、2 種媒體、1 份異地",
+            "(B) 3 個人、2 台電腦、1 個硬碟",
+            "(C) 3 次備份、2 次還原、1 次演練",
+            "(D) 3 天一次、2 週一次、1 個月一次"
+        ],
+        "answer": "A",
+        "note": "確保資料在災難時可復原。"
+    },
+    {
+        "id": "B26-Plan-14",
+        "question": "發現電腦中毒時，第一步應？(單選)",
+        "options": [
+            "(A) 繼續使用",
+            "(B) 拔除網路線 (斷網)，避免擴散",
+            "(C) 格式化",
+            "(D) 關螢幕"
+        ],
+        "answer": "B",
+        "note": "圍堵 (Containment) 是應變首要步驟。"
+    },
+    {
+        "id": "B26-Plan-15",
+        "question": "關於「行動裝置」使用，應避免？(單選)",
+        "options": [
+            "(A) 設定螢幕鎖定",
+            "(B) 安裝來源不明的 APP (越獄/Root)",
+            "(C) 開啟尋找裝置功能",
+            "(D) 定期更新 OS"
+        ],
+        "answer": "B",
+        "note": "越獄/Root 會破壞系統安全機制。"
+    },
+    {
+        "id": "B26-Plan-16",
+        "question": "在公共場所使用 Wi-Fi，傳輸敏感資料時應？(單選)",
+        "options": [
+            "(A) 直接傳輸",
+            "(B) 使用 VPN 加密連線",
+            "(C) 關閉防火牆",
+            "(D) 使用 Telnet"
+        ],
+        "answer": "B",
+        "note": "VPN 可防止公共 Wi-Fi 上的監聽。"
+    },
+    {
+        "id": "B26-Plan-17",
+        "question": "關於「電子郵件安全」，收到不明連結應？(單選)",
+        "options": [
+            "(A) 點擊查看",
+            "(B) 轉寄給所有人",
+            "(C) 不點擊，並通報資安人員",
+            "(D) 回信詢問"
+        ],
+        "answer": "C",
+        "note": "防範釣魚郵件的基本原則。"
+    },
+    {
+        "id": "B26-Plan-18",
+        "question": "辦公室「實體安全」措施，不包括？(單選)",
+        "options": [
+            "(A) 門禁刷卡",
+            "(B) 監視器 (CCTV)",
+            "(C) 防火牆",
+            "(D) 保全人員"
+        ],
+        "answer": "C",
+        "note": "防火牆是網路安全設備，非實體安全。"
+    },
+    {
+        "id": "B26-Plan-19",
+        "question": "關於「資料銷毀」，下列何者最不安全？(單選)",
+        "options": [
+            "(A) 物理破壞 (粉碎)",
+            "(B) 消磁",
+            "(C) 完整覆寫 (Wiping)",
+            "(D) 丟到資源回收桶 (軟體刪除)"
+        ],
+        "answer": "D",
+        "note": "軟體刪除可輕易被還原。"
+    },
+    {
+        "id": "B26-Plan-20",
+        "question": "資安事件通報等級分為幾級？(單選)",
+        "options": [
+            "(A) 1 級",
+            "(B) 2 級",
+            "(C) 3 級",
+            "(D) 4 級"
+        ],
+        "answer": "D",
+        "note": "依影響範圍分為 1, 2, 3, 4 級 (4級最嚴重)。"
+    },
+    // --- 法規與標準 (Laws & Standards) ---
+    {
+        "id": "B26-Plan-21",
+        "question": "資通安全管理法規定，A 級機關應多久辦理一次資通安全演練？(單選)",
+        "options": [
+            "(A) 每月",
+            "(B) 每年兩次",
+            "(C) 每年一次",
+            "(D) 兩年一次"
+        ],
+        "answer": "B",
+        "note": "社交工程每半年一次 + 通報應變每年一次。"
+    },
+    {
+        "id": "B26-Plan-22",
+        "question": "GDPR 是哪個地區的個資保護法規？(單選)",
+        "options": [
+            "(A) 美國",
+            "(B) 歐盟 (EU)",
+            "(C) 日本",
+            "(D) 台灣"
+        ],
+        "answer": "B",
+        "note": "General Data Protection Regulation。"
+    },
+    {
+        "id": "B26-Plan-23",
+        "question": "ISO 27001 驗證證書的有效期限通常為？(單選)",
+        "options": [
+            "(A) 1 年",
+            "(B) 2 年",
+            "(C) 3 年",
+            "(D) 永久"
+        ],
+        "answer": "C",
+        "note": "每 3 年需重審 (Re-certification)，期間每年需續審 (Surveillance)。"
+    },
+    {
+        "id": "B26-Plan-24",
+        "question": "關於「資通安全長 (CISO)」，依規定應由誰擔任？(單選)",
+        "options": [
+            "(A) 基層員工",
+            "(B) 副首長或適當之高層人員",
+            "(C) 外包廠商",
+            "(D) 總機小姐"
+        ],
+        "answer": "B",
+        "note": "資安長需具備決策與協調能力。"
+    },
+    {
+        "id": "B26-Plan-25",
+        "question": "我國資通安全管理法的適用對象包括？(複選)",
+        "options": [
+            "(A) 公務機關",
+            "(B) 特定非公務機關 (關鍵基礎設施等)",
+            "(C) 所有私人企業",
+            "(D) 一般民眾"
+        ],
+        "answer": "AB",
+        "note": "主要規範公務機關與關鍵基礎設施。"
+    },
+    {
+        "id": "B26-Plan-26",
+        "question": "關於「營業秘密」，下列何者非必要條件？(單選)",
+        "options": [
+            "(A) 秘密性",
+            "(B) 經濟價值",
+            "(C) 合理保密措施",
+            "(D) 已申請專利"
+        ],
+        "answer": "D",
+        "note": "營業秘密不需註冊，但需符合三要件。"
+    },
+    {
+        "id": "B26-Plan-27",
+        "question": "發生資安事件時，應通報？(單選)",
+        "options": [
+            "(A) 記者",
+            "(B) 上級機關與主管機關",
+            "(C) 臉書",
+            "(D) 都不講"
+        ],
+        "answer": "B",
+        "note": "依規定程序通報。"
+    },
+    {
+        "id": "B26-Plan-28",
+        "question": "關於 BCP (業務持續計畫)，其目標是？(單選)",
+        "options": [
+            "(A) 確保災難發生時，關鍵業務能持續運作或盡快恢復",
+            "(B) 備份資料",
+            "(C) 買保險",
+            "(D) 防火牆"
+        ],
+        "answer": "A",
+        "note": "BCP 關注業務的存續。"
+    },
+    {
+        "id": "B26-Plan-29",
+        "question": "關於 DRP (災難復原計畫)，RTO 是指？(單選)",
+        "options": [
+            "(A) 復原時間目標 (多久修好)",
+            "(B) 復原點目標 (資料遺失量)",
+            "(C) 備份時間",
+            "(D) 演練時間"
+        ],
+        "answer": "A",
+        "note": "Recovery Time Objective。"
+    },
+    {
+        "id": "B26-Plan-30",
+        "question": "關於 DRP，RPO 是指？(單選)",
+        "options": [
+            "(A) 復原時間目標",
+            "(B) 復原點目標 (容許遺失多少資料)",
+            "(C) 修復成本",
+            "(D) 人力需求"
+        ],
+        "answer": "B",
+        "note": "Recovery Point Objective。"
+    },
+    // --- 補充題目 (31-50) ---
+    {
+        "id": "B26-Plan-31",
+        "question": "關於「社交工程演練」，若員工點擊釣魚信，應？",
+        "options": ["(A) 開除", "(B) 加強教育訓練", "(C) 扣薪", "(D) 公布"],
+        "answer": "B",
+        "note": "教育優先。"
+    },
+    {
+        "id": "B26-Plan-32",
+        "question": "下列何者是「內部威脅 (Insider Threat)」？",
+        "options": ["(A) 駭客入侵", "(B) 員工惡意竊取資料或誤操作", "(C) 病毒感染", "(D) 停電"],
+        "answer": "B",
+        "note": "來自組織內部的風險。"
+    },
+    {
+        "id": "B26-Plan-33",
+        "question": "關於「遠端存取」，VPN 應搭配？",
+        "options": ["(A) 弱密碼", "(B) MFA (多因子認證)", "(C) 共用帳號", "(D) 不需認證"],
+        "answer": "B",
+        "note": "強化身分驗證。"
+    },
+    {
+        "id": "B26-Plan-34",
+        "question": "在「存取控制」中，RBAC 是指？",
+        "options": ["(A) 基於角色的存取控制", "(B) 基於規則", "(C) 強制存取", "(D) 自由存取"],
+        "answer": "A",
+        "note": "Role-Based Access Control。"
+    },
+    {
+        "id": "B26-Plan-35",
+        "question": "關於「資安健診」，主要包含？",
+        "options": ["(A) 網路架構檢視", "(B) 惡意活動檢視", "(C) 設備安全檢視", "(D) 以上皆是"],
+        "answer": "D",
+        "note": "全面性的技術檢查。"
+    },
+    {
+        "id": "B26-Plan-36",
+        "question": "下列何者是「實體安全」設施？",
+        "options": ["(A) UPS", "(B) 發電機", "(C) 滅火器", "(D) 以上皆是"],
+        "answer": "D",
+        "note": "保障環境安全運作。"
+    },
+    {
+        "id": "B26-Plan-37",
+        "question": "關於「弱點掃描」，應多久進行一次？",
+        "options": ["(A) 每年至少一次 (或依規定)", "(B) 從不", "(C) 只有出事時", "(D) 每天"],
+        "answer": "A",
+        "note": "定期掃描以發現新弱點。"
+    },
+    {
+        "id": "B26-Plan-38",
+        "question": "關於「滲透測試」，是模擬？",
+        "options": ["(A) 駭客攻擊", "(B) 病毒感染", "(C) 硬體故障", "(D) 停電"],
+        "answer": "A",
+        "note": "驗證防禦有效性。"
+    },
+    {
+        "id": "B26-Plan-39",
+        "question": "關於「供應鏈安全」，應評估？",
+        "options": ["(A) 供應商的資安能力", "(B) 產品的安全性", "(C) 採購合約的資安條款", "(D) 以上皆是"],
+        "answer": "D",
+        "note": "管理第三方風險。"
+    },
+    {
+        "id": "B26-Plan-40",
+        "question": "在「雲端安全」中，SaaS 客戶需負責？",
+        "options": ["(A) 資料與帳號管理", "(B) 實體機房", "(C) 網路設備", "(D) 作業系統"],
+        "answer": "A",
+        "note": "責任共擔模型。"
+    },
+    {
+        "id": "B26-Plan-41",
+        "question": "關於「個資保護」，當事人請求查詢時，應？",
+        "options": ["(A) 拒絕", "(B) 依法提供", "(C) 收費 10000 元", "(D) 不理會"],
+        "answer": "B",
+        "note": "尊重當事人權利。"
+    },
+    {
+        "id": "B26-Plan-42",
+        "question": "關於「資安事件」，什麼是「社交工程」？",
+        "options": ["(A) 利用人性弱點詐騙", "(B) 系統漏洞", "(C) 病毒", "(D) 斷網"],
+        "answer": "A",
+        "note": "心理操控。"
+    },
+    {
+        "id": "B26-Plan-43",
+        "question": "下列何者是「惡意程式」？",
+        "options": ["(A) Ransomware", "(B) Firewall", "(C) Office", "(D) Windows"],
+        "answer": "A",
+        "note": "勒索軟體。"
+    },
+    {
+        "id": "B26-Plan-44",
+        "question": "關於「資安意識」，密碼應？",
+        "options": ["(A) 共用", "(B) 寫在紙上", "(C) 定期更換且複雜", "(D) 很短"],
+        "answer": "C",
+        "note": "密碼安全。"
+    },
+    {
+        "id": "B26-Plan-45",
+        "question": "在「網路安全」中，HTTPS 使用哪個 Port？",
+        "options": ["(A) 80", "(B) 443", "(C) 21", "(D) 25"],
+        "answer": "B",
+        "note": "加密網頁傳輸。"
+    },
+    {
+        "id": "B26-Plan-46",
+        "question": "關於「備份」，異地備份是為了？",
+        "options": ["(A) 防火災地震", "(B) 方便", "(C) 省錢", "(D) 增加空間"],
+        "answer": "A",
+        "note": "分散風險。"
+    },
+    {
+        "id": "B26-Plan-47",
+        "question": "下列何者是「資產」？",
+        "options": ["(A) 伺服器", "(B) 客戶資料", "(C) 專利技術", "(D) 以上皆是"],
+        "answer": "D",
+        "note": "有價值的皆為資產。"
+    },
+    {
+        "id": "B26-Plan-48",
+        "question": "關於「風險」，其公式為？",
+        "options": ["(A) 資產 x 威脅 x 弱點", "(B) 資產 + 威脅", "(C) 弱點 - 威脅", "(D) 資產 / 弱點"],
+        "answer": "A",
+        "note": "風險評鑑基礎。"
+    },
+    {
+        "id": "B26-Plan-49",
+        "question": "在「存取控制」中，最小權限是？",
+        "options": ["(A) 夠用就好", "(B) 最大權限", "(C) 無權限", "(D) 隨意"],
+        "answer": "A",
+        "note": "降低風險。"
+    },
+    {
+        "id": "B26-Plan-50",
+        "question": "資安的最終目標是？",
+        "options": ["(A) 支持業務營運", "(B) 阻礙工作", "(C) 花錢", "(D) 買設備"],
+        "answer": "A",
+        "note": "資安是為了讓業務走得更穩更遠。"
+    }
+];
+
+// 將 Batch 26 的題目合併到主陣列
+if (typeof protectionQuestions !== 'undefined') {
+    protectionQuestions.push(...protectionQuestions_Batch26);
+}
+if (typeof planningQuestions !== 'undefined') {
+    planningQuestions.push(...planningQuestions_Batch26);
+}
+// ==========================================
+// 2025 資安工程師模擬題庫 - 第二十七批次 (Batch 27)
+// 包含：防護實務 (技術) 50 題 + 規劃實務 (管理) 50 題
+// 來源：114年新版教材精華 & 114年歷屆試題深度解析
+// 重點：ISO 27001:2022轉版、資安法修法、零信任、供應鏈安全
+// ==========================================
+
+// 請將以下內容合併至原本的 protectionQuestions 陣列中
+const protectionQuestions_Batch27 = [
+    // --- 114年教材重點：資通系統防護基準 (技術面) ---
+    {
+        "id": "B27-Prot-01",
+        "question": "依據《資通系統防護基準》，關於「日誌紀錄 (Logging)」的保存期限要求，下列何者正確？",
+        "options": [
+            "(A) 至少 1 個月",
+            "(B) 至少 3 個月",
+            "(C) 至少 6 個月",
+            "(D) 至少 1 年"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.2。日誌之記錄時間週期及留存政策，應保留日誌至少六個月，以利後續事件追蹤與鑑識。"
+    },
+    {
+        "id": "B27-Prot-02",
+        "question": "在防範「勒索軟體 (Ransomware)」的技術措施中，關於備份的「3-2-1 原則」，下列敘述何者最能體現對抗勒索軟體的韌性？",
+        "options": [
+            "(A) 3 份複本皆存在同一台伺服器",
+            "(B) 2 種儲存媒體皆為線上磁碟 (Online Disk)",
+            "(C) 至少有 1 份備份是「離線 (Offline)」或「不可變 (Immutable)」的",
+            "(D) 備份頻率為每年一次"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.3 & 114-1 試題。離線備份 (Air-gapped) 是防止備份檔同時被加密的最後防線。"
+    },
+    {
+        "id": "B27-Prot-03",
+        "question": "依據 114 年新版教材，關於「限制軟體執行 (AppLocker/Whitelisting)」的防護策略，屬於哪一層面的控制？",
+        "options": [
+            "(A) 網路層防護",
+            "(B) 端點 (Endpoint) 與作業系統層防護",
+            "(C) 實體層防護",
+            "(D) 資料層防護"
+        ],
+        "answer": "B",
+        "note": "114-2 技術試題 Q16。AppLocker 是 OS 層級的功能，用於限制僅允許授權的程式執行。"
+    },
+    {
+        "id": "B27-Prot-04",
+        "question": "在 Windows 事件檢視器中，若要偵測「暴力破解攻擊」，應重點監控哪一個 Event ID？",
+        "options": [
+            "(A) 4624 (登入成功)",
+            "(B) 4625 (登入失敗)",
+            "(C) 4672 (特殊權限登入)",
+            "(D) 1102 (日誌清除)"
+        ],
+        "answer": "B",
+        "note": "114-1 技術試題 Q41 圖表題。連續大量的 4625 事件是暴力破解的典型特徵。"
+    },
+    {
+        "id": "B27-Prot-05",
+        "question": "關於「零信任架構 (Zero Trust)」的技術實作，下列何者「不是」其核心組件？",
+        "options": [
+            "(A) 身分鑑別 (Identity)",
+            "(B) 設備鑑別 (Device Health)",
+            "(C) 信任推斷 (Trust Inference)",
+            "(D) 內網完全信任 (Implicit Trust)"
+        ],
+        "answer": "D",
+        "note": "114 教材 Ch5 & 114-1 管理試題。零信任的核心就是「消除內網的隱含信任」，永不信任，始終驗證。"
+    },
+    // --- 網路與通訊安全 (114年試題重點) ---
+    {
+        "id": "B27-Prot-06",
+        "question": "在 TLS 1.3 協定中，為了確保「前向保密 (Forward Secrecy)」，廢除了哪種金鑰交換演算法？",
+        "options": [
+            "(A) Ephemeral Diffie-Hellman (DHE)",
+            "(B) Elliptic Curve Diffie-Hellman (ECDHE)",
+            "(C) 靜態 RSA (Static RSA)",
+            "(D) AES-GCM"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.6。靜態 RSA 若私鑰洩漏，可解密過去所有錄製的流量，不具備前向保密特性，故在 TLS 1.3 被移除。"
+    },
+    {
+        "id": "B27-Prot-07",
+        "question": "關於 ARP Spoofing (ARP 詐騙) 攻擊，攻擊者發送偽造的 ARP Reply 封包，主要目的是？",
+        "options": [
+            "(A) 讓受害者電腦當機",
+            "(B) 修改受害者的 ARP Cache，將閘道器 (Gateway) 的 IP 對應到攻擊者的 MAC 位址",
+            "(C) 取得受害者的 IP 位址",
+            "(D) 關閉交換器的 Port Security"
+        ],
+        "answer": "B",
+        "note": "114-1 技術試題 Q6。這是中間人攻擊 (MITM) 的基礎，攔截 L2 流量。"
+    },
+    {
+        "id": "B27-Prot-08",
+        "question": "下列哪一種 VPN 部署模式，雖然節省頻寬，但會導致無法監控使用者存取網際網路的行為，增加資安風險？",
+        "options": [
+            "(A) Full Tunneling (全通道)",
+            "(B) Split Tunneling (分割通道)",
+            "(C) SSL VPN",
+            "(D) IPsec VPN"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.6。Split Tunneling 讓一般上網流量不經過公司 VPN，導致公司無法過濾惡意網站。"
+    },
+    {
+        "id": "B27-Prot-09",
+        "question": "在電子郵件安全中，哪項技術是利用 DNS 的 TXT 紀錄來宣告「哪些 IP 位址被授權代表此網域發信」？",
+        "options": [
+            "(A) DKIM",
+            "(B) DMARC",
+            "(C) SPF (Sender Policy Framework)",
+            "(D) S/MIME"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch6.4。SPF 是防止偽冒寄件來源的第一道防線。"
+    },
+    {
+        "id": "B27-Prot-10",
+        "question": "關於防火牆的「狀態檢視 (Stateful Inspection)」技術，下列敘述何者正確？",
+        "options": [
+            "(A) 只檢查封包標頭，不追蹤連線狀態",
+            "(B) 會維護一張連線狀態表 (State Table)，只允許屬於已建立連線的回應封包通過",
+            "(C) 只能運作在 OSI 第 7 層",
+            "(D) 無法過濾 UDP 封包"
+        ],
+        "answer": "B",
+        "note": "114-1 技術試題 Q9。狀態檢視防火牆比傳統封包過濾更安全，能防禦 ACK Scan 等攻擊。"
+    },
+    // --- 應用程式安全 (OWASP & SSDLC) ---
+    {
+        "id": "B27-Prot-11",
+        "question": "在 OWASP Top 10:2021 中，原本的「Broken Access Control (權限控制失效)」風險等級變化為何？",
+        "options": [
+            "(A) 下降至第 5 名",
+            "(B) 上升至第 1 名",
+            "(C) 保持不變",
+            "(D) 被移除"
+        ],
+        "answer": "B",
+        "note": "114-2 技術試題 Q30。越權存取 (如 IDOR) 已成為最普遍且嚴重的 Web 風險。"
+    },
+    {
+        "id": "B27-Prot-12",
+        "question": "攻擊者在網址列輸入 `http://example.com/admin/` 嘗試進入後台，若系統未檢查權限直接放行，這屬於什麼漏洞？",
+        "options": [
+            "(A) Forced Browsing (強制瀏覽) / Broken Access Control",
+            "(B) SQL Injection",
+            "(C) CSRF",
+            "(D) XSS"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch7.4。這是存取控制失效的一種，攻擊者猜測 URL 並繞過導航選單。"
+    },
+    {
+        "id": "B27-Prot-13",
+        "question": "在 SSDLC 的「開發 (Implementation)」階段，使用「靜態源碼檢測 (SAST)」工具的主要優勢是？",
+        "options": [
+            "(A) 可以模擬駭客攻擊",
+            "(B) 可以在程式碼編譯或執行前，及早發現語法與邏輯漏洞 (Shift Left)",
+            "(C) 可以檢測執行時期的記憶體洩漏",
+            "(D) 可以測試系統效能"
+        ],
+        "answer": "B",
+        "note": "114-1 技術試題 Q27。SAST 屬於白箱測試，能在早期發現問題，降低修復成本。"
+    },
+    {
+        "id": "B27-Prot-14",
+        "question": "關於「SQL Injection」的防禦，下列何者是根本解決之道？",
+        "options": [
+            "(A) 使用 WAF",
+            "(B) 使用參數化查詢 (Parameterized Query) 或預編譯語句 (Prepared Statement)",
+            "(C) 過濾單引號",
+            "(D) 隱藏錯誤訊息"
+        ],
+        "answer": "B",
+        "note": "114-2 技術試題 Q3。參數化查詢將 SQL 代碼與資料分開處理，徹底杜絕注入可能。"
+    },
+    {
+        "id": "B27-Prot-15",
+        "question": "在網站開發中，設定 `SameSite` Cookie 屬性主要是為了防禦哪種攻擊？",
+        "options": [
+            "(A) XSS",
+            "(B) CSRF (跨站請求偽造)",
+            "(C) SQL Injection",
+            "(D) DDoS"
+        ],
+        "answer": "B",
+        "note": "114-2 技術試題 Q26。SameSite 限制 Cookie 不隨跨站請求發送，有效阻斷 CSRF。"
+    },
+    // --- 新興科技與雲端 (114教材重點) ---
+    {
+        "id": "B27-Prot-16",
+        "question": "在容器安全中，「Distroless」映像檔的資安優勢為何？",
+        "options": [
+            "(A) 包含所有除錯工具",
+            "(B) 移除了 Shell 和其他不必要的二進位檔，大幅縮小攻擊面 (Attack Surface)",
+            "(C) 自動加密資料",
+            "(D) 檔案最大"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.6。減少容器內的可用工具 (如 /bin/bash)，讓攻擊者難以進行後滲透。"
+    },
+    {
+        "id": "B27-Prot-17",
+        "question": "關於「供應鏈攻擊 (Supply Chain Attack)」，攻擊者透過汙染開源套件庫 (如 npm, PyPI) 植入惡意程式，這稱為？",
+        "options": [
+            "(A) Typosquatting (域名/套件名稱搶註)",
+            "(B) Dependency Confusion (依賴混淆)",
+            "(C) SQL Injection",
+            "(D) DDoS"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch8.3。利用開發者打錯套件名稱，下載到惡意套件。"
+    },
+    {
+        "id": "B27-Prot-18",
+        "question": "在雲端環境中，負責偵測「組態設定錯誤 (Misconfiguration)」(如 S3 Bucket 公開) 的工具類別是？",
+        "options": [
+            "(A) CWPP (Cloud Workload Protection Platform)",
+            "(B) CSPM (Cloud Security Posture Management)",
+            "(C) CASB",
+            "(D) WAF"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.6。CSPM 專注於雲端基礎設施的合規性與設定檢查。"
+    },
+    {
+        "id": "B27-Prot-19",
+        "question": "關於「FIDO (Fast Identity Online)」認證，其私鑰 (Private Key) 儲存在何處？",
+        "options": [
+            "(A) 雲端伺服器",
+            "(B) 使用者的裝置端 (Authenticator)，且不出裝置",
+            "(C) 區塊鏈上",
+            "(D) 瀏覽器 Cookie"
+        ],
+        "answer": "B",
+        "note": "114-2 技術試題 Q26。FIDO 的安全性在於私鑰不離身，伺服器只存公鑰。"
+    },
+    {
+        "id": "B27-Prot-20",
+        "question": "針對 AI 模型的「對抗式攻擊 (Adversarial Attack)」，其攻擊原理是？",
+        "options": [
+            "(A) 竊取模型參數",
+            "(B) 在輸入資料加入微小擾動 (Perturbation)，導致 AI 模型誤判",
+            "(C) 刪除訓練資料",
+            "(D) 關閉 AI 伺服器"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch2.1 (AI 安全策略)。這是在不修改模型的情況下欺騙 AI 的手法。"
+    },
+    // --- 攻防工具與實務 (Tools) ---
+    {
+        "id": "B27-Prot-21",
+        "question": "滲透測試工具 `Metasploit` 中的 `Meterpreter` 是一種？",
+        "options": [
+            "(A) 掃描器",
+            "(B) 在目標記憶體中運行的進階 Payload，提供後滲透控制功能",
+            "(C) 防火牆",
+            "(D) 密碼破解器"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.3。Meterpreter 不落地硬碟，具備高度隱匿性。"
+    },
+    {
+        "id": "B27-Prot-22",
+        "question": "使用 `nmap -sS` 指令進行掃描，代表使用哪種掃描方式？",
+        "options": [
+            "(A) UDP Scan",
+            "(B) TCP SYN Scan (半開放掃描)",
+            "(C) Ping Scan",
+            "(D) Full Connect Scan"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.2。SYN Scan 不完成三向交握，速度快且較隱蔽。"
+    },
+    {
+        "id": "B27-Prot-23",
+        "question": "關於 `Wireshark` 的過濾語法，若要篩選來自 IP 192.168.1.100 的封包，應輸入？",
+        "options": [
+            "(A) ip.addr == 192.168.1.100",
+            "(B) ip.src == 192.168.1.100",
+            "(C) ip.dst == 192.168.1.100",
+            "(D) tcp.port == 192.168.1.100"
+        ],
+        "answer": "B",
+        "note": "src 代表 Source (來源)，dst 代表 Destination (目的)。"
+    },
+    {
+        "id": "B27-Prot-24",
+        "question": "攻擊者使用 `Burp Suite` 的 `Intruder` 模組，主要目的是？",
+        "options": [
+            "(A) 攔截封包",
+            "(B) 自動化發送大量請求進行暴力破解或 Fuzzing",
+            "(C) 掃描網路架構",
+            "(D) 解碼 Base64"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.4。Intruder 是 Web 滲透中進行自動化攻擊的核心工具。"
+    },
+    {
+        "id": "B27-Prot-25",
+        "question": "關於 Windows 的 `PowerShell` 安全，攻擊者常使用 `-ExecutionPolicy Bypass` 參數，其目的是？",
+        "options": [
+            "(A) 提權",
+            "(B) 繞過執行策略限制，執行未簽署的腳本",
+            "(C) 關閉防火牆",
+            "(D) 刪除日誌"
+        ],
+        "answer": "B",
+        "note": "114-2 技術試題 Q45 情境。ExecutionPolicy 僅是防止誤操作，非安全邊界。"
+    },
+    // --- 補充：114年教材提及的特定技術 ---
+    {
+        "id": "B27-Prot-26",
+        "question": "在 EDR (端點偵測與回應) 技術中，對於「無檔案攻擊 (Fileless Attack)」的偵測，主要依賴什麼？",
+        "options": [
+            "(A) 掃描硬碟檔案",
+            "(B) 監控記憶體行為與指令執行 (如 PowerShell, WMI)",
+            "(C) 檢查檔案雜湊值",
+            "(D) 檢查開機磁區"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.10。無檔案攻擊不落地，傳統防毒無效，需依賴行為監控。"
+    },
+    {
+        "id": "B27-Prot-27",
+        "question": "關於「沙箱 (Sandbox)」的抗偵測技術，惡意程式可能會檢查什麼來判斷自己是否在沙箱中？(複選)",
+        "options": [
+            "(A) 檢查滑鼠游標是否有移動",
+            "(B) 檢查系統開機時間是否過短",
+            "(C) 檢查硬體特徵 (如 MAC Address, CPU 型號)",
+            "(D) 檢查使用者名稱"
+        ],
+        "answer": "ABC",
+        "note": "114-1 技術試題 Q29。這些都是惡意程式用來判斷是否處於虛擬分析環境的特徵。"
+    },
+    {
+        "id": "B27-Prot-28",
+        "question": "在加密技術中，AES-GCM 模式除了提供機密性外，還提供什麼功能？",
+        "options": [
+            "(A) 不可否認性",
+            "(B) 完整性驗證 (Integrity)",
+            "(C) 身分鑑別",
+            "(D) 壓縮"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.6。GCM 是 AEAD (Authenticated Encryption) 模式，同時確保資料未被竄改。"
+    },
+    {
+        "id": "B27-Prot-29",
+        "question": "關於「行動裝置應用程式安全檢測 (MASVS)」，L1 與 L2 的主要區別？",
+        "options": [
+            "(A) L1 針對所有 App，L2 針對高風險 App (如金融、醫療)",
+            "(B) L1 檢查原始碼，L2 檢查硬體",
+            "(C) L1 是自評，L2 是第三方",
+            "(D) 沒區別"
+        ],
+        "answer": "A",
+        "note": "114-1 技術試題 Q47。MASVS-L2 是針對處理高度敏感資料的 App 的防禦縱深要求。"
+    },
+    {
+        "id": "B27-Prot-30",
+        "question": "在 IoT 安全中，若設備無法安裝代理程式 (Agentless)，通常採用什麼方式進行監控？",
+        "options": [
+            "(A) 放棄監控",
+            "(B) 網路流量分析 (NTA/NDR) 與被動掃描",
+            "(C) 拆開機器",
+            "(D) 安裝 Windows"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.9 (VANS/IoT)。透過鏡像流量分析 IoT 行為是主流做法。"
+    }
+];
+
+// 請將以下內容合併至原本的 planningQuestions 陣列中
+const planningQuestions_Batch27 = [
+    // --- 114年管理概論重點：ISO 27001:2022 ---
+    {
+        "id": "B27-Plan-01",
+        "question": "在 ISO/IEC 27001:2022 轉版中，新增的控制措施「威脅情資 (Threat Intelligence)」屬於哪一類主題 (Theme)？",
+        "options": [
+            "(A) 人員 (People)",
+            "(B) 實體 (Physical)",
+            "(C) 技術 (Technological)",
+            "(D) 組織 (Organizational)"
+        ],
+        "answer": "D",
+        "note": "114-2 管理試題 Q1。威脅情資被歸類在組織控制，強調主動蒐集與分析。"
+    },
+    {
+        "id": "B27-Plan-02",
+        "question": "ISO 27001:2022 新增「資料遮罩 (Data Masking)」控制措施，其主要目的是？",
+        "options": [
+            "(A) 加密資料庫",
+            "(B) 依據法規或業務需求，對敏感資料進行去識別化或遮蔽，以限制暴露範圍",
+            "(C) 備份資料",
+            "(D) 壓縮資料"
+        ],
+        "answer": "B",
+        "note": "114-1 管理試題 Q4。這是為了符合隱私保護 (Privacy) 與最小知情原則。"
+    },
+    {
+        "id": "B27-Plan-03",
+        "question": "關於 ISO 27001:2022 的「使用雲端服務之資訊安全」，下列敘述何者正確？",
+        "options": [
+            "(A) 雲端安全全由供應商負責，組織不需管理",
+            "(B) 組織應訂定使用雲端服務的獲取、使用、管理與退場程序",
+            "(C) 禁止使用公有雲",
+            "(D) 雲端服務不需納入風險評鑑"
+        ],
+        "answer": "B",
+        "note": "114-2 管理試題 Q1。強調雲端服務生命週期管理與責任共擔模型。"
+    },
+    // --- 資通安全管理法 (114年修法重點) ---
+    {
+        "id": "B27-Plan-04",
+        "question": "依據 114 年《資通安全管理法》修正草案，關於「危害國家資通安全產品」的使用限制，下列何者正確？",
+        "options": [
+            "(A) 公務機關原則禁止使用，例外情形 (如無替代方案) 經核准後方可使用",
+            "(B) 只要便宜就可以使用",
+            "(C) 僅限制核心系統，非核心系統不限",
+            "(D) 完全沒有限制"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch2.2。修法強化了對危害國安產品的採購與使用限制。"
+    },
+    {
+        "id": "B27-Plan-05",
+        "question": "依據《資通安全責任等級分級辦法》，特定非公務機關 (如關鍵基礎設施提供者) 若被核定為 A 級，其資安長應由誰擔任？",
+        "options": [
+            "(A) 資訊主管",
+            "(B) 副首長或適當之高層人員 (負責推動及監督)",
+            "(C) 外包廠商",
+            "(D) 基層員工"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch2.2。資安長需具備決策權，與公務機關要求一致。"
+    },
+    {
+        "id": "B27-Plan-06",
+        "question": "依據《資通安全事件通報及應變辦法》，公務機關知悉資安事件後，應於多久內完成通報？",
+        "options": [
+            "(A) 1 小時",
+            "(B) 2 小時",
+            "(C) 8 小時",
+            "(D) 24 小時"
+        ],
+        "answer": "A",
+        "note": "114-1 管理試題 Q6。1 小時是黃金通報時間。"
+    },
+    {
+        "id": "B27-Plan-07",
+        "question": "對於第 3 級與第 4 級 (嚴重) 資安事件，主管機關應於接獲通報後多久內完成等級審核？",
+        "options": [
+            "(A) 1 小時",
+            "(B) 2 小時",
+            "(C) 4 小時",
+            "(D) 8 小時"
+        ],
+        "answer": "B",
+        "note": "114-1 管理試題 Q6。嚴重事件需快速審核 (2小時)，一般事件為 8 小時。"
+    },
+    // --- 風險管理與 BCP (114年教材) ---
+    {
+        "id": "B27-Plan-08",
+        "question": "在風險處理策略中，針對「機房淹水」風險，將機房遷移至高樓層屬於哪種策略？",
+        "options": [
+            "(A) 風險轉移 (Transfer)",
+            "(B) 風險避免/規避 (Avoidance)",
+            "(C) 風險降低 (Reduction)",
+            "(D) 風險保留 (Retention)"
+        ],
+        "answer": "B",
+        "note": "114-1 管理試題 Q21。遷移位置消除了淹水的可能性，屬於規避/避免。"
+    },
+    {
+        "id": "B27-Plan-09",
+        "question": "關於營運衝擊分析 (BIA) 的產出，下列何者最為關鍵？",
+        "options": [
+            "(A) 駭客名單",
+            "(B) 關鍵業務功能及其 RTO (復原時間目標) 與 RPO (復原點目標)",
+            "(C) 軟體授權書",
+            "(D) 資產殘值"
+        ],
+        "answer": "B",
+        "note": "114-2 管理試題 Q49。BIA 的目的是為了訂定 BCP 的復原目標。"
+    },
+    {
+        "id": "B27-Plan-10",
+        "question": "在 BCP 演練中，若要驗證「備援中心」是否能真實接手運作，風險最高但驗證最徹底的演練方式是？",
+        "options": [
+            "(A) 桌面演練 (Tabletop)",
+            "(B) 模擬演練 (Simulation)",
+            "(C) 全面中斷測試 (Full Interruption Test)",
+            "(D) 書面審查"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch4.5。實際切斷主系統，強制切換至備援，視為最高等級演練。"
+    },
+    // --- 隱私與個資保護 (個資法 & GDPR) ---
+    {
+        "id": "B27-Plan-11",
+        "question": "依據 112 年修正之《個人資料保護法》，非公務機關若未訂定安全維護計畫導致個資外洩，且情節重大者，最高罰鍰提高至？",
+        "options": [
+            "(A) 20 萬元",
+            "(B) 50 萬元",
+            "(C) 200 萬元",
+            "(D) 1500 萬元"
+        ],
+        "answer": "D",
+        "note": "114 教材 Ch2.3。新法大幅提高罰鍰上限至 1500 萬元以強化嚇阻力。"
+    },
+    {
+        "id": "B27-Plan-12",
+        "question": "關於 GDPR 的「資料可攜權 (Data Portability)」，下列敘述何者正確？",
+        "options": [
+            "(A) 企業可以拒絕提供",
+            "(B) 當事人有權要求將其個資以結構化、機器可讀的格式傳輸給另一個控制者",
+            "(C) 僅適用於紙本資料",
+            "(D) 僅適用於犯罪紀錄"
+        ],
+        "answer": "B",
+        "note": "114-2 管理試題 Q12。這是 GDPR 特有權利，促進服務轉換的自由。"
+    },
+    {
+        "id": "B27-Plan-13",
+        "question": "下列何種資料處理方式，可以讓資料「不適用」個資法（即非個資）？",
+        "options": [
+            "(A) 假名化 (Pseudonymization)",
+            "(B) 加密 (Encryption)",
+            "(C) 匿名化 (Anonymization)",
+            "(D) 遮罩 (Masking)"
+        ],
+        "answer": "C",
+        "note": "114-2 管理試題 Q7。只有「不可還原」的匿名化資料才不屬於個資。"
+    },
+    // --- 供應鏈與委外管理 (114年重點) ---
+    {
+        "id": "B27-Plan-14",
+        "question": "機關委外開發系統時，依據 SSDLC 要求，應在「哪個階段」就將資安需求納入？",
+        "options": [
+            "(A) 驗收階段",
+            "(B) 招標/需求階段 (RFP)",
+            "(C) 維運階段",
+            "(D) 發生事故後"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch8.5。資安左移 (Shift Left)，在 RFP 階段就必須明訂資安規格。"
+    },
+    {
+        "id": "B27-Plan-15",
+        "question": "關於委外廠商的「適任性查核」，下列何者是必須查核的項目？(複選)",
+        "options": [
+            "(A) 是否涉及陸資或受大陸地區政府影響",
+            "(B) 執行人員是否曾犯洩密罪",
+            "(C) 廠商的財務狀況",
+            "(D) 廠商的資安證照"
+        ],
+        "answer": "AB",
+        "note": "114-2 管理試題 Q10。針對國安與洩密風險的查核是法規重點。"
+    },
+    {
+        "id": "B27-Plan-16",
+        "question": "當委外契約終止時，最重要的資安處置為何？",
+        "options": [
+            "(A) 結清款項",
+            "(B) 確認廠商返還、移交並確實銷毀/刪除所有持有之資料",
+            "(C) 舉辦歡送會",
+            "(D) 備份資料給廠商"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch8.1。資料的最終銷毀是委外生命週期的最後一道防線。"
+    },
+    // --- 資安治理與指標 ---
+    {
+        "id": "B27-Plan-17",
+        "question": "在資安治理中，關於「三道防線」模型，內部稽核 (Internal Audit) 屬於哪一道？",
+        "options": [
+            "(A) 第一道 (營運)",
+            "(B) 第二道 (風險管理)",
+            "(C) 第三道 (獨立保證)",
+            "(D) 第四道 (外部監管)"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch4.4。內部稽核提供獨立客觀的保證。"
+    },
+    {
+        "id": "B27-Plan-18",
+        "question": "關於「資安長 (CISO)」的績效指標 (KPI)，下列何者屬於「落後指標 (Lagging Indicator)」？",
+        "options": [
+            "(A) 員工資安測驗合格率",
+            "(B) 弱點修補完成率",
+            "(C) 過去一年發生的資安事件數量",
+            "(D) 資安演練參與率"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch4.6。落後指標反映過去的結果；領先指標 (A, B, D) 用於預測未來。"
+    },
+    {
+        "id": "B27-Plan-19",
+        "question": "美國 CISA 提出的 TLP (Traffic Light Protocol) 2.0 中，標示為「TLP:RED」的情資代表？",
+        "options": [
+            "(A) 可公開分享",
+            "(B) 僅限組織內部",
+            "(C) 僅限個人 (Eyes Only)，禁止任何形式的擴散",
+            "(D) 限特定社群"
+        ],
+        "answer": "C",
+        "note": "114-2 管理試題 Q43。TLP:RED 是最高機密等級，僅限接收者本人知悉。"
+    },
+    {
+        "id": "B27-Plan-20",
+        "question": "在資安風險評鑑中，若資產價值很高，但威脅發生的可能性極低，通常風險等級會判定為？",
+        "options": [
+            "(A) 極高",
+            "(B) 中或高 (需視矩陣定義，不可忽略)",
+            "(C) 低",
+            "(D) 零"
+        ],
+        "answer": "B",
+        "note": "114-2 管理試題 Q25。高衝擊事件 (如地震) 即使機率低，風險值仍可能為中高等級，需有 BCP。"
+    },
+    // --- 實務情境 (114年試題改編) ---
+    {
+        "id": "B27-Plan-21",
+        "question": "某公司遭受 DDoS 攻擊，第一時間應採取的應變措施為？",
+        "options": [
+            "(A) 拔除網路線",
+            "(B) 聯絡 ISP 進行流量清洗或啟用 CDN 防護",
+            "(C) 格式化伺服器",
+            "(D) 支付贖金"
+        ],
+        "answer": "B",
+        "note": "114-1 管理試題 Q24。DDoS 需依賴上游 (ISP/CDN) 進行流量清洗，本地端難以處理大流量。"
+    },
+    {
+        "id": "B27-Plan-22",
+        "question": "關於「密碼管理」政策，NIST SP 800-63B 的最新建議趨勢為何？",
+        "options": [
+            "(A) 強制每 90 天更換密碼",
+            "(B) 強制使用複雜符號",
+            "(C) 取消強制定期更換 (除非洩漏)，改為比對外洩密碼庫並要求長度",
+            "(D) 允許共用密碼"
+        ],
+        "answer": "C",
+        "note": "114-1 管理試題 Q39。避免密碼疲勞導致寫下密碼，強調長度與黑名單比對。"
+    },
+    {
+        "id": "B27-Plan-23",
+        "question": "在遠端工作 (WFH) 情境下，企業應優先導入哪項技術以確保連線安全？",
+        "options": [
+            "(A) FTP",
+            "(B) Telnet",
+            "(C) VPN (搭配 MFA) 或 ZTNA (零信任存取)",
+            "(D) 開放 RDP"
+        ],
+        "answer": "C",
+        "note": "114-1 管理試題 Q28。VPN+MFA 或 ZTNA 是遠端存取的標準安全配備。"
+    },
+    {
+        "id": "B27-Plan-24",
+        "question": "關於「社交工程演練」，若員工點擊了釣魚連結但未輸入資料，後續處置應為？",
+        "options": [
+            "(A) 視為合格",
+            "(B) 視為不合格，需進行教育訓練 (因為點擊可能觸發惡意程式)",
+            "(C) 開除員工",
+            "(D) 獎勵員工"
+        ],
+        "answer": "B",
+        "note": "114-1 管理試題 Q7。點擊連結本身即有 Drive-by Download 風險，應納入再教育對象。"
+    },
+    {
+        "id": "B27-Plan-25",
+        "question": "在資安事故調查中，為了確保證據的法律效力，必須嚴格遵守什麼原則？",
+        "options": [
+            "(A) 速度優先",
+            "(B) 監管鏈 (Chain of Custody)",
+            "(C) 資料加密",
+            "(D) 媒體採訪"
+        ],
+        "answer": "B",
+        "note": "114-1 管理試題 Q43。監管鏈紀錄了證據的完整流向，是法庭接受的關鍵。"
+    },
+    // --- 補充重要觀念 ---
+    {
+        "id": "B27-Plan-26",
+        "question": "關於「縱深防禦 (Defense in Depth)」，下列敘述何者正確？",
+        "options": [
+            "(A) 只需依賴防火牆",
+            "(B) 建立多層次的防禦機制 (網路、端點、應用、資料)，單點失效不影響整體安全",
+            "(C) 成本太高不實用",
+            "(D) 只需依賴防毒軟體"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.7。縱深防禦是資安架構的核心原則。"
+    },
+    {
+        "id": "B27-Plan-27",
+        "question": "在 ISO 27001 中，關於「適用性聲明書 (SoA)」的內容，應包含？",
+        "options": [
+            "(A) 組織的資產清單",
+            "(B) 選擇的控制措施、選擇理由、實作狀態及排除理由",
+            "(C) 員工名單",
+            "(D) 財務報表"
+        ],
+        "answer": "B",
+        "note": "114-2 管理試題 Q1 (概念)。SoA 是 ISMS 驗證的關鍵文件。"
+    },
+    {
+        "id": "B27-Plan-28",
+        "question": "關於「最小權限 (Least Privilege)」原則，在人員異動 (如升遷、調職) 時應如何執行？",
+        "options": [
+            "(A) 直接累加新權限",
+            "(B) 重新審查權限，移除舊職務權限，僅新增新職務所需權限",
+            "(C) 給予管理員權限",
+            "(D) 不需調整"
+        ],
+        "answer": "B",
+        "note": "114-2 管理試題 Q30。防止「權限蔓延 (Privilege Creep)」。"
+    },
+    {
+        "id": "B27-Plan-29",
+        "question": "在 BCP 中，若發生災害，啟動緊急應變計畫的授權人通常是？",
+        "options": [
+            "(A) 發現者",
+            "(B) 召集人/指揮官 (依據損害評估結果)",
+            "(C) IT 人員",
+            "(D) 警衛"
+        ],
+        "answer": "B",
+        "note": "114-2 管理試題 Q47。重大決策需由授權的指揮層級下達。"
+    },
+    {
+        "id": "B27-Plan-30",
+        "question": "關於「資安健診」與「滲透測試」的差異，下列何者正確？",
+        "options": [
+            "(A) 健診是全面性的體檢 (架構、設定、惡意程式)；滲透測試是針對性的攻防演練",
+            "(B) 兩者完全相同",
+            "(C) 滲透測試包含健診",
+            "(D) 健診只做問卷"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch7.5。健診範圍較廣，滲透測試深度較深。"
+    }
+];
+
+// 將 Batch 27 的題目合併到主陣列
+if (typeof protectionQuestions !== 'undefined') {
+    protectionQuestions.push(...protectionQuestions_Batch27);
+}
+if (typeof planningQuestions !== 'undefined') {
+    planningQuestions.push(...planningQuestions_Batch27);
+}
+// ==========================================
+// 2025 資安工程師模擬題庫 - 第二十八批次 (Batch 28)
+// 包含：防護實務 (技術) 50 題 + 規劃實務 (管理) 50 題
+// 來源：資通安全概論_新版教材_11411 (核心教材精選)
+// 重點：日誌管理、備份指標、加密技術、惡意程式防護、資安法規時限
+// ==========================================
+
+const protectionQuestions_Batch28 = [
+    // --- 1. 資通系統防護基準 - 日誌與可歸責性 (教材 Ch5.2) ---
+    {
+        "id": "B28-Prot-01",
+        "question": "依據《資通系統防護基準》，關於日誌 (Log) 的保存期限，下列何者為正確要求？",
+        "options": [
+            "(A) 至少 1 個月",
+            "(B) 至少 3 個月",
+            "(C) 至少 6 個月",
+            "(D) 至少 1 年"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.2。日誌之記錄時間週期及留存政策，應保留日誌至少六個月，以供後續事件調查與鑑識。"
+    },
+    {
+        "id": "B28-Prot-02",
+        "question": "為了確保日誌的「完整性」，防止被竄改，下列哪項技術最適合應用於日誌檔案？",
+        "options": [
+            "(A) 雜湊函數 (Hash Function)",
+            "(B) 壓縮技術",
+            "(C) Base64 編碼",
+            "(D) 負載平衡"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch5.2。雜湊函數 (如 SHA-256) 可產生數位指紋，若日誌內容被修改，雜湊值將不符，以此驗證完整性。"
+    },
+    {
+        "id": "B28-Prot-03",
+        "question": "關於「時戳 (Time Stamp)」在日誌管理中的重要性，下列何者正確？",
+        "options": [
+            "(A) 為了節省儲存空間",
+            "(B) 為了確保不同系統間的事件關聯分析準確性 (NTP 同步)",
+            "(C) 為了加密日誌",
+            "(D) 為了壓縮日誌"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.2。系統內部時鐘應定期與基準時間源 (NTP) 同步，確保跨系統事件分析的時間軸一致。"
+    },
+    // --- 2. 存取控制與身分鑑識 (教材 Ch5.1, 5.4) ---
+    {
+        "id": "B28-Prot-04",
+        "question": "在存取控制中，針對「帳戶鎖定 (Account Lockout)」機制的設定，通常建議在幾次失敗後鎖定？",
+        "options": [
+            "(A) 1 次",
+            "(B) 3-5 次",
+            "(C) 100 次",
+            "(D) 不需鎖定"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.4。身分驗證失敗達一定次數 (通常建議 3-5 次) 後，應鎖定帳號至少 15 分鐘，以防範暴力破解。"
+    },
+    {
+        "id": "B28-Prot-05",
+        "question": "下列何種身分鑑別技術屬於「所知之事 (Something you know)」？",
+        "options": [
+            "(A) 晶片卡",
+            "(B) 指紋",
+            "(C) 密碼 (Password)",
+            "(D) 手機"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.4。所知 (密碼)、所有 (卡片/手機)、所是 (生物特徵)。"
+    },
+    {
+        "id": "B28-Prot-06",
+        "question": "關於「多因子鑑別 (MFA)」，下列哪種組合符合 MFA 定義？",
+        "options": [
+            "(A) 密碼 + PIN 碼 (兩者皆為所知)",
+            "(B) 密碼 + 手機 OTP (所知 + 所有)",
+            "(C) 指紋 + 臉部 (兩者皆為所是)",
+            "(D) 兩組不同的密碼"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.4。MFA 必須包含不同類型的因子 (Knowledge, Possession, Inherence)。"
+    },
+    // --- 3. 密碼學技術 (教材 Ch5.6) ---
+    {
+        "id": "B28-Prot-07",
+        "question": "關於「對稱式加密 (Symmetric Encryption)」，下列敘述何者正確？",
+        "options": [
+            "(A) 加密與解密使用不同的金鑰",
+            "(B) 加密與解密使用同一把金鑰 (Secret Key)",
+            "(C) 不需要金鑰",
+            "(D) 常用演算法為 RSA"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.6。對稱式加密 (如 AES) 使用單一密鑰，速度快但需解決金鑰交換問題。"
+    },
+    {
+        "id": "B28-Prot-08",
+        "question": "「數位簽章 (Digital Signature)」的主要功能不包含下列何者？",
+        "options": [
+            "(A) 完整性 (Integrity)",
+            "(B) 不可否認性 (Non-repudiation)",
+            "(C) 身分鑑別 (Authentication)",
+            "(D) 機密性 (Confidentiality)"
+        ],
+        "answer": "D",
+        "note": "114 教材 Ch5.6。數位簽章使用私鑰簽署雜湊值，不對內容加密，故不提供機密性。"
+    },
+    {
+        "id": "B28-Prot-09",
+        "question": "在公開金鑰基礎建設 (PKI) 中，負責簽發與管理數位憑證的機構是？",
+        "options": [
+            "(A) RA (Registration Authority)",
+            "(B) CA (Certificate Authority)",
+            "(C) LDAP",
+            "(D) CRL"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.6。CA (憑證授權中心) 是信任的錨點。"
+    },
+    {
+        "id": "B28-Prot-10",
+        "question": "下列哪一種加密演算法屬於「非對稱式加密」？",
+        "options": [
+            "(A) AES",
+            "(B) DES",
+            "(C) RSA",
+            "(D) MD5"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.6。RSA 與 ECC 是常見的非對稱加密；AES/DES 是對稱；MD5 是雜湊。"
+    },
+    // --- 4. 網路與通訊安全 (教材 Ch6) ---
+    {
+        "id": "B28-Prot-11",
+        "question": "關於「防火牆 (Firewall)」的部署位置，通常建議將對外服務的伺服器 (如 Web Server) 放置於何處？",
+        "options": [
+            "(A) 內部網路 (LAN)",
+            "(B) 非軍事區 (DMZ)",
+            "(C) 網際網路 (Internet)",
+            "(D) 管理區"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.2。DMZ 用於隔離對外服務，防止外部攻擊直接進入內網。"
+    },
+    {
+        "id": "B28-Prot-12",
+        "question": "下列哪一種 VPN 技術，無需安裝用戶端軟體，使用瀏覽器即可連線？",
+        "options": [
+            "(A) IPsec VPN",
+            "(B) SSL VPN (Web Mode)",
+            "(C) PPTP",
+            "(D) L2TP"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.2。SSL VPN (Clientless/Web Mode) 透過 HTTPS 協定提供便捷存取。"
+    },
+    {
+        "id": "B28-Prot-13",
+        "question": "關於 IDS (入侵偵測系統) 與 IPS (入侵防禦系統) 的差異，下列何者正確？",
+        "options": [
+            "(A) IDS 主動阻擋，IPS 被動告警",
+            "(B) IDS 被動告警 (旁路)，IPS 主動阻擋 (串接)",
+            "(C) 兩者功能完全相同",
+            "(D) IPS 只能偵測病毒"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.5。IDS 負責監聽與分析；IPS 負責實時阻斷攻擊流量。"
+    },
+    {
+        "id": "B28-Prot-14",
+        "question": "在電子郵件安全中，用來驗證寄件者身分並防止偽冒的技術是？",
+        "options": [
+            "(A) SSL/TLS",
+            "(B) SPF / DKIM / DMARC",
+            "(C) WAF",
+            "(D) VPN"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.4。這些協定透過 DNS 紀錄驗證寄件來源與簽章，防範釣魚郵件。"
+    },
+    {
+        "id": "B28-Prot-15",
+        "question": "下列哪一種攻擊是針對網站應用程式層 (Layer 7)，利用輸入欄位注入惡意指令？",
+        "options": [
+            "(A) SYN Flood",
+            "(B) SQL Injection",
+            "(C) ARP Spoofing",
+            "(D) Smurf Attack"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.4。SQL Injection 是 OWASP Top 10 常見的應用層攻擊。"
+    },
+    // --- 5. 惡意程式與防護 (教材 Ch6.1) ---
+    {
+        "id": "B28-Prot-16",
+        "question": "「勒索軟體 (Ransomware)」的主要攻擊行為特徵為何？",
+        "options": [
+            "(A) 竊取硬體資源挖礦",
+            "(B) 加密使用者檔案並要求支付贖金以換取解密金鑰",
+            "(C) 癱瘓網路頻寬",
+            "(D) 竊取帳號密碼"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.1。勒索軟體破壞資料的可用性 (Availability)。"
+    },
+    {
+        "id": "B28-Prot-17",
+        "question": "關於「APT (進階持續性威脅)」攻擊，其特點不包含下列何者？",
+        "options": [
+            "(A) 針對特定目標",
+            "(B) 長期潛伏",
+            "(C) 隨機掃描攻擊",
+            "(D) 手法複雜多變"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch6.6。APT 是高度針對性且持續的攻擊，非隨機行為。"
+    },
+    {
+        "id": "B28-Prot-18",
+        "question": "防毒軟體的「啟發式掃描 (Heuristic Scanning)」技術主要用來偵測？",
+        "options": [
+            "(A) 已知病毒",
+            "(B) 未知或變種病毒 (基於行為或代碼特徵)",
+            "(C) 壓縮檔",
+            "(D) 加密檔案"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.1。啟發式掃描彌補了傳統特徵碼 (Signature) 無法偵測未知威脅的不足。"
+    },
+    {
+        "id": "B28-Prot-19",
+        "question": "下列何者是「社交工程 (Social Engineering)」攻擊的常見媒介？",
+        "options": [
+            "(A) 電子郵件 (釣魚郵件)",
+            "(B) 電話 (詐騙)",
+            "(C) 即時通訊軟體",
+            "(D) 以上皆是"
+        ],
+        "answer": "D",
+        "note": "114 教材 Ch9.8。社交工程利用人性弱點，可透過多種管道進行。"
+    },
+    {
+        "id": "B28-Prot-20",
+        "question": "為了防範「惡意網頁 (Drive-by Download)」，企業應導入哪種系統過濾員工上網行為？",
+        "options": [
+            "(A) Secure Web Gateway (SWG) / 上網防毒閘道",
+            "(B) SMTP Gateway",
+            "(C) Database Firewall",
+            "(D) FTP Server"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch6.3/6.4。SWG 可過濾惡意網址與下載內容。"
+    },
+    // --- 6. 系統與應用程式安全 (教材 Ch7) ---
+    {
+        "id": "B28-Prot-21",
+        "question": "在 SSDLC (安全軟體開發生命週期) 中，源碼檢測 (Source Code Analysis) 通常在什麼階段執行？",
+        "options": [
+            "(A) 需求階段",
+            "(B) 開發 (Coding) 階段",
+            "(C) 上線後",
+            "(D) 廢棄階段"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.4。在開發階段進行白箱測試 (SAST) 可及早發現漏洞。"
+    },
+    {
+        "id": "B28-Prot-22",
+        "question": "關於「弱點掃描 (Vulnerability Scanning)」與「滲透測試 (Penetration Testing)」的差異，下列何者正確？",
+        "options": [
+            "(A) 弱點掃描由人工執行，滲透測試由工具自動執行",
+            "(B) 弱點掃描全面發現已知弱點；滲透測試模擬駭客攻擊，驗證弱點可利用性",
+            "(C) 兩者完全相同",
+            "(D) 滲透測試不會對系統造成影響"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.2/7.3。掃描是廣度檢查，滲透是深度驗證。"
+    },
+    {
+        "id": "B28-Prot-23",
+        "question": "下列哪一種攻擊是利用「緩衝區溢位 (Buffer Overflow)」漏洞？",
+        "options": [
+            "(A) 向程式輸入超過預期長度的資料，覆蓋記憶體堆疊，導致執行惡意代碼",
+            "(B) 猜測密碼",
+            "(C) 攔截封包",
+            "(D) 偽造 DNS"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch7.4。緩衝區溢位是傳統且嚴重的系統漏洞。"
+    },
+    {
+        "id": "B28-Prot-24",
+        "question": "關於 WAF (Web Application Firewall) 的部署，主要用來防禦？",
+        "options": [
+            "(A) 網路層 DDoS",
+            "(B) 應用層攻擊 (如 XSS, SQL Injection)",
+            "(C) 病毒感染",
+            "(D) 垃圾郵件"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.3。WAF 專注於 HTTP/HTTPS 流量的應用層防護。"
+    },
+    {
+        "id": "B28-Prot-25",
+        "question": "為了確保軟體來源可靠且未被竄改，開發者應對程式碼進行？",
+        "options": [
+            "(A) 壓縮",
+            "(B) 程式碼簽章 (Code Signing)",
+            "(C) 加密",
+            "(D) 備份"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.6。程式碼簽章利用數位憑證證明軟體來源與完整性。"
+    },
+    // --- 7. 新興科技安全 (教材 Ch6.7-6.10) ---
+    {
+        "id": "B28-Prot-26",
+        "question": "關於 GCB (政府組態基準) 的目的，下列何者正確？",
+        "options": [
+            "(A) 規範資通訊設備的一致性安全設定 (如密碼長度、關閉不必要服務)",
+            "(B) 提供防毒軟體",
+            "(C) 進行滲透測試",
+            "(D) 備份資料"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch6.8。GCB 透過標準化設定減少系統攻擊面。"
+    },
+    {
+        "id": "B28-Prot-27",
+        "question": "VANS (資通安全弱點通報機制) 的主要功能是？",
+        "options": [
+            "(A) 自動修補漏洞",
+            "(B) 將機關資產 (CPE) 與弱點資料庫 (CVE) 比對，識別潛在風險",
+            "(C) 阻擋攻擊",
+            "(D) 監控流量"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.9。VANS 協助機關掌握資產曝險情形。"
+    },
+    {
+        "id": "B28-Prot-28",
+        "question": "EDR (端點偵測與回應) 系統相較於傳統防毒軟體，增加了什麼能力？",
+        "options": [
+            "(A) 僅依賴特徵碼",
+            "(B) 行為分析、持續監控、威脅獵捕與遠端回應",
+            "(C) 價格更便宜",
+            "(D) 不需安裝代理程式"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.10。EDR 能偵測未知威脅並提供鑑識回應能力。"
+    },
+    {
+        "id": "B28-Prot-29",
+        "question": "SOC (資安監控中心) 的核心系統 SIEM，其主要功能為？",
+        "options": [
+            "(A) 阻擋垃圾郵件",
+            "(B) 收集各類資安設備日誌，進行關聯分析 (Correlation) 以偵測異常",
+            "(C) 備份資料庫",
+            "(D) 掃描漏洞"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.7。SIEM 是 SOC 的大腦，負責分析與告警。"
+    },
+    {
+        "id": "B28-Prot-30",
+        "question": "關於「零信任 (Zero Trust)」架構，下列何者是其核心原則？",
+        "options": [
+            "(A) 信任內部網路",
+            "(B) 永不信任，始終驗證 (Never Trust, Always Verify)",
+            "(C) 只驗證外部使用者",
+            "(D) 邊界防護最重要"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.4 (MFA相關概念延伸)。零信任假設內網已遭入侵，需持續驗證。"
+    },
+    // --- 8. 實體安全與其他 (教材 Ch7.7) ---
+    {
+        "id": "B28-Prot-31",
+        "question": "在機房實體安全中，使用「ABC 類乾粉滅火器」適用於哪些火災？",
+        "options": [
+            "(A) 僅適用於普通火災",
+            "(B) 適用於普通火災 (A)、油類火災 (B) 與電氣火災 (C)",
+            "(C) 僅適用於金屬火災",
+            "(D) 不適用於任何火災"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.7。ABC 乾粉是通用型滅火器，適用多種火災。"
+    },
+    {
+        "id": "B28-Prot-32",
+        "question": "關於 UPS (不斷電系統) 的主要用途，下列何者正確？",
+        "options": [
+            "(A) 作為長期發電設備",
+            "(B) 提供短期電力銜接與穩壓，爭取正常關機或發電機啟動的時間",
+            "(C) 降低電費",
+            "(D) 增加網速"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.7。UPS 負責電力品質與短期備援。"
+    },
+    {
+        "id": "B28-Prot-33",
+        "question": "為了防止「尾隨 (Tailgating)」進入機房，最有效的實體控制設施是？",
+        "options": [
+            "(A) 監視器",
+            "(B) 雙重互鎖門 (Mantrap)",
+            "(C) 警示標語",
+            "(D) 一般刷卡機"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.7。Mantrap 強制一次一人通過，防止未授權尾隨。"
+    },
+    {
+        "id": "B28-Prot-34",
+        "question": "在資安鑑識中，遵循「監管鏈 (Chain of Custody)」的主要目的是？",
+        "options": [
+            "(A) 加速調查",
+            "(B) 證明證據從採集到法庭呈現的過程中未被竄改或汙染",
+            "(C) 備份資料",
+            "(D) 節省成本"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch9.7。監管鏈是確保數位證據法律效力的關鍵。"
+    },
+    {
+        "id": "B28-Prot-35",
+        "question": "關於「社交工程演練」的頻率，A 級公務機關規定為？",
+        "options": [
+            "(A) 每年 1 次",
+            "(B) 每半年 1 次",
+            "(C) 每季 1 次",
+            "(D) 每月 1 次"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch2.2 & Ch4.7。A 級機關需每半年辦理一次社交工程演練。"
+    },
+    // --- 補充實務題 ---
+    {
+        "id": "B28-Prot-36",
+        "question": "下列何者是「被動式攻擊」？",
+        "options": ["(A) 竊聽 (Sniffing)", "(B) 阻斷服務", "(C) 竄改資料", "(D) 植入木馬"],
+        "answer": "A",
+        "note": "114 教材 Ch1.1。竊聽不改變資料流，難以被偵測。"
+    },
+    {
+        "id": "B28-Prot-37",
+        "question": "在 HTTPS 連線中，伺服器憑證的主要作用是？",
+        "options": ["(A) 加速連線", "(B) 驗證伺服器身分並交換加密金鑰", "(C) 備份網站", "(D) 壓縮圖片"],
+        "answer": "B",
+        "note": "114 教材 Ch5.6。憑證用於身分鑑別與建立安全通道。"
+    },
+    {
+        "id": "B28-Prot-38",
+        "question": "關於 VPN 的 Split Tunneling (分割通道) 風險？",
+        "options": ["(A) 比較安全", "(B) 繞過 VPN 的流量可能成為攻擊破口，無法被企業監控", "(C) 速度慢", "(D) 無法連線"],
+        "answer": "B",
+        "note": "114 教材 Ch7.6。Split Tunneling 雖節省頻寬但增加端點風險。"
+    },
+    {
+        "id": "B28-Prot-39",
+        "question": "下列何者屬於「實體隔離 (Air Gap)」的應用？",
+        "options": ["(A) 使用 VLAN", "(B) 將關鍵系統 (如核電廠控制) 與網際網路完全斷開物理連接", "(C) 使用防火牆", "(D) 使用 VPN"],
+        "answer": "B",
+        "note": "114 教材 Ch7.6。實體隔離是最高等級的網路隔離。"
+    },
+    {
+        "id": "B28-Prot-40",
+        "question": "關於 Google Hacking (Google Dorks) 是指？",
+        "options": ["(A) 攻擊 Google 伺服器", "(B) 利用搜尋引擎進階語法尋找暴露的敏感資訊", "(C) 註冊 Google 帳號", "(D) 使用 Chrome"],
+        "answer": "B",
+        "note": "這是被動情資蒐集 (OSINT) 的一種手法。"
+    },
+    {
+        "id": "B28-Prot-41",
+        "question": "OWASP ZAP 是什麼工具？",
+        "options": ["(A) 防毒軟體", "(B) Web 應用程式弱點掃描工具", "(C) 防火牆", "(D) 密碼破解器"],
+        "answer": "B",
+        "note": "開源的 DAST 工具。"
+    },
+    {
+        "id": "B28-Prot-42",
+        "question": "在密碼學中，Nonce (Number used once) 的用途是？",
+        "options": ["(A) 防止重送攻擊 (Replay Attack)", "(B) 加密金鑰", "(C) 數位簽章", "(D) 壓縮"],
+        "answer": "A",
+        "note": "確保每次加密結果不同，防止重送。"
+    },
+    {
+        "id": "B28-Prot-43",
+        "question": "關於「蜜罐 (Honeypot)」的日誌，若有紀錄代表？",
+        "options": ["(A) 正常流量", "(B) 極高機率是攻擊行為 (因無正常業務)", "(C) 硬體故障", "(D) 誤報"],
+        "answer": "B",
+        "note": "蜜罐無正常業務，任何連線皆可疑。"
+    },
+    {
+        "id": "B28-Prot-44",
+        "question": "下列何者是防範 SQL Injection 的最佳實務？",
+        "options": ["(A) 過濾字串", "(B) 使用參數化查詢 (Prepared Statements)", "(C) 關閉資料庫", "(D) 隱藏錯誤訊息"],
+        "answer": "B",
+        "note": "114 教材 Ch7.4。參數化查詢將代碼與資料分離。"
+    },
+    {
+        "id": "B28-Prot-45",
+        "question": "在資安事件中，拔除網路線屬於哪個階段？",
+        "options": ["(A) 識別", "(B) 遏制/封鎖 (Containment)", "(C) 根除", "(D) 復原"],
+        "answer": "B",
+        "note": "114 教材 Ch9.6。物理斷網是防止擴散的緊急遏制措施。"
+    },
+    {
+        "id": "B28-Prot-46",
+        "question": "關於「行動裝置管理 (MDM)」的遠端抹除功能，主要解決？",
+        "options": ["(A) 裝置遺失時的資料外洩風險", "(B) 裝置中毒", "(C) 電池老化", "(D) 螢幕破裂"],
+        "answer": "A",
+        "note": "114 教材 Ch5.8。防止遺失裝置上的敏感資料被竊。"
+    },
+    {
+        "id": "B28-Prot-47",
+        "question": "關於「資料銷毀」，硬碟消磁 (Degaussing) 適用於？",
+        "options": ["(A) SSD", "(B) 傳統磁性硬碟 (HDD) 與磁帶", "(C) 光碟", "(D) USB"],
+        "answer": "B",
+        "note": "114 教材 Ch5.8。消磁僅對磁性儲存媒體有效，對 Flash 記憶體 (SSD/USB) 無效。"
+    },
+    {
+        "id": "B28-Prot-48",
+        "question": "在資安監控中，異常的「出站流量 (Outbound Traffic)」可能代表？",
+        "options": [ "(A) DDoS 攻擊", "(B) C2 通訊或資料外洩 (Exfiltration)", "(C) 正常更新", "(D) 備份"],
+        "answer": "B",
+        "note": "內部主機對外異常連線是受駭的重要指標。"
+    },
+    {
+        "id": "B28-Prot-49",
+        "question": "關於「供應鏈安全」，SBOM 是指？",
+        "options": ["(A) 軟體物料清單", "(B) 軟體炸彈", "(C) 供應商名單", "(D) 合約"],
+        "answer": "A",
+        "note": "Software Bill of Materials，用於管理軟體成分風險。"
+    },
+    {
+        "id": "B28-Prot-50",
+        "question": "在 5G 安全中，SUCI 機制保護了什麼？",
+        "options": ["(A) 用戶的 IMSI (身分隱私)", "(B) 網速", "(C) 電量", "(D) 基地台"],
+        "answer": "A",
+        "note": "防止 IMSI Catcher (偽基地台) 竊取用戶身分。"
+    }
+];
+
+const planningQuestions_Batch28 = [
+    // --- 1. 資安治理與法規 (教材 Ch2) ---
+    {
+        "id": "B28-Plan-01",
+        "question": "依據《資通安全管理法》，「關鍵基礎設施提供者」屬於下列哪一類納管對象？",
+        "options": [
+            "(A) 公務機關",
+            "(B) 特定非公務機關",
+            "(C) 一般私人企業",
+            "(D) 非政府組織"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch2.2。關鍵基礎設施提供者、公營事業、政府捐助財團法人皆屬特定非公務機關。"
+    },
+    {
+        "id": "B28-Plan-02",
+        "question": "依據 114 年最新教材，關於「危害國家資通安全產品」的使用限制，公務機關應？",
+        "options": [
+            "(A) 自由使用",
+            "(B) 原則禁止，例外經核准後方可使用",
+            "(C) 僅限制核心系統",
+            "(D) 不需理會"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch2.2。這是資安法修法重點，強化供應鏈風險管理。"
+    },
+    {
+        "id": "B28-Plan-03",
+        "question": "《資通安全責任等級分級辦法》中，A 級機關應多久辦理一次「資通安全健診」？",
+        "options": [
+            "(A) 每年 1 次",
+            "(B) 每 2 年 1 次",
+            "(C) 每 3 年 1 次",
+            "(D) 無規定"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch7.5 (表45)。A/B 級機關每年 1 次，C 級每 2 年 1 次。"
+    },
+    {
+        "id": "B28-Plan-04",
+        "question": "關於個資法，非公務機關違反安全維護義務致個資外洩，且情節重大者，最高罰鍰為？",
+        "options": [
+            "(A) 20 萬元",
+            "(B) 50 萬元",
+            "(C) 200 萬元",
+            "(D) 1500 萬元"
+        ],
+        "answer": "D",
+        "note": "114 教材 Ch2.3。個資法修法後大幅提高罰鍰上限至 1500 萬元。"
+    },
+    {
+        "id": "B28-Plan-05",
+        "question": "在資安治理架構中，負責決策與資源分配的最高層級是？",
+        "options": [
+            "(A) 資安官 (CISO)",
+            "(B) 資訊部門主管",
+            "(C) 資通安全長 / 資安委員會",
+            "(D) 稽核室"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch4.6。資安長負責推動及監督，委員會負責跨部門協調與決策。"
+    },
+    // --- 2. 風險管理 (教材 Ch3) ---
+    {
+        "id": "B28-Plan-06",
+        "question": "風險 (Risk) 的計算公式通常為？",
+        "options": [
+            "(A) 資產 + 威脅",
+            "(B) 資產 x 威脅 x 脆弱性 (衝擊 x 可能性)",
+            "(C) 威脅 - 控制",
+            "(D) 脆弱性 / 成本"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch3.1。風險由資產價值、威脅發生率與脆弱性嚴重度共同決定。"
+    },
+    {
+        "id": "B28-Plan-07",
+        "question": "在風險處理策略中，購買「資安保險」屬於？",
+        "options": [
+            "(A) 風險規避 (Avoidance)",
+            "(B) 風險降低 (Reduction)",
+            "(C) 風險轉移/分擔 (Transfer/Sharing)",
+            "(D) 風險保留 (Retention)"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch3.4。將財務損失轉嫁給保險公司。"
+    },
+    {
+        "id": "B28-Plan-08",
+        "question": "關於「營運衝擊分析 (BIA)」，其主要產出不包含？",
+        "options": [
+            "(A) 關鍵業務功能",
+            "(B) RTO (復原時間目標)",
+            "(C) RPO (復原點目標)",
+            "(D) 駭客攻擊手法"
+        ],
+        "answer": "D",
+        "note": "114 教材 Ch4.5。BIA 關注業務衝擊與復原目標，而非技術攻擊細節。"
+    },
+    {
+        "id": "B28-Plan-09",
+        "question": "在風險矩陣中，對於「高衝擊、高可能性」的風險，應採取？",
+        "options": [
+            "(A) 立即處理 (優先降低)",
+            "(B) 接受",
+            "(C) 忽略",
+            "(D) 觀察"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch3.3。這是不可容忍的風險，需優先分配資源處理。"
+    },
+    {
+        "id": "B28-Plan-10",
+        "question": "關於「殘餘風險 (Residual Risk)」，下列敘述何者正確？",
+        "options": [
+            "(A) 必須降為零",
+            "(B) 實施控制措施後剩下的風險，需由管理層簽署接受",
+            "(C) 不需要管理",
+            "(D) 等於固有風險"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch3.5。資安無法零風險，殘餘風險需進行管理與監控。"
+    },
+    // --- 3. 營運持續與應變 (教材 Ch4.5, Ch9) ---
+    {
+        "id": "B28-Plan-11",
+        "question": "在 BCP 中，RTO (復原時間目標) 是指？",
+        "options": [
+            "(A) 容許資料遺失的時間長度",
+            "(B) 系統從中斷到恢復服務所允許的最大時間長度",
+            "(C) 備份所需時間",
+            "(D) 平均故障時間"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch4.5。RTO 決定了系統需要多快恢復 (Time/Speed)。"
+    },
+    {
+        "id": "B28-Plan-12",
+        "question": "在 BCP 中，RPO (復原點目標) 是指？",
+        "options": [
+            "(A) 恢復服務的時間",
+            "(B) 容許資料遺失的最大量 (回溯到多久前的備份點)",
+            "(C) 演練頻率",
+            "(D) 設備成本"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch4.5。RPO 決定了備份的頻率 (Point/Data Loss)。"
+    },
+    {
+        "id": "B28-Plan-13",
+        "question": "關於「備份 3-2-1 原則」，下列何者正確？",
+        "options": [
+            "(A) 3 份複本、2 種介質、1 份異地",
+            "(B) 3 種介質、2 份複本、1 份本地",
+            "(C) 3 次備份、2 次還原、1 次演練",
+            "(D) 3 天一次、2 週一次、1 個月一次"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch5.3。確保資料在本地災難發生時仍有異地副本可還原。"
+    },
+    {
+        "id": "B28-Plan-14",
+        "question": "資安事件發生後，依規定公務機關應於多久內通報？",
+        "options": [
+            "(A) 1 小時",
+            "(B) 2 小時",
+            "(C) 8 小時",
+            "(D) 24 小時"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch9.4 (及相關法規)。1 小時是通報的黃金時限。"
+    },
+    {
+        "id": "B28-Plan-15",
+        "question": "對於第 3 級資安事件，應於多久內完成損害控制或復原？",
+        "options": [
+            "(A) 12 小時",
+            "(B) 24 小時",
+            "(C) 36 小時",
+            "(D) 72 小時"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch9.4。第 3、4 級事件需在 36 小時內完成處理；第 1、2 級為 72 小時。"
+    },
+    // --- 4. ISO 27001 與資安管理 (教材 Ch4) ---
+    {
+        "id": "B28-Plan-16",
+        "question": "ISO 27001 中的「PDCA」循環，Check (查核) 階段主要包含？",
+        "options": [
+            "(A) 風險評鑑",
+            "(B) 實施控制措施",
+            "(C) 內部稽核與管理審查",
+            "(D) 矯正措施"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch4.4。Check 階段負責監控與量測 ISMS 的有效性。"
+    },
+    {
+        "id": "B28-Plan-17",
+        "question": "關於「資安政策」的審查，應至少多久進行一次？",
+        "options": [
+            "(A) 每月",
+            "(B) 每年 (或發生重大變更時)",
+            "(C) 每三年",
+            "(D) 不需審查"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch4.6 (管理審查)。定期審查確保政策持續適用。"
+    },
+    {
+        "id": "B28-Plan-18",
+        "question": "ISO 27001:2022 新增的「威脅情資」控制措施，屬於哪一類？",
+        "options": [
+            "(A) 組織控制",
+            "(B) 人員控制",
+            "(C) 實體控制",
+            "(D) 技術控制"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch4.2 (表18)。威脅情資被歸類在第 5 章組織控制。"
+    },
+    {
+        "id": "B28-Plan-19",
+        "question": "關於「社交工程演練」，A 級機關應多久辦理一次？",
+        "options": [
+            "(A) 每年 1 次",
+            "(B) 每半年 1 次",
+            "(C) 每季 1 次",
+            "(D) 每月 1 次"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch4.7 (表29)。A 級機關社交工程演練頻率為每半年 1 次。"
+    },
+    {
+        "id": "B28-Plan-20",
+        "question": "關於「資安專職人員」，A 級機關應配置幾人？",
+        "options": [
+            "(A) 1 人",
+            "(B) 2 人",
+            "(C) 4 人",
+            "(D) 6 人"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch4.3 (表19)。A 級需 4 人，B 級需 2 人，C 級需 1 人。"
+    },
+    // --- 5. 供應鏈與其他管理 (教材 Ch8) ---
+    {
+        "id": "B28-Plan-21",
+        "question": "機關委外辦理資通系統建置，應在何時將資安需求納入？",
+        "options": [
+            "(A) 驗收階段",
+            "(B) 招標/需求階段 (RFP)",
+            "(C) 系統上線後",
+            "(D) 發生事故後"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch8.4。資安應從源頭 (需求/招標) 開始管理。"
+    },
+    {
+        "id": "B28-Plan-22",
+        "question": "關於供應商的「稽核權 (Right to Audit)」，目的是？",
+        "options": [
+            "(A) 增加成本",
+            "(B) 確保機關有權查核廠商的資安落實情形",
+            "(C) 取得原始碼",
+            "(D) 延後付款"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch8.5。合約中應保留稽核權，以監督廠商合規性。"
+    },
+    {
+        "id": "B28-Plan-23",
+        "question": "在資產管理中，資訊分級 (如機密、敏感、一般) 的主要依據是？",
+        "options": [
+            "(A) 檔案大小",
+            "(B) 資料洩露或損壞對組織的衝擊程度 (CIA 價值)",
+            "(C) 建立日期",
+            "(D) 格式"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch3.3 (衝擊準則)。分級是為了決定適當的保護措施。"
+    },
+    {
+        "id": "B28-Plan-24",
+        "question": "關於「最小權限原則 (Least Privilege)」，是指？",
+        "options": [
+            "(A) 給予所有權限",
+            "(B) 僅給予完成工作所需的最小必要權限",
+            "(C) 只給 Root 權限",
+            "(D) 不給權限"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.1。降低帳號被駭後的損害範圍。"
+    },
+    {
+        "id": "B28-Plan-25",
+        "question": "在資安教育訓練中，針對一般使用者的重點是？",
+        "options": [
+            "(A) 防火牆設定",
+            "(B) 社交工程防範 (如釣魚郵件辨識)",
+            "(C) 程式開發",
+            "(D) 伺服器管理"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch9.8。人是資安最弱的一環，社交工程是主要威脅。"
+    },
+    // --- 補充重點與情境 (26-50) ---
+    {
+        "id": "B28-Plan-26",
+        "question": "關於「雲端責任共擔模型」，SaaS 使用者主要負責？",
+        "options": ["(A) 實體安全", "(B) OS 修補", "(C) 資料與身分權限管理", "(D) 網路設備"],
+        "answer": "C",
+        "note": "114 教材 Ch7.6。SaaS 客戶負責資料與帳號。"
+    },
+    {
+        "id": "B28-Plan-27",
+        "question": "資安事件分級中，若涉及核心業務系統且無法在可容忍時間內恢復，屬於？",
+        "options": ["(A) 1 級", "(B) 2 級", "(C) 3 級", "(D) 4 級"],
+        "answer": "C",
+        "note": "114 教材 Ch9.3。核心業務受損屬嚴重事件 (3級)。"
+    },
+    {
+        "id": "B28-Plan-28",
+        "question": "關於「資安健診」，主要包含哪些項目？",
+        "options": ["(A) 網路架構檢視", "(B) 惡意活動檢視", "(C) 設備安全檢視", "(D) 以上皆是"],
+        "answer": "D",
+        "note": "114 教材 Ch7.5。健診是全面性的技術檢查。"
+    },
+    {
+        "id": "B28-Plan-29",
+        "question": "關於「社交工程演練」，若員工點擊釣魚信，應如何處置？",
+        "options": ["(A) 開除", "(B) 加強教育訓練", "(C) 扣薪", "(D) 公開羞辱"],
+        "answer": "B",
+        "note": "114 教材 Ch9.8。演練目的是教育而非懲罰。"
+    },
+    {
+        "id": "B28-Plan-30",
+        "question": "關於「變更管理」，緊急變更後應？",
+        "options": ["(A) 不需紀錄", "(B) 事後補齊紀錄與審查", "(C) 刪除紀錄", "(D) 隱瞞"],
+        "answer": "B",
+        "note": "114 教材 Ch6.8。緊急變更仍需納管，維持可追溯性。"
+    },
+    {
+        "id": "B28-Plan-31",
+        "question": "資安長的績效指標，不應包含？",
+        "options": ["(A) 資安事件零發生率", "(B) 風險降低程度", "(C) 合規性", "(D) 演練成效"],
+        "answer": "A",
+        "note": "零發生率是不切實際的，可能導致隱匿通報。"
+    },
+    {
+        "id": "B28-Plan-32",
+        "question": "在個資法中，當事人請求刪除個資 (被遺忘權)，企業應？",
+        "options": ["(A) 立即刪除備份", "(B) 評估是否有法律保留義務，若無則刪除", "(C) 拒絕", "(D) 收費"],
+        "answer": "B",
+        "note": "需考量其他法律 (如稅法) 的保存要求。"
+    },
+    {
+        "id": "B28-Plan-33",
+        "question": "關於「供應鏈安全」，SBOM 是指？",
+        "options": ["(A) 軟體物料清單", "(B) 軟體炸彈", "(C) 供應商名單", "(D) 合約"],
+        "answer": "A",
+        "note": "Software Bill of Materials，用於管理軟體成分風險。"
+    },
+    {
+        "id": "B28-Plan-34",
+        "question": "關於「特權帳號」管理，最佳實務是？",
+        "options": ["(A) 多人共用", "(B) 導入 PAM 系統，實施側錄與密碼輪換", "(C) 寫在紙上", "(D) 永不變更"],
+        "answer": "B",
+        "note": "PAM (特權存取管理) 是高權限帳號的標準防護。"
+    },
+    {
+        "id": "B28-Plan-35",
+        "question": "資安治理的核心目標是？",
+        "options": ["(A) 買設備", "(B) 支援業務目標與風險管理", "(C) 阻礙業務", "(D) 合規"],
+        "answer": "B",
+        "note": "114 教材 Ch4.6。資安需與業務目標對齊。"
+    },
+    {
+        "id": "B28-Plan-36",
+        "question": "關於「遠端存取」政策，應禁止？",
+        "options": ["(A) 使用 VPN", "(B) 全家共用公務電腦", "(C) MFA", "(D) 更新系統"],
+        "answer": "B",
+        "note": "114 教材 Ch5.1。公務設備僅限公務使用，降低風險。"
+    },
+    {
+        "id": "B28-Plan-37",
+        "question": "在實體安全中，UPS 的主要功能？",
+        "options": ["(A) 長期發電", "(B) 短期電力銜接與穩壓", "(C) 滅火", "(D) 監控"],
+        "answer": "B",
+        "note": "114 教材 Ch7.7。UPS 負責過渡市電與發電機之間的空窗期。"
+    },
+    {
+        "id": "B28-Plan-38",
+        "question": "關於「資料銷毀」，最安全的方式？",
+        "options": ["(A) 格式化", "(B) 刪除", "(C) 物理破壞 (粉碎)", "(D) 丟垃圾桶"],
+        "answer": "C",
+        "note": "114 教材 Ch5.8。物理破壞確保資料無法復原。"
+    },
+    {
+        "id": "B28-Plan-39",
+        "question": "資安演練中，紅藍對抗的紫隊角色是？",
+        "options": ["(A) 攻擊", "(B) 防禦", "(C) 促進紅藍溝通與協作", "(D) 裁判"],
+        "answer": "C",
+        "note": "紫隊負責最大化演練效益。"
+    },
+    {
+        "id": "B28-Plan-40",
+        "question": "關於 ISO 27701，它是針對什麼的管理標準？",
+        "options": ["(A) 隱私資訊管理 (PIMS)", "(B) 雲端安全", "(C) 供應鏈", "(D) 營運持續"],
+        "answer": "A",
+        "note": "114 教材 Ch2.3 (延伸)。ISO 27701 是 GDPR 合規的重要參考。"
+    },
+    {
+        "id": "B28-Plan-41",
+        "question": "關於「行動裝置」報廢，應執行？",
+        "options": ["(A) 刪除通訊錄", "(B) 恢復原廠設定並確認資料抹除", "(C) 登出", "(D) 拔 SIM 卡"],
+        "answer": "B",
+        "note": "114 教材 Ch5.8。需確保資料無法復原。"
+    },
+    {
+        "id": "B28-Plan-42",
+        "question": "在風險評鑑中，定性分析是指？",
+        "options": ["(A) 計算金額", "(B) 使用高/中/低等級描述", "(C) 數學模型", "(D) 統計數據"],
+        "answer": "B",
+        "note": "114 教材 Ch3.3。定性分析適合快速評估。"
+    },
+    {
+        "id": "B28-Plan-43",
+        "question": "關於「資產擁有者 (Owner)」的職責？",
+        "options": ["(A) 維修設備", "(B) 定義資產分類與授權", "(C) 寫程式", "(D) 操作系統"],
+        "answer": "B",
+        "note": "114 教材 Ch1.1。Owner 負責決策，Custodian 負責執行。"
+    },
+    {
+        "id": "B28-Plan-44",
+        "question": "在 BCP 中，MTPD 代表？",
+        "options": ["(A) 最大可容忍中斷時間", "(B) 復原時間", "(C) 備份點", "(D) 平均修復時間"],
+        "answer": "A",
+        "note": "114 教材 Ch4.5。Maximum Tolerable Period of Disruption。"
+    },
+    {
+        "id": "B28-Plan-45",
+        "question": "關於「弱點修補」，高風險漏洞應？",
+        "options": ["(A) 立即修補", "(B) 下個月修", "(C) 不修", "(D) 等廠商通知"],
+        "answer": "A",
+        "note": "114 教材 Ch5.7。風險越高，修補時效應越短。"
+    },
+    {
+        "id": "B28-Plan-46",
+        "question": "在資安治理中，三道防線的第三道是？",
+        "options": ["(A) 營運單位", "(B) 風險管理", "(C) 內部稽核", "(D) 外部主管機關"],
+        "answer": "C",
+        "note": "114 教材 Ch4.4。內部稽核提供獨立保證。"
+    },
+    {
+        "id": "B28-Plan-47",
+        "question": "關於「社交工程」，其攻擊目標是？",
+        "options": ["(A) 防火牆", "(B) 人性弱點", "(C) 伺服器漏洞", "(D) 密碼演算法"],
+        "answer": "B",
+        "note": "114 教材 Ch9.8。利用信任、恐懼、貪婪等心理。"
+    },
+    {
+        "id": "B28-Plan-48",
+        "question": "在個資保護中，去識別化 (De-identification) 的目的是？",
+        "options": ["(A) 加密", "(B) 移除識別符，降低個資風險", "(C) 備份", "(D) 壓縮"],
+        "answer": "B",
+        "note": "114 教材 Ch1.3。降低個資外洩的衝擊。"
+    },
+    {
+        "id": "B28-Plan-49",
+        "question": "關於「供應鏈安全」，應避免？",
+        "options": ["(A) 單一供應源", "(B) 定期稽核", "(C) 簽署保密協定", "(D) 驗收檢測"],
+        "answer": "A",
+        "note": "單一供應源會造成供應鏈中斷風險 (韌性問題)。"
+    },
+    {
+        "id": "B28-Plan-50",
+        "question": "資安管理的最終責任者是？",
+        "options": ["(A) 資安人員", "(B) 最高管理階層 (董事會/CEO)", "(C) IT 主管", "(D) 廠商"],
+        "answer": "B",
+        "note": "114 教材 Ch4.6。資安是公司治理議題，高層負最終當責 (Accountability)。"
+    }
+];
+
+// 將 Batch 28 的題目合併到主陣列
+if (typeof protectionQuestions !== 'undefined') {
+    protectionQuestions.push(...protectionQuestions_Batch28);
+}
+if (typeof planningQuestions !== 'undefined') {
+    planningQuestions.push(...planningQuestions_Batch28);
+}
+// ==========================================
+// 2025 資安工程師模擬題庫 - 第二十九批次 (Batch 29)
+// 包含：防護實務 (技術) 50 題 + 規劃實務 (管理) 50 題
+// 來源：資通安全概論_新版教材_11411 (基礎核心觀念)
+// 重點：CIA三要素、加密演算法差異、網路協定層級、資安事件應變流程
+// ==========================================
+
+const protectionQuestions_Batch29 = [
+    // --- 1. 密碼學與認證技術 (教材 Ch5.4, Ch5.6) ---
+    {
+        "id": "B29-Prot-01",
+        "question": "在公開金鑰基礎建設 (PKI) 中，若要傳送機密郵件給對方，應使用何種金鑰進行「加密」？",
+        "options": [
+            "(A) 自己的公鑰",
+            "(B) 自己的私鑰",
+            "(C) 對方的公鑰",
+            "(D) 對方的私鑰"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.6。非對稱加密中，公鑰用於加密，私鑰用於解密。要讓對方能解開，需使用對方的公鑰加密。"
+    },
+    {
+        "id": "B29-Prot-02",
+        "question": "關於「數位簽章 (Digital Signature)」的運作，發送方應使用何種金鑰對訊息摘要進行簽署？",
+        "options": [
+            "(A) 接收方的公鑰",
+            "(B) 接收方的私鑰",
+            "(C) 發送方自己的公鑰",
+            "(D) 發送方自己的私鑰"
+        ],
+        "answer": "D",
+        "note": "114 教材 Ch5.6。數位簽章是為了證明「是我發的」，故使用只有自己擁有的私鑰進行簽署。"
+    },
+    {
+        "id": "B29-Prot-03",
+        "question": "下列哪一種演算法屬於「雜湊函數 (Hash Function)」，常被用於驗證檔案完整性？",
+        "options": [
+            "(A) AES",
+            "(B) RSA",
+            "(C) SHA-256",
+            "(D) DES"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.6。SHA-256 是雜湊演算法；AES/DES 是對稱加密；RSA 是非對稱加密。"
+    },
+    {
+        "id": "B29-Prot-04",
+        "question": "關於「對稱式加密」與「非對稱式加密」的比較，下列何者正確？",
+        "options": [
+            "(A) 對稱式加密速度較慢",
+            "(B) 非對稱式加密適合用於大量資料加密",
+            "(C) 對稱式加密面臨金鑰交換與管理的困難",
+            "(D) 非對稱式加密只需要一把金鑰"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.6。對稱式加密速度快但金鑰分發困難；非對稱式解決了金鑰交換問題但速度慢。"
+    },
+    {
+        "id": "B29-Prot-05",
+        "question": "在身分鑑別中，「智慧卡 (Smart Card)」屬於哪一類驗證因子？",
+        "options": [
+            "(A) 所知之事 (Something you know)",
+            "(B) 所有之物 (Something you have)",
+            "(C) 所具之形 (Something you are)",
+            "(D) 所在之處 (Something you do)"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.4。智慧卡是實體持有的物品，屬於「所有之物」。"
+    },
+    // --- 2. 網路通訊安全 (教材 Ch6.2, Ch6.5) ---
+    {
+        "id": "B29-Prot-06",
+        "question": "在 OSI 模型中，IP 位址 (IP Address) 是屬於哪一層的運作範疇？",
+        "options": [
+            "(A) 資料連結層 (Layer 2)",
+            "(B) 網路層 (Layer 3)",
+            "(C) 傳輸層 (Layer 4)",
+            "(D) 應用層 (Layer 7)"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.2。IP 協定負責路由與定址，位於網路層 (Layer 3)。"
+    },
+    {
+        "id": "B29-Prot-07",
+        "question": "下列哪一個通訊協定因採用明文傳輸，極易遭竊聽，應避免使用？",
+        "options": [
+            "(A) HTTPS",
+            "(B) SSH",
+            "(C) Telnet",
+            "(D) SFTP"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch7.6。Telnet, FTP, HTTP 皆為明文傳輸協定，應改用 SSH, SFTP, HTTPS。"
+    },
+    {
+        "id": "B29-Prot-08",
+        "question": "關於防火牆 (Firewall) 的「預設拒絕 (Default Deny)」策略，意指？",
+        "options": [
+            "(A) 允許所有連線，只阻擋黑名單",
+            "(B) 拒絕所有連線，只開放明確允許的白名單",
+            "(C) 關閉防火牆",
+            "(D) 只檢查 HTTP 流量"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.1。預設拒絕 (正面表列) 是最安全的防火牆策略。"
+    },
+    {
+        "id": "B29-Prot-09",
+        "question": "關於 VPN (虛擬私人網路) 的主要功能，下列何者正確？",
+        "options": [
+            "(A) 掃描電腦病毒",
+            "(B) 在公共網路上建立加密通道 (Tunneling)，確保資料傳輸安全",
+            "(C) 增加網路頻寬",
+            "(D) 備份資料庫"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.6。VPN 利用穿隧協定與加密技術保護通訊。"
+    },
+    {
+        "id": "B29-Prot-10",
+        "question": "下列何者是針對「可用性 (Availability)」的攻擊？",
+        "options": [
+            "(A) 網路釣魚",
+            "(B) 跨站腳本 (XSS)",
+            "(C) 阻斷服務攻擊 (DoS/DDoS)",
+            "(D) SQL 注入"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch1.3。DoS 攻擊旨在耗盡系統資源，使服務中斷。"
+    },
+    // --- 3. 系統與應用程式安全 (教材 Ch6.1, Ch7.4) ---
+    {
+        "id": "B29-Prot-11",
+        "question": "「特洛伊木馬 (Trojan Horse)」與電腦病毒的主要區別在於？",
+        "options": [
+            "(A) 木馬會自我複製",
+            "(B) 木馬需偽裝成合法軟體誘騙使用者執行，通常不自我複製",
+            "(C) 木馬只感染 Linux",
+            "(D) 木馬無害"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.1。木馬依賴社交工程誘騙執行，病毒則會感染寄生。"
+    },
+    {
+        "id": "B29-Prot-12",
+        "question": "關於 SQL Injection (SQL 注入) 攻擊，其原理為何？",
+        "options": [
+            "(A) 發送大量封包塞爆頻寬",
+            "(B) 在輸入欄位中注入惡意 SQL 指令，操縱後端資料庫",
+            "(C) 在網頁植入惡意腳本",
+            "(D) 竊取使用者 Cookie"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.4。利用應用程式未過濾輸入的弱點，直接對資料庫下達指令。"
+    },
+    {
+        "id": "B29-Prot-13",
+        "question": "下列何種機制可以有效防範 XSS (跨站腳本) 攻擊？",
+        "options": [
+            "(A) 使用 HTTPS",
+            "(B) 對使用者輸入進行驗證 (Validation) 與輸出編碼 (Encoding)",
+            "(C) 增加密碼複雜度",
+            "(D) 關閉資料庫"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.4。過濾輸入與編碼輸出是防禦注入類攻擊 (含 XSS) 的基本原則。"
+    },
+    {
+        "id": "B29-Prot-14",
+        "question": "在 Windows 系統中，若要檢查開啟的通訊埠 (Port) 與連線狀態，應使用哪個指令？",
+        "options": [
+            "(A) ping",
+            "(B) ipconfig",
+            "(C) netstat",
+            "(D) tracert"
+        ],
+        "answer": "C",
+        "note": "114-2 試題 Q9。netstat -an 是檢查網路連線狀態的常用工具。"
+    },
+    {
+        "id": "B29-Prot-15",
+        "question": "關於「零日攻擊 (Zero-day Attack)」的定義，下列何者正確？",
+        "options": [
+            "(A) 攻擊發生在午夜零時",
+            "(B) 利用廠商尚未發布修補程式的漏洞進行攻擊",
+            "(C) 攻擊持續時間不到一天",
+            "(D) 沒有造成損害的攻擊"
+        ],
+        "answer": "B",
+        "note": "114-2 試題 Q5。零日攻擊利用未知漏洞，傳統特徵碼防護難以偵測。"
+    },
+    // --- 4. 新興科技與進階防護 (教材 Ch6.6-6.10) ---
+    {
+        "id": "B29-Prot-16",
+        "question": "APT (進階持續性威脅) 攻擊的主要特徵不包含下列何者？",
+        "options": [
+            "(A) 針對特定目標",
+            "(B) 長期潛伏",
+            "(C) 手法複雜多變",
+            "(D) 隨機且短暫的掃描攻擊"
+        ],
+        "answer": "D",
+        "note": "114 教材 Ch6.6。APT 是有計畫、針對性且持續的攻擊行動。"
+    },
+    {
+        "id": "B29-Prot-17",
+        "question": "關於 SOC (資安監控中心) 的核心功能，下列何者正確？",
+        "options": [
+            "(A) 負責採購硬體",
+            "(B) 集中收集與分析資安設備日誌，進行即時監控與事件關聯分析",
+            "(C) 只負責安裝防毒軟體",
+            "(D) 開發應用程式"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.7。SOC 透過 SIEM 系統進行集中監控與威脅偵測。"
+    },
+    {
+        "id": "B29-Prot-18",
+        "question": "EDR (端點偵測及應變機制) 與傳統防毒軟體的主要差異在於？",
+        "options": [
+            "(A) EDR 只能掃描病毒",
+            "(B) EDR 強調行為分析、持續監控與遠端應變能力",
+            "(C) EDR 不需要安裝 Agent",
+            "(D) 防毒軟體比較貴"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.10。EDR 能偵測無檔案攻擊等進階威脅，並提供鑑識與回應功能。"
+    },
+    {
+        "id": "B29-Prot-19",
+        "question": "關於 GCB (政府組態基準) 的目的，下列何者正確？",
+        "options": [
+            "(A) 規範資通訊設備的一致性安全設定 (如密碼長度、關閉不必要服務)",
+            "(B) 檢查原始碼",
+            "(C) 進行滲透測試",
+            "(D) 備份資料"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch6.8。GCB 旨在透過標準化設定減少系統攻擊面。"
+    },
+    {
+        "id": "B29-Prot-20",
+        "question": "VANS (資通安全弱點通報機制) 主要是透過比對哪兩項資訊來識別風險？",
+        "options": [
+            "(A) 員工名單與打卡紀錄",
+            "(B) 資訊資產清冊 (CPE) 與 弱點資料庫 (CVE)",
+            "(C) 防火牆日誌與防毒日誌",
+            "(D) 網頁流量與郵件流量"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.9。VANS 自動比對資產軟體版本與已知漏洞庫。"
+    },
+    // --- 5. 實體安全與其他 (教材 Ch5.8, Ch7.7) ---
+    {
+        "id": "B29-Prot-21",
+        "question": "關於「備份 3-2-1 原則」，下列敘述何者正確？",
+        "options": [
+            "(A) 3 份備份、2 種介質、1 份異地",
+            "(B) 3 種介質、2 份複本、1 份本地",
+            "(C) 3 個地點、2 個管理員、1 份備份",
+            "(D) 每天 3 次、每週 2 次、每月 1 次"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch5.3。這是確保資料可用性與災難復原的黃金法則。"
+    },
+    {
+        "id": "B29-Prot-22",
+        "question": "在機房實體安全中，防止「尾隨 (Tailgating)」進入的最佳設施是？",
+        "options": [
+            "(A) 監視器",
+            "(B) 曼通門 (Mantrap) / 雙重互鎖門",
+            "(C) 警示標語",
+            "(D) 喇叭鎖"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.7。Mantrap 強制一次一人通過，有效防止未授權尾隨。"
+    },
+    {
+        "id": "B29-Prot-23",
+        "question": "關於「資料銷毀」，對於傳統磁性硬碟 (HDD)，使用「消磁 (Degaussing)」的效果是？",
+        "options": [
+            "(A) 無效",
+            "(B) 有效破壞資料，且硬碟無法再使用",
+            "(C) 資料可被救援軟體救回",
+            "(D) 只能刪除檔案索引"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.8。消磁會破壞磁性儲存媒介，確保資料無法復原。"
+    },
+    {
+        "id": "B29-Prot-24",
+        "question": "在 SSDLC (安全軟體開發生命週期) 中，應在何時開始考量資安需求？",
+        "options": [
+            "(A) 系統上線後",
+            "(B) 測試階段",
+            "(C) 需求分析與設計階段 (Shift Left)",
+            "(D) 發生事故後"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.5。越早導入資安 (Security by Design)，修復成本越低。"
+    },
+    {
+        "id": "B29-Prot-25",
+        "question": "關於「社交工程」攻擊，下列何者屬於「釣魚簡訊 (Smishing)」？",
+        "options": [
+            "(A) 透過電子郵件發送惡意連結",
+            "(B) 透過手機簡訊發送詐騙連結或訊息",
+            "(C) 透過電話語音詐騙",
+            "(D) 尾隨進入公司"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch9.8。Smishing = SMS + Phishing。"
+    },
+    // --- 補充基礎題 ---
+    {
+        "id": "B29-Prot-26",
+        "question": "在 OSI 模型中，MAC Address 運作於哪一層？",
+        "options": ["(A) 實體層", "(B) 資料連結層", "(C) 網路層", "(D) 傳輸層"],
+        "answer": "B",
+        "note": "Data Link Layer (L2)。"
+    },
+    {
+        "id": "B29-Prot-27",
+        "question": "HTTPS 使用 TCP 哪一個埠號？",
+        "options": ["(A) 80", "(B) 443", "(C) 25", "(D) 110"],
+        "answer": "B",
+        "note": "Port 443。"
+    },
+    {
+        "id": "B29-Prot-28",
+        "question": "下列何者是「被動式攻擊」？",
+        "options": ["(A) 竊聽 (Sniffing)", "(B) 阻斷服務", "(C) 竄改資料", "(D) 植入木馬"],
+        "answer": "A",
+        "note": "竊聽不改變資料流，難以被發現。"
+    },
+    {
+        "id": "B29-Prot-29",
+        "question": "關於「沙箱 (Sandbox)」的主要功能？",
+        "options": ["(A) 加密檔案", "(B) 在隔離環境中執行可疑程式以觀察其行為", "(C) 備份資料", "(D) 增加網速"],
+        "answer": "B",
+        "note": "動態分析惡意程式的工具。"
+    },
+    {
+        "id": "B29-Prot-30",
+        "question": "下列何者是「對稱式加密」演算法？",
+        "options": ["(A) RSA", "(B) AES", "(C) SHA-256", "(D) ECC"],
+        "answer": "B",
+        "note": "AES 是對稱加密標準。"
+    },
+    {
+        "id": "B29-Prot-31",
+        "question": "關於「蜜罐 (Honeypot)」的特性？",
+        "options": ["(A) 用來處理正常業務", "(B) 誘捕駭客，任何連線皆視為可疑", "(C) 是一種防火牆", "(D) 加速網路"],
+        "answer": "B",
+        "note": "主動防禦與情資蒐集工具。"
+    },
+    {
+        "id": "B29-Prot-32",
+        "question": "在 Linux 中，`rwx` 權限代表的數字是？",
+        "options": ["(A) 4", "(B) 5", "(C) 6", "(D) 7"],
+        "answer": "D",
+        "note": "4(r)+2(w)+1(x)=7。"
+    },
+    {
+        "id": "B29-Prot-33",
+        "question": "關於 VPN Split Tunneling 的風險？",
+        "options": ["(A) 比較安全", "(B) 繞過 VPN 的流量可能成為攻擊破口", "(C) 速度慢", "(D) 無法連線"],
+        "answer": "B",
+        "note": "無法監控非 VPN 通道的流量。"
+    },
+    {
+        "id": "B29-Prot-34",
+        "question": "關於「勒索軟體」的特徵？",
+        "options": ["(A) 竊取密碼", "(B) 加密檔案並要求贖金", "(C) 破壞硬體", "(D) 癱瘓網路"],
+        "answer": "B",
+        "note": "破壞資料可用性。"
+    },
+    {
+        "id": "B29-Prot-35",
+        "question": "下列何者是防範 SQL Injection 的最佳方式？",
+        "options": ["(A) 參數化查詢 (Prepared Statements)", "(B) 關閉資料庫", "(C) 隱藏錯誤訊息", "(D) 使用 HTTPS"],
+        "answer": "A",
+        "note": "從程式碼源頭解決注入問題。"
+    },
+    {
+        "id": "B29-Prot-36",
+        "question": "關於「防火牆」的功能，下列何者錯誤？",
+        "options": ["(A) 過濾封包", "(B) 區隔網段", "(C) 自動刪除病毒", "(D) 紀錄連線"],
+        "answer": "C",
+        "note": "防毒是防毒軟體的工作。"
+    },
+    {
+        "id": "B29-Prot-37",
+        "question": "在資安監控中，異常的「出站流量」可能代表？",
+        "options": ["(A) DDoS", "(B) C2 通訊或資料外洩", "(C) 更新", "(D) 備份"],
+        "answer": "B",
+        "note": "內部對外連線異常需高度警覺。"
+    },
+    {
+        "id": "B29-Prot-38",
+        "question": "關於「行動裝置管理 (MDM)」的遠端抹除？",
+        "options": ["(A) 裝置遺失時刪除資料", "(B) 備份資料", "(C) 加速手機", "(D) 監聽通話"],
+        "answer": "A",
+        "note": "防止資料外洩。"
+    },
+    {
+        "id": "B29-Prot-39",
+        "question": "WPA3 的主要改進是？",
+        "options": ["(A) SAE 抗字典攻擊", "(B) 速度更快", "(C) 不需密碼", "(D) 支援藍牙"],
+        "answer": "A",
+        "note": "Simultaneous Authentication of Equals。"
+    },
+    {
+        "id": "B29-Prot-40",
+        "question": "關於「弱點掃描」與「滲透測試」？",
+        "options": ["(A) 弱掃是廣度，滲透是深度", "(B) 兩者一樣", "(C) 滲透是機器做", "(D) 弱掃是人工做"],
+        "answer": "A",
+        "note": "弱掃全面但淺，滲透針對性且深。"
+    },
+    {
+        "id": "B29-Prot-41",
+        "question": "下列何者是 Web 應用程式常見漏洞？",
+        "options": ["(A) Buffer Overflow", "(B) Cross-Site Scripting (XSS)", "(C) ARP Spoofing", "(D) Syn Flood"],
+        "answer": "B",
+        "note": "XSS 是 OWASP Top 10 之一。"
+    },
+    {
+        "id": "B29-Prot-42",
+        "question": "關於「零信任」，核心原則是？",
+        "options": ["(A) 信任內網", "(B) 永不信任，始終驗證", "(C) 只驗證一次", "(D) 不需驗證"],
+        "answer": "B",
+        "note": "Never Trust, Always Verify。"
+    },
+    {
+        "id": "B29-Prot-43",
+        "question": "在 Windows 中，查看網路連線的指令？",
+        "options": ["(A) ping", "(B) netstat", "(C) ipconfig", "(D) tracert"],
+        "answer": "B",
+        "note": "netstat -an。"
+    },
+    {
+        "id": "B29-Prot-44",
+        "question": "關於「社交工程」，主要利用？",
+        "options": ["(A) 系統漏洞", "(B) 人性弱點", "(C) 暴力破解", "(D) 病毒"],
+        "answer": "B",
+        "note": "心理操控。"
+    },
+    {
+        "id": "B29-Prot-45",
+        "question": "在加密通訊中，SSL/TLS 用於？",
+        "options": ["(A) 網路層", "(B) 傳輸層與應用層之間", "(C) 實體層", "(D) 資料連結層"],
+        "answer": "B",
+        "note": "保障應用層資料傳輸安全。"
+    },
+    {
+        "id": "B29-Prot-46",
+        "question": "關於「資料完整性」，常用技術是？",
+        "options": ["(A) 雜湊函數 (Hash)", "(B) 對稱加密", "(C) 備份", "(D) 壓縮"],
+        "answer": "A",
+        "note": "驗證資料未被竄改。"
+    },
+    {
+        "id": "B29-Prot-47",
+        "question": "下列何者是「實體安全」威脅？",
+        "options": ["(A) 病毒", "(B) 火災", "(C) 釣魚郵件", "(D) SQL 注入"],
+        "answer": "B",
+        "note": "環境與物理破壞。"
+    },
+    {
+        "id": "B29-Prot-48",
+        "question": "關於「多因子認證 (MFA)」，目的是？",
+        "options": ["(A) 方便登入", "(B) 增強身分驗證強度", "(C) 節省成本", "(D) 減少密碼"],
+        "answer": "B",
+        "note": "降低單一因子被盜風險。"
+    },
+    {
+        "id": "B29-Prot-49",
+        "question": "在 BCP 中，RTO 代表？",
+        "options": ["(A) 復原時間目標", "(B) 復原點目標", "(C) 資料量", "(D) 備份頻率"],
+        "answer": "A",
+        "note": "Recovery Time Objective。"
+    },
+    {
+        "id": "B29-Prot-50",
+        "question": "關於「供應鏈安全」，重點在於？",
+        "options": ["(A) 採購最便宜", "(B) 管理第三方風險 (如軟體漏洞、後門)", "(C) 只買硬體", "(D) 不需管理"],
+        "answer": "B",
+        "note": "防止透過供應商入侵。"
+    }
+];
+
+const planningQuestions_Batch29 = [
+    // --- 1. 資安管理基礎 (CIA & Policy) (教材 Ch1, Ch4) ---
+    {
+        "id": "B29-Plan-01",
+        "question": "資訊安全的三大核心要素 (CIA Triad) 是指？(單選)",
+        "options": [
+            "(A) 機密性、完整性、可用性",
+            "(B) 機密性、完整性、不可否認性",
+            "(C) 控制性、準確性、時效性",
+            "(D) 認證性、授權性、紀錄性"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch1.3。Confidentiality, Integrity, Availability 是資安防護的基石。"
+    },
+    {
+        "id": "B29-Plan-02",
+        "question": "「資產 (Asset)」在資安管理中的定義為何？(單選)",
+        "options": [
+            "(A) 僅指電腦硬體",
+            "(B) 僅指軟體與資料",
+            "(C) 對組織具有價值之任何事物 (含人員、流程、資訊等)",
+            "(D) 僅指有形資產"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch1.1。資產包含主要資產 (資訊、業務流程) 與支援資產 (硬體、軟體、人員、場域)。"
+    },
+    {
+        "id": "B29-Plan-03",
+        "question": "ISO 27001 採用的管理循環模式為？(單選)",
+        "options": [
+            "(A) SWOT",
+            "(B) PDCA (Plan-Do-Check-Act)",
+            "(C) OODA",
+            "(D) Waterfall"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch2.2 (延伸概念) & ISO 標準。持續改善 (Continual Improvement) 的基礎。"
+    },
+    {
+        "id": "B29-Plan-04",
+        "question": "關於「資安政策 (Security Policy)」，應由誰核定與支持？(單選)",
+        "options": [
+            "(A) IT 部門經理",
+            "(B) 最高管理階層 (Top Management)",
+            "(C) 全體員工",
+            "(D) 外包廠商"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch4.6。高層的支持 (Leadership) 是 ISMS 成功的關鍵。"
+    },
+    {
+        "id": "B29-Plan-05",
+        "question": "ISO 27001:2022 新增的「威脅情資 (Threat Intelligence)」控制措施，屬於哪一類主題？(單選)",
+        "options": [
+            "(A) 人員控制",
+            "(B) 實體控制",
+            "(C) 技術控制",
+            "(D) 組織控制 (Organizational controls)"
+        ],
+        "answer": "D",
+        "note": "114 教材 Ch4.2。威脅情資被歸類於組織控制 (Clause 5)。"
+    },
+    // --- 2. 風險管理 (Risk Management) (教材 Ch3) ---
+    {
+        "id": "B29-Plan-06",
+        "question": "風險評鑑 (Risk Assessment) 的流程順序通常為？(單選)",
+        "options": [
+            "(A) 識別 -> 分析 -> 評估",
+            "(B) 分析 -> 識別 -> 評估",
+            "(C) 評估 -> 識別 -> 分析",
+            "(D) 處理 -> 識別 -> 分析"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch3.3。先找出風險 (識別)，再計算大小 (分析)，最後決定是否接受 (評估)。"
+    },
+    {
+        "id": "B29-Plan-07",
+        "question": "在風險處理策略中，購買「資安保險」屬於？(單選)",
+        "options": [
+            "(A) 風險規避 (Avoid)",
+            "(B) 風險降低 (Reduce)",
+            "(C) 風險分擔/轉移 (Share/Transfer)",
+            "(D) 風險保留 (Retain)"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch3.4。將財務損失風險轉嫁給第三方的處理方式。"
+    },
+    {
+        "id": "B29-Plan-08",
+        "question": "關於「殘餘風險 (Residual Risk)」，下列敘述何者正確？(單選)",
+        "options": [
+            "(A) 必須降為零",
+            "(B) 實施控制措施後，仍然存在的風險，需由管理層簽署接受",
+            "(C) 不需管理",
+            "(D) 等於固有風險"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch3.5。資安無法零風險，殘餘風險需進行持續監控與接受。"
+    },
+    {
+        "id": "B29-Plan-09",
+        "question": "風險的計算公式通常表示為？(單選)",
+        "options": [
+            "(A) 資產 + 威脅",
+            "(B) 資產 x 威脅 x 脆弱性 (衝擊 x 可能性)",
+            "(C) 威脅 - 控制",
+            "(D) 脆弱性 / 成本"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch3.1。風險由資產價值、威脅發生率與脆弱性嚴重度共同決定。"
+    },
+    {
+        "id": "B29-Plan-10",
+        "question": "在風險矩陣中，對於「高衝擊、高可能性」的風險，應採取何種策略？(單選)",
+        "options": [
+            "(A) 立即處理 (優先降低)",
+            "(B) 接受",
+            "(C) 忽略",
+            "(D) 觀察"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch3.3 (延伸概念)。不可容忍的風險需優先分配資源進行緩解。"
+    },
+    // --- 3. 法規與遵循 (Laws) (教材 Ch2) ---
+    {
+        "id": "B29-Plan-11",
+        "question": "依據《資通安全管理法》，公務機關知悉資安事件後，應於多久內完成通報？(單選)",
+        "options": [
+            "(A) 1 小時",
+            "(B) 24 小時",
+            "(C) 36 小時",
+            "(D) 72 小時"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch2.2 & Ch9.4。1 小時是黃金通報時間。"
+    },
+    {
+        "id": "B29-Plan-12",
+        "question": "依據《資通安全責任等級分級辦法》，A 級機關應多久辦理一次資安健診？(單選)",
+        "options": [
+            "(A) 每年 1 次",
+            "(B) 每 2 年 1 次",
+            "(C) 每 3 年 1 次",
+            "(D) 不需辦理"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch7.5 (表45)。A 級機關每年 1 次；C 級每 2 年 1 次。"
+    },
+    {
+        "id": "B29-Plan-13",
+        "question": "《個人資料保護法》規定，非公務機關違反安全維護義務致個資外洩，且情節重大者，最高罰鍰為？(單選)",
+        "options": [
+            "(A) 20 萬元",
+            "(B) 50 萬元",
+            "(C) 200 萬元",
+            "(D) 1500 萬元"
+        ],
+        "answer": "D",
+        "note": "114 教材 Ch2.3 (前言提及修法)。個資法修法後大幅提高罰鍰上限至 1500 萬元。"
+    },
+    {
+        "id": "B29-Plan-14",
+        "question": "關於「關鍵基礎設施提供者 (CI Provider)」，在資安法中屬於？(單選)",
+        "options": [
+            "(A) 公務機關",
+            "(B) 特定非公務機關",
+            "(C) 一般私人企業",
+            "(D) 非政府組織"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch2.2。CI 提供者、公營事業等皆屬特定非公務機關。"
+    },
+    {
+        "id": "B29-Plan-15",
+        "question": "依據《資通安全管理法》，公務機關原則上「禁止」使用何種產品？(單選)",
+        "options": [
+            "(A) 開源軟體",
+            "(B) 危害國家資通安全產品 (如陸資產品)",
+            "(C) 雲端服務",
+            "(D) 免費軟體"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch2.2。修法重點：公務機關禁止使用危害國家資安產品，例外需核准。"
+    },
+    // --- 4. 營運持續與應變 (BCP/IR) (教材 Ch4.5, Ch9) ---
+    {
+        "id": "B29-Plan-16",
+        "question": "在 BCP 中，RTO (復原時間目標) 是指？(單選)",
+        "options": [
+            "(A) 容許資料遺失的時間長度",
+            "(B) 系統從中斷到恢復服務所允許的最大時間長度",
+            "(C) 備份所需時間",
+            "(D) 平均故障時間"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch4.5。RTO 關注的是「恢復速度」。"
+    },
+    {
+        "id": "B29-Plan-17",
+        "question": "在 BCP 中，RPO (復原點目標) 是指？(單選)",
+        "options": [
+            "(A) 恢復服務的時間",
+            "(B) 容許資料遺失的最大量 (回溯到多久前的備份點)",
+            "(C) 演練頻率",
+            "(D) 設備成本"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch4.5。RPO 決定了「備份頻率」。"
+    },
+    {
+        "id": "B29-Plan-18",
+        "question": "關於「備份 3-2-1 原則」，其中「1」代表？(單選)",
+        "options": [
+            "(A) 1 份異地備份 (Off-site)",
+            "(B) 1 份正本",
+            "(C) 1 個管理員",
+            "(D) 1 年檢查一次"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch5.3。異地備份是防止本地災害的關鍵。"
+    },
+    {
+        "id": "B29-Plan-19",
+        "question": "資安事件處理流程 (PICERL) 的第一步是？(單選)",
+        "options": [
+            "(A) Preparation (準備)",
+            "(B) Identification (識別)",
+            "(C) Containment (圍堵)",
+            "(D) Recovery (復原)"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch9.6。事前的準備 (政策、團隊、工具) 是應變的基礎。"
+    },
+    {
+        "id": "B29-Plan-20",
+        "question": "對於第 3 級資安事件 (嚴重)，應於多久內完成損害控制或復原？(單選)",
+        "options": [
+            "(A) 12 小時",
+            "(B) 24 小時",
+            "(C) 36 小時",
+            "(D) 72 小時"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch9.4。第 3、4 級事件需在 36 小時內完成；第 1、2 級為 72 小時。"
+    },
+    // --- 5. 實務管理與控制 (Operations) (教材 Ch5) ---
+    {
+        "id": "B29-Plan-21",
+        "question": "關於「最小權限原則 (Least Privilege)」，是指？(單選)",
+        "options": [
+            "(A) 給予所有權限",
+            "(B) 僅給予完成工作所需的最小必要權限",
+            "(C) 不給權限",
+            "(D) 只給 Root 權限"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.1。限制權限可降低誤用或濫用的風險。"
+    },
+    {
+        "id": "B29-Plan-22",
+        "question": "關於「職務區隔 (Separation of Duties, SoD)」，其目的是？(單選)",
+        "options": [
+            "(A) 防止單一人員擁有過大權力而舞弊",
+            "(B) 增加人力成本",
+            "(C) 降低效率",
+            "(D) 分散責任"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch5.1。關鍵任務需由多人分工完成。"
+    },
+    {
+        "id": "B29-Plan-23",
+        "question": "人員離職時，最重要的資安程序是？(單選)",
+        "options": [
+            "(A) 立即停用或刪除其帳號權限，並繳回資產",
+            "(B) 請吃送別飯",
+            "(C) 保留帳號以備不時之需",
+            "(D) 備份其電腦"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch5.8 (可攜式設備/人員安全)。防止離職員工存取內部資源。"
+    },
+    {
+        "id": "B29-Plan-24",
+        "question": "「潔淨桌面 (Clear Desk)」政策要求員工離開座位時應？(單選)",
+        "options": [
+            "(A) 收好桌面上的敏感文件，並鎖定電腦螢幕",
+            "(B) 關閉電源",
+            "(C) 帶走鍵盤",
+            "(D) 通知主管"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch7.7 (實體安全)。防止未經授權的實體窺探。"
+    },
+    {
+        "id": "B29-Plan-25",
+        "question": "關於「供應鏈安全」，機關委外時應要求廠商提供？(單選)",
+        "options": [
+            "(A) 軟體物料清單 (SBOM)",
+            "(B) 原始碼",
+            "(C) 財務報表",
+            "(D) 員工名單"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch8.5。SBOM 有助於管理開源元件風險。"
+    },
+    // --- 6. 補充管理基礎 (26-50) ---
+    {
+        "id": "B29-Plan-26",
+        "question": "資安事件分級中，若涉及「核心業務系統」且「無法在 RTO 內恢復」，通常屬於？",
+        "options": ["(A) 1 級", "(B) 2 級", "(C) 3 級", "(D) 0 級"],
+        "answer": "C",
+        "note": "114 教材 Ch9.3。核心業務受損屬嚴重事件 (3級以上)。"
+    },
+    {
+        "id": "B29-Plan-27",
+        "question": "關於「社交工程演練」，A 級機關應多久辦理一次？",
+        "options": ["(A) 每年 1 次", "(B) 每半年 1 次", "(C) 每季 1 次", "(D) 每月 1 次"],
+        "answer": "B",
+        "note": "114 教材 Ch4.7。A 級機關需每半年辦理一次。"
+    },
+    {
+        "id": "B29-Plan-28",
+        "question": "在資安治理中，三道防線的第三道是？",
+        "options": ["(A) 營運單位", "(B) 風險管理", "(C) 內部稽核", "(D) 外部主管機關"],
+        "answer": "C",
+        "note": "114 教材 Ch4.4。內部稽核提供獨立保證。"
+    },
+    {
+        "id": "B29-Plan-29",
+        "question": "關於「變更管理」，緊急變更後應？",
+        "options": ["(A) 不需紀錄", "(B) 事後補齊紀錄與審查", "(C) 刪除紀錄", "(D) 隱瞞"],
+        "answer": "B",
+        "note": "114 教材 Ch6.8。緊急變更仍需納管，維持可追溯性。"
+    },
+    {
+        "id": "B29-Plan-30",
+        "question": "資安長的績效指標，不應包含？",
+        "options": ["(A) 資安事件零發生率", "(B) 風險降低程度", "(C) 合規性", "(D) 演練成效"],
+        "answer": "A",
+        "note": "零發生率是不切實際的，可能導致隱匿通報。"
+    },
+    {
+        "id": "B29-Plan-31",
+        "question": "在個資法中，當事人請求刪除個資 (被遺忘權)，企業應？",
+        "options": ["(A) 立即刪除備份", "(B) 評估是否有法律保留義務，若無則刪除", "(C) 拒絕", "(D) 收費"],
+        "answer": "B",
+        "note": "需考量其他法律 (如稅法) 的保存要求。"
+    },
+    {
+        "id": "B29-Plan-32",
+        "question": "關於「特權帳號」管理，最佳實務是？",
+        "options": ["(A) 多人共用", "(B) 導入 PAM 系統，實施側錄與密碼輪換", "(C) 寫在紙上", "(D) 永不變更"],
+        "answer": "B",
+        "note": "PAM (特權存取管理) 是高權限帳號的標準防護。"
+    },
+    {
+        "id": "B29-Plan-33",
+        "question": "資安治理的核心目標是？",
+        "options": ["(A) 買設備", "(B) 支援業務目標與風險管理", "(C) 阻礙業務", "(D) 合規"],
+        "answer": "B",
+        "note": "114 教材 Ch4.6。資安需與業務目標對齊。"
+    },
+    {
+        "id": "B29-Plan-34",
+        "question": "關於「遠端存取」政策，應禁止？",
+        "options": ["(A) 使用 VPN", "(B) 全家共用公務電腦", "(C) MFA", "(D) 更新系統"],
+        "answer": "B",
+        "note": "114 教材 Ch5.1。公務設備僅限公務使用，降低風險。"
+    },
+    {
+        "id": "B29-Plan-35",
+        "question": "在實體安全中，UPS 的主要功能？",
+        "options": ["(A) 長期發電", "(B) 短期電力銜接與穩壓", "(C) 滅火", "(D) 監控"],
+        "answer": "B",
+        "note": "114 教材 Ch7.7。UPS 負責過渡市電與發電機之間的空窗期。"
+    },
+    {
+        "id": "B29-Plan-36",
+        "question": "關於「資料銷毀」，最安全的方式？",
+        "options": ["(A) 格式化", "(B) 刪除", "(C) 物理破壞 (粉碎)", "(D) 丟垃圾桶"],
+        "answer": "C",
+        "note": "114 教材 Ch5.8。物理破壞確保資料無法復原。"
+    },
+    {
+        "id": "B29-Plan-37",
+        "question": "關於 ISO 27701，它是針對什麼的管理標準？",
+        "options": ["(A) 隱私資訊管理 (PIMS)", "(B) 雲端安全", "(C) 供應鏈", "(D) 營運持續"],
+        "answer": "A",
+        "note": "114 教材 Ch2.3 (延伸)。ISO 27701 是 GDPR 合規的重要參考。"
+    },
+    {
+        "id": "B29-Plan-38",
+        "question": "關於「行動裝置」報廢，應執行？",
+        "options": ["(A) 刪除通訊錄", "(B) 恢復原廠設定並確認資料抹除", "(C) 登出", "(D) 拔 SIM 卡"],
+        "answer": "B",
+        "note": "114 教材 Ch5.8。需確保資料無法復原。"
+    },
+    {
+        "id": "B29-Plan-39",
+        "question": "在風險評鑑中，定性分析是指？",
+        "options": ["(A) 計算金額", "(B) 使用高/中/低等級描述", "(C) 數學模型", "(D) 統計數據"],
+        "answer": "B",
+        "note": "114 教材 Ch3.3。定性分析適合快速評估。"
+    },
+    {
+        "id": "B29-Plan-40",
+        "question": "關於「資產擁有者 (Owner)」的職責？",
+        "options": ["(A) 維修設備", "(B) 定義資產分類與授權", "(C) 寫程式", "(D) 操作系統"],
+        "answer": "B",
+        "note": "114 教材 Ch1.1。Owner 負責決策，Custodian 負責執行。"
+    },
+    {
+        "id": "B29-Plan-41",
+        "question": "在 BCP 中，MTPD 代表？",
+        "options": ["(A) 最大可容忍中斷時間", "(B) 復原時間", "(C) 備份點", "(D) 平均修復時間"],
+        "answer": "A",
+        "note": "114 教材 Ch4.5。Maximum Tolerable Period of Disruption。"
+    },
+    {
+        "id": "B29-Plan-42",
+        "question": "關於「弱點修補」，高風險漏洞應？",
+        "options": ["(A) 立即修補", "(B) 下個月修", "(C) 不修", "(D) 等廠商通知"],
+        "answer": "A",
+        "note": "114 教材 Ch5.7。風險越高，修補時效應越短。"
+    },
+    {
+        "id": "B29-Plan-43",
+        "question": "關於「社交工程」，其攻擊目標是？",
+        "options": ["(A) 防火牆", "(B) 人性弱點", "(C) 伺服器漏洞", "(D) 密碼演算法"],
+        "answer": "B",
+        "note": "114 教材 Ch9.8。利用信任、恐懼、貪婪等心理。"
+    },
+    {
+        "id": "B29-Plan-44",
+        "question": "在個資保護中，去識別化 (De-identification) 的目的是？",
+        "options": ["(A) 加密", "(B) 移除識別符，降低個資風險", "(C) 備份", "(D) 壓縮"],
+        "answer": "B",
+        "note": "114 教材 Ch1.3。降低個資外洩的衝擊。"
+    },
+    {
+        "id": "B29-Plan-45",
+        "question": "關於「供應鏈安全」，應避免？",
+        "options": ["(A) 單一供應源", "(B) 定期稽核", "(C) 簽署保密協定", "(D) 驗收檢測"],
+        "answer": "A",
+        "note": "單一供應源會造成供應鏈中斷風險 (韌性問題)。"
+    },
+    {
+        "id": "B29-Plan-46",
+        "question": "資安管理的最終責任者是？",
+        "options": ["(A) 資安人員", "(B) 最高管理階層 (董事會/CEO)", "(C) IT 主管", "(D) 廠商"],
+        "answer": "B",
+        "note": "114 教材 Ch4.6。資安是公司治理議題，高層負最終當責 (Accountability)。"
+    },
+    {
+        "id": "B29-Plan-47",
+        "question": "關於「雲端責任共擔」，IaaS 客戶需負責？",
+        "options": ["(A) 實體機房", "(B) 作業系統與應用程式", "(C) 虛擬化層", "(D) 網路硬體"],
+        "answer": "B",
+        "note": "114 教材 Ch7.6。IaaS 客戶如同租用空機，需自行維護 OS 以上層級。"
+    },
+    {
+        "id": "B29-Plan-48",
+        "question": "NIST CSF 的「Recover」功能，重點在於？",
+        "options": ["(A) 阻擋攻擊", "(B) 恢復受損的服務與通訊", "(C) 發現漏洞", "(D) 制定政策"],
+        "answer": "B",
+        "note": "Recover 關注從事件中恢復韌性。"
+    },
+    {
+        "id": "B29-Plan-49",
+        "question": "關於「行動裝置管理 (MDM)」，主要功能是？",
+        "options": ["(A) 遠端管理與保護行動裝置資料", "(B) 加速手機", "(C) 備份照片", "(D) 聊天"],
+        "answer": "A",
+        "note": "MDM 是企業管理 BYOD 風險的重要工具。"
+    },
+    {
+        "id": "B29-Plan-50",
+        "question": "在「網路隔離」中，DMZ 的用途是？",
+        "options": ["(A) 放置對外服務的伺服器，隔離內外網", "(B) 放置資料庫", "(C) 放置員工電腦", "(D) 放置機密資料"],
+        "answer": "A",
+        "note": "Demilitarized Zone，緩衝區。"
+    }
+];
+
+// 將 Batch 29 的題目合併到主陣列
+if (typeof protectionQuestions !== 'undefined') {
+    protectionQuestions.push(...protectionQuestions_Batch29);
+}
+if (typeof planningQuestions !== 'undefined') {
+    planningQuestions.push(...planningQuestions_Batch29);
+}
+// ==========================================
+// 2025 資安工程師模擬題庫 - 第三十批次 (Batch 30)
+// 包含：防護實務 (技術) 50 題 + 規劃實務 (管理) 50 題
+// 來源：資通安全概論_新版教材_11411 (全教材總複習)
+// 重點：加密實務、網路架構、惡意程式特徵、法規時限、BCP指標
+// ==========================================
+
+const protectionQuestions_Batch30 = [
+    // --- 1. 密碼學與認證技術 (教材 Ch5.4, 5.6) ---
+    {
+        "id": "B30-Prot-01",
+        "question": "關於「數位信封 (Digital Envelope)」的運作機制，下列敘述何者正確？",
+        "options": [
+            "(A) 僅使用非對稱加密來加密整份文件",
+            "(B) 使用接收方的公鑰加密「對稱式金鑰」，再用該對稱式金鑰加密「文件內容」",
+            "(C) 使用發送方的私鑰加密文件內容",
+            "(D) 僅使用雜湊函數處理文件"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.6 (圖34)。數位信封結合了對稱加密的高效能 (加密內容) 與非對稱加密的安全性 (加密金鑰)。"
+    },
+    {
+        "id": "B30-Prot-02",
+        "question": "在身分鑑別中，若系統要求使用者輸入「帳號 + 密碼」並插入「晶片卡」，這屬於哪種驗證方式？",
+        "options": [
+            "(A) 單一因子認證 (SFA)",
+            "(B) 雙因子認證 (2FA)",
+            "(C) 生物特徵認證",
+            "(D) 相互認證"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.4。結合了「所知 (密碼)」與「所有 (晶片卡)」兩種不同因子。"
+    },
+    {
+        "id": "B30-Prot-03",
+        "question": "關於「雜湊函數 (Hash Function)」的特性，下列何者錯誤？",
+        "options": [
+            "(A) 不同的輸入可能產生相同的輸出 (碰撞)，但機率極低",
+            "(B) 輸出長度固定",
+            "(C) 具有可逆性，可從雜湊值還原原始資料",
+            "(D) 雪崩效應，輸入微小改變會導致輸出巨大差異"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.6。雜湊函數是單向函數，不可逆。"
+    },
+    {
+        "id": "B30-Prot-04",
+        "question": "使用 SSH 進行遠端連線時，伺服器的「公鑰 (Public Key)」主要用於？",
+        "options": [
+            "(A) 加密使用者輸入的密碼",
+            "(B) 驗證伺服器的身分 (防止中間人攻擊)",
+            "(C) 壓縮傳輸資料",
+            "(D) 產生隨機數"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.6 (延伸技術)。客戶端透過儲存的 `known_hosts` 公鑰來驗證伺服器身分。"
+    },
+    {
+        "id": "B30-Prot-05",
+        "question": "下列哪種生物特徵辨識技術，通常被認為準確度最高但成本也較高？",
+        "options": [
+            "(A) 聲紋辨識",
+            "(B) 人臉辨識",
+            "(C) 虹膜辨識 (Iris Recognition)",
+            "(D) 簽名辨識"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch5.4。虹膜特徵複雜且穩定，偽造難度高。"
+    },
+    // --- 2. 網路與通訊安全 (教材 Ch6.2, 6.5) ---
+    {
+        "id": "B30-Prot-06",
+        "question": "關於防火牆 (Firewall) 的部署，將「網頁伺服器 (Web Server)」放置於 DMZ 區的主要目的是？",
+        "options": [
+            "(A) 加快網頁存取速度",
+            "(B) 節省 IP 位址",
+            "(C) 隔離外部存取與內部核心網路，即使 Web Server 被駭也不會直接危及內網",
+            "(D) 方便管理員維護"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch6.2。DMZ 是緩衝區，用於保護內部高價值資產。"
+    },
+    {
+        "id": "B30-Prot-07",
+        "question": "在 VPN 技術中，用於連接總公司與分公司網路的架構稱為？",
+        "options": [
+            "(A) Remote Access VPN",
+            "(B) Site-to-Site VPN",
+            "(C) SSL VPN (Clientless)",
+            "(D) Extranet VPN"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.6。Site-to-Site VPN 連接兩個固定的網路端點。"
+    },
+    {
+        "id": "B30-Prot-08",
+        "question": "關於 IDS (入侵偵測系統) 的「誤報 (False Positive)」是指？",
+        "options": [
+            "(A) 有攻擊發生，但系統沒偵測到",
+            "(B) 沒有攻擊發生，但系統發出警報 (將正常流量誤判為攻擊)",
+            "(C) 系統當機",
+            "(D) 攻擊者繞過防禦"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.5。誤報會造成管理員疲勞 (Alert Fatigue)。"
+    },
+    {
+        "id": "B30-Prot-09",
+        "question": "下列哪一種網路攻擊是利用「TCP 三向交握」機制的漏洞，發送大量 SYN 封包耗盡伺服器資源？",
+        "options": [
+            "(A) Ping of Death",
+            "(B) SYN Flood",
+            "(C) UDP Flood",
+            "(D) SQL Injection"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.5 (DDoS相關)。SYN Flood 是典型的 DoS 攻擊。"
+    },
+    {
+        "id": "B30-Prot-10",
+        "question": "在電子郵件安全中，SMTP Gateway 的主要功能是？",
+        "options": [
+            "(A) 儲存郵件",
+            "(B) 作為郵件中繼站，進行病毒掃描與垃圾郵件過濾",
+            "(C) 加密硬碟",
+            "(D) 管理使用者帳號"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.4。部署在 DMZ 的郵件閘道是防禦惡意郵件的第一道防線。"
+    },
+    // --- 3. 系統與應用程式安全 (教材 Ch6.1, 6.3, 7.4) ---
+    {
+        "id": "B30-Prot-11",
+        "question": "關於「勒索軟體 (Ransomware)」的防護，下列何者屬於「事前預防」措施？",
+        "options": [
+            "(A) 支付贖金",
+            "(B) 定期進行離線備份 (Offline Backup) 並測試還原",
+            "(C) 系統重灌",
+            "(D) 數位鑑識"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.1。備份是遭遇勒索軟體時資料復原的唯一保障。"
+    },
+    {
+        "id": "B30-Prot-12",
+        "question": "Web 應用程式防火牆 (WAF) 主要運作於 OSI 模型的哪一層？",
+        "options": [
+            "(A) 網路層 (L3)",
+            "(B) 傳輸層 (L4)",
+            "(C) 應用層 (L7)",
+            "(D) 資料連結層 (L2)"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch6.3。WAF 解析 HTTP/HTTPS 內容，屬於應用層防護。"
+    },
+    {
+        "id": "B30-Prot-13",
+        "question": "下列哪一種攻擊手法是針對網頁應用程式，試圖在受害者的瀏覽器上執行惡意腳本？",
+        "options": [
+            "(A) SQL Injection",
+            "(B) Buffer Overflow",
+            "(C) Cross-Site Scripting (XSS)",
+            "(D) DoS"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch7.4。XSS 攻擊目標是使用者端瀏覽器。"
+    },
+    {
+        "id": "B30-Prot-14",
+        "question": "在 SSDLC (安全軟體開發生命週期) 中，進行「源碼檢測 (Code Review)」屬於哪一種類型的測試？",
+        "options": [
+            "(A) 黑箱測試 (Black Box)",
+            "(B) 白箱測試 (White Box)",
+            "(C) 灰箱測試 (Gray Box)",
+            "(D) 滲透測試"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.4 (表44)。檢視原始碼屬於白箱測試。"
+    },
+    {
+        "id": "B30-Prot-15",
+        "question": "為了防止 SQL Injection 攻擊，在程式開發時應優先採用？",
+        "options": [
+            "(A) 過濾特殊字元",
+            "(B) 使用參數化查詢 (Parameterized Queries)",
+            "(C) 關閉錯誤訊息",
+            "(D) 使用 WAF"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.4。參數化查詢是防禦 SQL 注入的根本解法。"
+    },
+    // --- 4. 新興科技與進階防護 (教材 Ch6.7-6.10) ---
+    {
+        "id": "B30-Prot-16",
+        "question": "關於 APT (進階持續性威脅) 攻擊，其「潛伏期」通常？",
+        "options": [
+            "(A) 很短，幾分鐘內結束",
+            "(B) 很長，可能長達數月甚至數年",
+            "(C) 固定為 24 小時",
+            "(D) 不會潛伏"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.6。長期潛伏以竊取資料是 APT 的主要特徵。"
+    },
+    {
+        "id": "B30-Prot-17",
+        "question": "SOC (資安監控中心) 使用的 SIEM 系統，其核心功能「關聯分析 (Correlation)」是指？",
+        "options": [
+            "(A) 備份日誌",
+            "(B) 將來自不同設備的日誌進行邏輯組合分析，以識別出真正的資安事件",
+            "(C) 壓縮日誌",
+            "(D) 加密日誌"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.7。透過關聯分析可降低誤報並發現複雜攻擊。"
+    },
+    {
+        "id": "B30-Prot-18",
+        "question": "政府推動的 GCB (政府組態基準) 主要目的是？",
+        "options": [
+            "(A) 監控網路流量",
+            "(B) 規範資通訊設備的一致性安全設定，減少系統弱點",
+            "(C) 進行滲透測試",
+            "(D) 備份資料"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.8。GCB 透過標準化設定強化終端安全。"
+    },
+    {
+        "id": "B30-Prot-19",
+        "question": "VANS (資通安全弱點通報機制) 協助機關落實資安管理的哪個環節？",
+        "options": [
+            "(A) 資產盤點與弱點管理",
+            "(B) 社交工程演練",
+            "(C) 備份還原",
+            "(D) 教育訓練"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch6.9。VANS 結合資產清冊與弱點資料庫進行自動比對。"
+    },
+    {
+        "id": "B30-Prot-20",
+        "question": "EDR (端點偵測與回應) 系統主要彌補了傳統防毒軟體在何方面的不足？",
+        "options": [
+            "(A) 病毒碼更新速度",
+            "(B) 對未知威脅、無檔案攻擊及行為模式的偵測與鑑識能力",
+            "(C) 價格",
+            "(D) 安裝速度"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch6.10。EDR 強調行為分析與可視性。"
+    },
+    // --- 5. 實體安全與鑑識 (教材 Ch7.7, 9.7) ---
+    {
+        "id": "B30-Prot-21",
+        "question": "在數位鑑識中，「揮發性資料 (Volatile Data)」應優先收集。下列何者屬於揮發性資料？",
+        "options": [
+            "(A) 硬碟中的文件",
+            "(B) 記憶體 (RAM) 中的執行程序與網路連線",
+            "(C) 光碟片",
+            "(D) 備份磁帶"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch9.7。記憶體資料斷電即失，需最先收集。"
+    },
+    {
+        "id": "B30-Prot-22",
+        "question": "關於機房滅火，電氣設備火災 (C類) 嚴禁使用何種滅火劑？",
+        "options": [
+            "(A) 二氧化碳 (CO2)",
+            "(B) FM-200",
+            "(C) 水",
+            "(D) 乾粉"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch7.7 (表47)。水會導電，會造成觸電危險及設備短路。"
+    },
+    {
+        "id": "B30-Prot-23",
+        "question": "為了防止人員「尾隨 (Tailgating)」進入機房，應設置？",
+        "options": [
+            "(A) 監視器",
+            "(B) 曼通門 (Mantrap) / 雙重互鎖門",
+            "(C) 簽到簿",
+            "(D) 喇叭鎖"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.7。Mantrap 強制一次一人通過。"
+    },
+    {
+        "id": "B30-Prot-24",
+        "question": "資料銷毀時，對於 SSD (固態硬碟) 最安全的軟體銷毀方式是？",
+        "options": [
+            "(A) 多次覆寫 (Wiping)",
+            "(B) 加密抹除 (Cryptographic Erase)",
+            "(C) 格式化",
+            "(D) 刪除檔案"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.8。由於 SSD 的寫入平衡機制，傳統覆寫可能無效，刪除加密金鑰 (Crypto Erase) 最有效。"
+    },
+    {
+        "id": "B30-Prot-25",
+        "question": "在鑑識過程中，為了確保證據的「完整性」，必須對映像檔進行？",
+        "options": [
+            "(A) 壓縮",
+            "(B) 雜湊運算 (Hashing)",
+            "(C) 加密",
+            "(D) 格式化"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch9.7。雜湊值 (如 SHA-256) 用於證明證據未被竄改。"
+    },
+    // --- 補充技術題 (26-50) ---
+    {
+        "id": "B30-Prot-26",
+        "question": "下列何者是「被動式攻擊」？",
+        "options": ["(A) 網路監聽 (Sniffing)", "(B) DDoS", "(C) 竄改網頁", "(D) 植入木馬"],
+        "answer": "A",
+        "note": "114 教材 Ch1。被動攻擊不改變系統狀態，僅竊取資訊。"
+    },
+    {
+        "id": "B30-Prot-27",
+        "question": "HTTPS 協定使用 TCP 哪個埠口？",
+        "options": ["(A) 80", "(B) 443", "(C) 22", "(D) 25"],
+        "answer": "B",
+        "note": "114 教材 Ch5.6。Port 443。"
+    },
+    {
+        "id": "B30-Prot-28",
+        "question": "關於「沙箱 (Sandbox)」技術？",
+        "options": ["(A) 用來備份", "(B) 在隔離環境執行可疑程式", "(C) 加速網路", "(D) 防火牆"],
+        "answer": "B",
+        "note": "114 教材 Ch6.1。惡意程式動態分析工具。"
+    },
+    {
+        "id": "B30-Prot-29",
+        "question": "下列何者是對稱式加密演算法？",
+        "options": ["(A) RSA", "(B) AES", "(C) SHA-256", "(D) ECC"],
+        "answer": "B",
+        "note": "114 教材 Ch5.6。AES。"
+    },
+    {
+        "id": "B30-Prot-30",
+        "question": "關於「蜜罐 (Honeypot)」？",
+        "options": ["(A) 生產環境", "(B) 誘捕系統，收集攻擊情資", "(C) 防毒軟體", "(D) 備份系統"],
+        "answer": "B",
+        "note": "主動防禦技術。"
+    },
+    {
+        "id": "B30-Prot-31",
+        "question": "在 Linux 中，`r-x` 權限代表數字？",
+        "options": ["(A) 4", "(B) 5", "(C) 6", "(D) 7"],
+        "answer": "B",
+        "note": "4(r) + 1(x) = 5。"
+    },
+    {
+        "id": "B30-Prot-32",
+        "question": "關於 VPN Split Tunneling？",
+        "options": ["(A) 安全性高", "(B) 繞過 VPN 的流量可能成為破口", "(C) 速度慢", "(D) 無法上網"],
+        "answer": "B",
+        "note": "114 教材 Ch7.6。增加端點受駭風險。"
+    },
+    {
+        "id": "B30-Prot-33",
+        "question": "勒索軟體主要破壞 CIA 的哪一項？",
+        "options": ["(A) 機密性", "(B) 完整性", "(C) 可用性", "(D) 不可否認性"],
+        "answer": "C",
+        "note": "114 教材 Ch1.3。檔案被加密無法使用。"
+    },
+    {
+        "id": "B30-Prot-34",
+        "question": "防範 SQL Injection 的最佳實務？",
+        "options": ["(A) 參數化查詢", "(B) 關閉 DB", "(C) 隱藏錯誤", "(D) HTTPS"],
+        "answer": "A",
+        "note": "114 教材 Ch7.4。"
+    },
+    {
+        "id": "B30-Prot-35",
+        "question": "防火牆無法防禦哪種攻擊？",
+        "options": ["(A) 來自外部的連線", "(B) 內網使用者的惡意行為", "(C) Port Scan", "(D) 非法 IP"],
+        "answer": "B",
+        "note": "防火牆主要防禦邊界，對內網攻擊無效。"
+    },
+    {
+        "id": "B30-Prot-36",
+        "question": "資安監控中，異常出站流量可能代表？",
+        "options": ["(A) DDoS", "(B) C2 通訊 (中繼站連線)", "(C) 更新", "(D) 備份"],
+        "answer": "B",
+        "note": "受駭主機回報或資料外傳。"
+    },
+    {
+        "id": "B30-Prot-37",
+        "question": "MDM 的遠端抹除功能用於？",
+        "options": ["(A) 裝置遺失時刪除資料", "(B) 備份", "(C) 加速", "(D) 監聽"],
+        "answer": "A",
+        "note": "114 教材 Ch5.8。"
+    },
+    {
+        "id": "B30-Prot-38",
+        "question": "WPA3 使用什麼機制抗字典攻擊？",
+        "options": ["(A) SAE", "(B) WEP", "(C) TKIP", "(D) PSK"],
+        "answer": "A",
+        "note": "Simultaneous Authentication of Equals。"
+    },
+    {
+        "id": "B30-Prot-39",
+        "question": "弱點掃描與滲透測試的差異？",
+        "options": ["(A) 弱掃廣度，滲透深度", "(B) 沒差", "(C) 滲透用機器", "(D) 弱掃用人"],
+        "answer": "A",
+        "note": "114 教材 Ch7.1。"
+    },
+    {
+        "id": "B30-Prot-40",
+        "question": "XSS 攻擊的主要目標？",
+        "options": ["(A) 伺服器", "(B) 使用者瀏覽器", "(C) 資料庫", "(D) 防火牆"],
+        "answer": "B",
+        "note": "竊取使用者 Cookie 或 Session。"
+    },
+    {
+        "id": "B30-Prot-41",
+        "question": "零信任的核心？",
+        "options": ["(A) 信任內網", "(B) 永不信任，始終驗證", "(C) 驗證一次", "(D) 不需驗證"],
+        "answer": "B",
+        "note": "Zero Trust Core Principle。"
+    },
+    {
+        "id": "B30-Prot-42",
+        "question": "查看網路連線的 Windows 指令？",
+        "options": ["(A) ping", "(B) netstat", "(C) ipconfig", "(D) tracert"],
+        "answer": "B",
+        "note": "netstat -an。"
+    },
+    {
+        "id": "B30-Prot-43",
+        "question": "社交工程利用什麼？",
+        "options": ["(A) 漏洞", "(B) 人性弱點", "(C) 暴力破解", "(D) 病毒"],
+        "answer": "B",
+        "note": "心理學攻擊。"
+    },
+    {
+        "id": "B30-Prot-44",
+        "question": "SSL/TLS 保護哪一層？",
+        "options": ["(A) 網路層", "(B) 傳輸層與應用層之間", "(C) 實體層", "(D) 資料鏈結層"],
+        "answer": "B",
+        "note": "保障應用資料傳輸。"
+    },
+    {
+        "id": "B30-Prot-45",
+        "question": "確保資料完整性的技術？",
+        "options": ["(A) 雜湊 (Hash)", "(B) 加密", "(C) 備份", "(D) 壓縮"],
+        "answer": "A",
+        "note": "Integrity check。"
+    },
+    {
+        "id": "B30-Prot-46",
+        "question": "實體安全威脅包括？",
+        "options": ["(A) 病毒", "(B) 火災、水災", "(C) 釣魚", "(D) SQLi"],
+        "answer": "B",
+        "note": "環境災害。"
+    },
+    {
+        "id": "B30-Prot-47",
+        "question": "MFA 的目的？",
+        "options": ["(A) 方便", "(B) 增強驗證強度", "(C) 省錢", "(D) 減少密碼"],
+        "answer": "B",
+        "note": "降低單點突破風險。"
+    },
+    {
+        "id": "B30-Prot-48",
+        "question": "RTO 代表？",
+        "options": ["(A) 復原時間目標", "(B) 復原點", "(C) 資料量", "(D) 備份頻率"],
+        "answer": "A",
+        "note": "Time Objective。"
+    },
+    {
+        "id": "B30-Prot-49",
+        "question": "供應鏈安全重點？",
+        "options": ["(A) 價格", "(B) 第三方風險管理", "(C) 硬體", "(D) 不需管理"],
+        "answer": "B",
+        "note": "管理委外與採購風險。"
+    },
+    {
+        "id": "B30-Prot-50",
+        "question": "5G SUCI 保護？",
+        "options": ["(A) 用戶隱私 (IMSI)", "(B) 網速", "(C) 電量", "(D) 基地台"],
+        "answer": "A",
+        "note": "防止 IMSI Catcher。"
+    }
+];
+
+const planningQuestions_Batch30 = [
+    // --- 1. 資安治理與法規 (教材 Ch2) ---
+    {
+        "id": "B30-Plan-01",
+        "question": "依據《資通安全管理法》，「公務機關」知悉資安事件後，最遲應於多久內完成通報？(單選)",
+        "options": [
+            "(A) 30 分鐘",
+            "(B) 1 小時",
+            "(C) 24 小時",
+            "(D) 36 小時"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch9.4。1 小時為黃金通報時間。"
+    },
+    {
+        "id": "B30-Plan-02",
+        "question": "下列何者屬於《資通安全管理法》所規範的「特定非公務機關」？(單選)",
+        "options": [
+            "(A) 國防部",
+            "(B) 關鍵基礎設施提供者 (如台電、中油)",
+            "(C) 一般中小企業",
+            "(D) 學校"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch2.2。特定非公務機關包含關鍵基礎設施提供者、公營事業及政府捐助財團法人。"
+    },
+    {
+        "id": "B30-Plan-03",
+        "question": "《資通安全責任等級分級辦法》中，A 級機關應配置幾名資通安全專職人員？(單選)",
+        "options": [
+            "(A) 1 人",
+            "(B) 2 人",
+            "(C) 4 人",
+            "(D) 6 人"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch4.3 (表19)。A級4人；B級2人；C級1人。"
+    },
+    {
+        "id": "B30-Plan-04",
+        "question": "關於《個人資料保護法》，公務機關違反規定致個人資料遭不法蒐集、處理、利用，應負什麼責任？(單選)",
+        "options": [
+            "(A) 僅行政責任",
+            "(B) 損害賠償責任 (國家賠償)",
+            "(C) 無責任",
+            "(D) 廠商責任"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch2.3。公務機關適用國賠法。"
+    },
+    {
+        "id": "B30-Plan-05",
+        "question": "ISO 27001:2022 新增的控制措施「威脅情資」，屬於哪一類控制主題？(單選)",
+        "options": [
+            "(A) 技術控制",
+            "(B) 實體控制",
+            "(C) 人員控制",
+            "(D) 組織控制 (Organizational)"
+        ],
+        "answer": "D",
+        "note": "114 教材 Ch4.2。威脅情資歸類於組織控制。"
+    },
+    // --- 2. 風險管理 (教材 Ch3) ---
+    {
+        "id": "B30-Plan-06",
+        "question": "風險 (Risk) 的定義通常為？(單選)",
+        "options": [
+            "(A) 資產價值 x 威脅 x 弱點",
+            "(B) 資產 + 威脅",
+            "(C) 弱點 - 控制",
+            "(D) 成本 / 效益"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch3.1。風險是資產價值、威脅發生率與弱點嚴重度的綜合評估。"
+    },
+    {
+        "id": "B30-Plan-07",
+        "question": "在風險處置策略中，「接受風險 (Risk Acceptance)」通常適用於？(單選)",
+        "options": [
+            "(A) 高風險項目",
+            "(B) 殘餘風險已降至可接受水準，或處理成本高於潛在損失時",
+            "(C) 違反法規的風險",
+            "(D) 影響人身安全的風險"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch3.5。風險接受需經管理層核准。"
+    },
+    {
+        "id": "B30-Plan-08",
+        "question": "購買資安保險屬於哪種風險處置策略？(單選)",
+        "options": [
+            "(A) 規避 (Avoid)",
+            "(B) 降低 (Reduce)",
+            "(C) 轉移/分擔 (Transfer/Share)",
+            "(D) 保留 (Retain)"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch3.4。將財務損失轉嫁給保險公司。"
+    },
+    {
+        "id": "B30-Plan-09",
+        "question": "營運衝擊分析 (BIA) 的主要產出是？(單選)",
+        "options": [
+            "(A) 弱點掃描報告",
+            "(B) RTO (復原時間目標) 與 RPO (復原點目標)",
+            "(C) 網路拓撲圖",
+            "(D) 員工名單"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch4.5。BIA 協助定義業務復原的優先順序與目標時間。"
+    },
+    {
+        "id": "B30-Plan-10",
+        "question": "在風險矩陣中，位於「高衝擊、高可能性」區域的風險，應採取？(單選)",
+        "options": [
+            "(A) 優先處理 (立即改善)",
+            "(B) 接受",
+            "(C) 忽略",
+            "(D) 觀察"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch3.3。這是不可容忍的風險。"
+    },
+    // --- 3. 營運持續與應變 (教材 Ch4.5, 9) ---
+    {
+        "id": "B30-Plan-11",
+        "question": "在 BCP 中，RTO (復原時間目標) 是指？(單選)",
+        "options": [
+            "(A) 系統從中斷到恢復服務所允許的最大時間",
+            "(B) 資料遺失量",
+            "(C) 備份頻率",
+            "(D) 演練次數"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch4.5。RTO 關注恢復速度。"
+    },
+    {
+        "id": "B30-Plan-12",
+        "question": "在 BCP 中，RPO (復原點目標) 是指？(單選)",
+        "options": [
+            "(A) 恢復時間",
+            "(B) 可容忍的資料遺失量 (時間點)",
+            "(C) 復原成本",
+            "(D) 人力需求"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch4.5。RPO 決定備份頻率。"
+    },
+    {
+        "id": "B30-Plan-13",
+        "question": "備份 3-2-1 原則中，關於「異地備份」的要求是？(單選)",
+        "options": [
+            "(A) 至少 1 份異地保存",
+            "(B) 全部放本地",
+            "(C) 不需異地",
+            "(D) 放雲端不算異地"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch5.3。異地備份防止本地災害 (如火災)。"
+    },
+    {
+        "id": "B30-Plan-14",
+        "question": "資安事件處理流程 (PICERL) 的第一階段是？(單選)",
+        "options": [
+            "(A) Preparation (準備)",
+            "(B) Identification (識別)",
+            "(C) Recovery (復原)",
+            "(D) Lessons Learned (檢討)"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch9.6。準備階段包含建立團隊、政策與工具。"
+    },
+    {
+        "id": "B30-Plan-15",
+        "question": "依據《資通安全事件通報及應變辦法》，第 3 級資安事件應於多久內完成損害控制？(單選)",
+        "options": [
+            "(A) 12 小時",
+            "(B) 24 小時",
+            "(C) 36 小時",
+            "(D) 72 小時"
+        ],
+        "answer": "C",
+        "note": "114 教材 Ch9.4。第 3、4 級事件需在 36 小時內完成；第 1、2 級為 72 小時。"
+    },
+    // --- 4. 實務管理與稽核 (教材 Ch4, 5, 8) ---
+    {
+        "id": "B30-Plan-16",
+        "question": "關於「最小權限原則 (Least Privilege)」，是指？(單選)",
+        "options": [
+            "(A) 給予最大方便的權限",
+            "(B) 僅給予執行工作所需的最小權限",
+            "(C) 給予 Root 權限",
+            "(D) 不給任何權限"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch5.1。減少權限濫用或被駭後的損害。"
+    },
+    {
+        "id": "B30-Plan-17",
+        "question": "人員離職時，應優先執行的資安程序是？(單選)",
+        "options": [
+            "(A) 立即停用/刪除帳號並繳回資產",
+            "(B) 備份其電腦",
+            "(C) 保留帳號一個月",
+            "(D) 轉交密碼給同事"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch5.8。防止離職員工存取內部資源。"
+    },
+    {
+        "id": "B30-Plan-18",
+        "question": "「潔淨桌面 (Clear Desk)」政策要求？(單選)",
+        "options": [
+            "(A) 桌面不能有灰塵",
+            "(B) 離開座位時應收好敏感文件並鎖定螢幕",
+            "(C) 不能放私人物品",
+            "(D) 只能放電腦"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch7.7。防止未經授權的實體窺探。"
+    },
+    {
+        "id": "B30-Plan-19",
+        "question": "機關委外辦理資通系統，應在何時將資安需求納入？(單選)",
+        "options": [
+            "(A) 驗收階段",
+            "(B) 招標/需求階段 (RFP)",
+            "(C) 系統上線後",
+            "(D) 發生事故後"
+        ],
+        "answer": "B",
+        "note": "114 教材 Ch8.4。資安應從源頭管理。"
+    },
+    {
+        "id": "B30-Plan-20",
+        "question": "關於「供應鏈安全」，應要求廠商提供？(單選)",
+        "options": [
+            "(A) 軟體物料清單 (SBOM)",
+            "(B) 原始碼",
+            "(C) 財務報表",
+            "(D) 員工個資"
+        ],
+        "answer": "A",
+        "note": "114 教材 Ch8.5。SBOM 有助於管理軟體成分風險。"
+    },
+    // --- 5. 綜合情境與補充 (21-50) ---
+    {
+        "id": "B30-Plan-21",
+        "question": "關於社交工程演練，A 級機關頻率？",
+        "options": ["(A) 每年 1 次", "(B) 每半年 1 次", "(C) 每季 1 次", "(D) 每月 1 次"],
+        "answer": "B",
+        "note": "114 教材 Ch4.7。"
+    },
+    {
+        "id": "B30-Plan-22",
+        "question": "資安治理的三道防線，第三道是？",
+        "options": ["(A) 營運", "(B) 風險管理", "(C) 內部稽核", "(D) 外部監管"],
+        "answer": "C",
+        "note": "114 教材 Ch4.4。"
+    },
+    {
+        "id": "B30-Plan-23",
+        "question": "關於變更管理，緊急變更應？",
+        "options": ["(A) 不需紀錄", "(B) 事後補齊紀錄與審查", "(C) 隱瞞", "(D) 隨意執行"],
+        "answer": "B",
+        "note": "114 教材 Ch6.8。"
+    },
+    {
+        "id": "B30-Plan-24",
+        "question": "資安長的 KPI 不應包含？",
+        "options": ["(A) 零事故發生", "(B) 風險降低", "(C) 合規率", "(D) 演練成效"],
+        "answer": "A",
+        "note": "不切實際且易導致隱匿。"
+    },
+    {
+        "id": "B30-Plan-25",
+        "question": "個資法中，當事人請求刪除個資，應？",
+        "options": ["(A) 立即刪除", "(B) 評估是否有法律保留義務", "(C) 拒絕", "(D) 收費"],
+        "answer": "B",
+        "note": "需考量其他法規。"
+    },
+    {
+        "id": "B30-Plan-26",
+        "question": "特權帳號管理最佳實務？",
+        "options": ["(A) 共用", "(B) 導入 PAM、密碼輪換", "(C) 寫在紙上", "(D) 永不變更"],
+        "answer": "B",
+        "note": "PAM 系統管控。"
+    },
+    {
+        "id": "B30-Plan-27",
+        "question": "資安治理核心目標？",
+        "options": ["(A) 買設備", "(B) 支援業務目標與風險管理", "(C) 阻礙業務", "(D) 合規"],
+        "answer": "B",
+        "note": "114 教材 Ch4.6。"
+    },
+    {
+        "id": "B30-Plan-28",
+        "question": "遠端存取政策應禁止？",
+        "options": ["(A) VPN", "(B) 全家共用公務電腦", "(C) MFA", "(D) 更新"],
+        "answer": "B",
+        "note": "114 教材 Ch5.1。"
+    },
+    {
+        "id": "B30-Plan-29",
+        "question": "UPS 主要功能？",
+        "options": ["(A) 長期發電", "(B) 短期電力銜接", "(C) 滅火", "(D) 監控"],
+        "answer": "B",
+        "note": "114 教材 Ch7.7。"
+    },
+    {
+        "id": "B30-Plan-30",
+        "question": "資料銷毀最安全方式？",
+        "options": ["(A) 格式化", "(B) 刪除", "(C) 物理破壞", "(D) 丟棄"],
+        "answer": "C",
+        "note": "114 教材 Ch5.8。"
+    },
+    {
+        "id": "B30-Plan-31",
+        "question": "ISO 27701 針對？",
+        "options": ["(A) 隱私資訊管理", "(B) 雲端", "(C) 供應鏈", "(D) BCP"],
+        "answer": "A",
+        "note": "114 教材 Ch2.3 (延伸)。"
+    },
+    {
+        "id": "B30-Plan-32",
+        "question": "行動裝置報廢應？",
+        "options": ["(A) 刪通訊錄", "(B) 恢復原廠並確認資料抹除", "(C) 登出", "(D) 拔卡"],
+        "answer": "B",
+        "note": "114 教材 Ch5.8。"
+    },
+    {
+        "id": "B30-Plan-33",
+        "question": "風險評鑑定性分析？",
+        "options": ["(A) 金額", "(B) 高中低等級", "(C) 數學", "(D) 統計"],
+        "answer": "B",
+        "note": "114 教材 Ch3.3。"
+    },
+    {
+        "id": "B30-Plan-34",
+        "question": "資產擁有者職責？",
+        "options": ["(A) 維修", "(B) 定義資產分類與授權", "(C) 寫程式", "(D) 操作"],
+        "answer": "B",
+        "note": "114 教材 Ch1.1。"
+    },
+    {
+        "id": "B30-Plan-35",
+        "question": "BCP 中 MTPD 代表？",
+        "options": ["(A) 最大可容忍中斷時間", "(B) 復原時間", "(C) 備份點", "(D) 平均修復時間"],
+        "answer": "A",
+        "note": "114 教材 Ch4.5。"
+    },
+    {
+        "id": "B30-Plan-36",
+        "question": "弱點修補原則？",
+        "options": ["(A) 高風險立即修補", "(B) 延後", "(C) 不修", "(D) 隨意"],
+        "answer": "A",
+        "note": "114 教材 Ch5.7。"
+    },
+    {
+        "id": "B30-Plan-37",
+        "question": "社交工程攻擊目標？",
+        "options": ["(A) 防火牆", "(B) 人性弱點", "(C) 漏洞", "(D) 密碼"],
+        "answer": "B",
+        "note": "114 教材 Ch9.8。"
+    },
+    {
+        "id": "B30-Plan-38",
+        "question": "去識別化目的？",
+        "options": ["(A) 加密", "(B) 降低個資識別風險", "(C) 備份", "(D) 壓縮"],
+        "answer": "B",
+        "note": "114 教材 Ch1.3。"
+    },
+    {
+        "id": "B30-Plan-39",
+        "question": "供應鏈安全應避免？",
+        "options": ["(A) 單一供應源", "(B) 稽核", "(C) 合約", "(D) 檢測"],
+        "answer": "A",
+        "note": "韌性考量。"
+    },
+    {
+        "id": "B30-Plan-40",
+        "question": "資安管理最終責任者？",
+        "options": ["(A) 資安人員", "(B) 最高管理階層", "(C) IT", "(D) 廠商"],
+        "answer": "B",
+        "note": "114 教材 Ch4.6。"
+    },
+    {
+        "id": "B30-Plan-41",
+        "question": "雲端責任共擔，SaaS 客戶負責？",
+        "options": ["(A) 機房", "(B) OS", "(C) 資料與權限", "(D) 網路"],
+        "answer": "C",
+        "note": "114 教材 Ch7.6。"
+    },
+    {
+        "id": "B30-Plan-42",
+        "question": "NIST CSF Recover 重點？",
+        "options": ["(A) 阻擋", "(B) 恢復服務", "(C) 發現", "(D) 政策"],
+        "answer": "B",
+        "note": "韌性恢復。"
+    },
+    {
+        "id": "B30-Plan-43",
+        "question": "MDM 主要功能？",
+        "options": ["(A) 遠端管理行動裝置", "(B) 加速", "(C) 備份", "(D) 聊天"],
+        "answer": "A",
+        "note": "Mobile Device Management。"
+    },
+    {
+        "id": "B30-Plan-44",
+        "question": "DMZ 用途？",
+        "options": ["(A) 放置對外服務", "(B) 資料庫", "(C) 員工", "(D) 機密"],
+        "answer": "A",
+        "note": "緩衝區。"
+    },
+    {
+        "id": "B30-Plan-45",
+        "question": "資安事件 3 級影響？",
+        "options": ["(A) 輕微", "(B) 嚴重 (核心業務受損)", "(C) 國安", "(D) 無影響"],
+        "answer": "B",
+        "note": "114 教材 Ch9.3。"
+    },
+    {
+        "id": "B30-Plan-46",
+        "question": "PDCA 的 A 是？",
+        "options": ["(A) Audit", "(B) Act (改善)", "(C) Analysis", "(D) Assess"],
+        "answer": "B",
+        "note": "行動/改善。"
+    },
+    {
+        "id": "B30-Plan-47",
+        "question": "資產分類目的？",
+        "options": ["(A) 給予適當保護", "(B) 增加工作", "(C) 為了好看", "(D) 隨便分"],
+        "answer": "A",
+        "note": "依價值保護。"
+    },
+    {
+        "id": "B30-Plan-48",
+        "question": "SoA 是？",
+        "options": ["(A) 適用性聲明書", "(B) 服務水準", "(C) 風險評估", "(D) 資產表"],
+        "answer": "A",
+        "note": "Statement of Applicability。"
+    },
+    {
+        "id": "B30-Plan-49",
+        "question": "個資法罰鍰上限？",
+        "options": ["(A) 20 萬", "(B) 50 萬", "(C) 1500 萬", "(D) 1 億"],
+        "answer": "C",
+        "note": "114 教材 Ch2.3。"
+    },
+    {
+        "id": "B30-Plan-50",
+        "question": "資安事件通報窗口？",
+        "options": ["(A) 警察", "(B) 媒體", "(C) 主管機關/TWCERT", "(D) 廠商"],
+        "answer": "C",
+        "note": "依規定通報。"
+    }
+];
+
+// 將 Batch 30 的題目合併到主陣列
+if (typeof protectionQuestions !== 'undefined') {
+    protectionQuestions.push(...protectionQuestions_Batch30);
+}
+if (typeof planningQuestions !== 'undefined') {
+    planningQuestions.push(...planningQuestions_Batch30);
+}
