@@ -1,5 +1,5 @@
 // 2025 資安工程師模擬測驗 - 核心邏輯 (支援單選/複選)
-// v3.0 - Fixed submitQuiz reference error
+// v3.1 - 錯題檢討優化版 (顯示完整選項與綠色高亮)
 
 // 全域變數
 let currentQuestions = [];
@@ -86,11 +86,9 @@ function renderQuestions() {
 
     currentQuestions.forEach((q, index) => {
         // 判斷是否為複選題 (答案長度 > 1)
-        // 增加防呆：確保 q.answer 存在且為字串
         const ansStr = q.answer ? String(q.answer).trim() : "";
         const isMulti = ansStr.length > 1;
         const inputType = isMulti ? 'checkbox' : 'radio';
-        // 使用 CSS class badge-multi
         const typeLabel = isMulti ? '<span class="badge-multi">複選</span>' : '';
         const hint = isMulti ? '<small style="color:#666; display:block; margin-bottom:10px;">(此題為複選題，請選擇所有正確答案)</small>' : '';
 
@@ -124,29 +122,25 @@ function renderQuestions() {
         container.innerHTML += questionHTML;
     });
     
-    // 初始化進度條數字
-    const currElem = document.getElementById('current-question-num'); // 確保 index.html 有此 ID，若無可忽略
+    const currElem = document.getElementById('current-question-num');
     if(currElem) currElem.innerText = "0"; 
 }
 
 // 記錄使用者答案
 function recordAnswer(index, type) {
     if (type === 'radio') {
-        // 單選邏輯
         const selected = document.querySelector(`input[name="q${index}"]:checked`);
         if (selected) userAnswers[index] = selected.value;
     } else {
-        // 複選邏輯：收集所有被勾選的值並排序組合 (如 "A" + "C" -> "AC")
         const checked = document.querySelectorAll(`input[name="q${index}"]:checked`);
         const values = Array.from(checked).map(cb => cb.value).sort().join('');
-        userAnswers[index] = values; // 存成 "AC" 這樣的字串
+        userAnswers[index] = values;
     }
     updateProgressBar();
 }
 
 function updateProgressBar() {
     const total = currentQuestions.length;
-    // 計算已作答數量 (有值的才算)
     const answered = Object.keys(userAnswers).filter(key => userAnswers[key] && userAnswers[key].length > 0).length;
     const percentage = total === 0 ? 0 : (answered / total) * 100;
     
@@ -178,10 +172,9 @@ function startTimer() {
     }, 1000);
 }
 
-// 提交試卷 (已修正 Bug)
+// 提交試卷
 function submitQuiz() {
     const total = currentQuestions.length;
-    // 檢查已作答題數
     const answeredCount = Object.keys(userAnswers).filter(k => userAnswers[k] && userAnswers[k].length > 0).length;
     
     if (answeredCount < total) {
@@ -194,40 +187,69 @@ function submitQuiz() {
     calculateScore();
 }
 
-// 計算分數並顯示結果
+// 計算分數並顯示結果 (已修改：新增選項顯示功能)
 function calculateScore() {
     let score = 0;
     let correctCount = 0;
     let reviewHTML = '';
     const total = currentQuestions.length;
-    const scorePerQuestion = 100 / total;
+    const scorePerQuestion = total > 0 ? (100 / total) : 0;
 
     currentQuestions.forEach((q, index) => {
-        // 標準化正確答案：移除空白、轉大寫
+        // 標準化答案
         const correct = q.answer ? q.answer.replace(/\s/g, '').toUpperCase() : "";
-        // 標準化使用者答案
         const user = userAnswers[index] || '';
-
-        // 全對才給分 (Standard Strict Scoring)
         const isCorrect = (user === correct);
 
         if (isCorrect) {
             score += scorePerQuestion;
             correctCount++;
         } else {
-            // 錯題檢討 HTML
-            // 將答案字串格式化 (如 "AC" -> "A, C")
             const userText = user ? user.split('').join(', ') : '未作答';
             const correctText = correct ? correct.split('').join(', ') : '未知';
+
+            // ==========================================
+            // 新增邏輯：生成包含完整文字的選項列表
+            // ==========================================
+            let optionsRender = '<div style="margin: 15px 0; font-size: 0.95em;">';
+            const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
+            
+            q.options.forEach((opt, i) => {
+                const label = labels[i] || '?';
+                
+                // 判斷此選項是否為正確答案的一部份 (支援複選)
+                const isThisTheCorrectOption = correct.includes(label);
+                
+                // 設定樣式：正確答案顯示綠底綠字，其他顯示一般灰字
+                let style = "padding: 8px 12px; margin-bottom: 5px; border-radius: 6px; display: flex; align-items: start;";
+                if (isThisTheCorrectOption) {
+                    // 綠色高亮樣式
+                    style += "background-color: #d1fae5; color: #065f46; border: 1px solid #34d399; font-weight: bold;";
+                } else {
+                    style += "background-color: #f8f9fa; color: #4b5563; border: 1px solid #e5e7eb;";
+                }
+
+                optionsRender += `
+                    <div style="${style}">
+                        <span style="min-width: 25px; display: inline-block;">${label}.</span>
+                        <span>${escapeHtml(opt)}</span>
+                    </div>
+                `;
+            });
+            optionsRender += '</div>';
+            // ==========================================
 
             reviewHTML += `
                 <div class="review-item">
                     <h4>第 ${index + 1} 題 <span style="color:red;font-size:0.8em;border:1px solid red;padding:2px 4px;border-radius:4px;">錯誤</span></h4>
-                    <p>${escapeHtml(q.question)}</p>
+                    <p style="font-weight:bold; color:#2d3748;">${escapeHtml(q.question)}</p>
+                    
+                    ${optionsRender}
+
                     <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #eee;">
-                        <p class="your-answer" style="color:#dc2626; text-decoration:line-through;">您的答案：${userText}</p>
+                        <p class="your-answer" style="color:#dc2626;">您的答案：${userText}</p>
                         <p class="correct-answer" style="color:#16a34a; font-weight:bold;">正確答案：${correctText}</p>
-                        <div class="note" style="margin-top:8px; background:#f8f9fa; padding:10px; border-radius:4px; font-size:0.9em;">
+                        <div class="note" style="margin-top:8px; background:#fffbeb; padding:10px; border-radius:4px; font-size:0.9em; border-left: 4px solid #f59e0b; color: #92400e;">
                             <strong>💡 解析/出處：</strong>${escapeHtml(q.note || '暫無詳細解析')}
                         </div>
                     </div>
@@ -243,7 +265,7 @@ function calculateScore() {
     const finalScore = Math.round(score);
     document.getElementById('final-score').innerText = finalScore;
     
-    // 更新圓環顏色 (CSS Conic Gradient)
+    // 更新圓環顏色
     const circle = document.querySelector('.score-circle');
     if (circle) {
         let color = '#ef4444'; // 紅
